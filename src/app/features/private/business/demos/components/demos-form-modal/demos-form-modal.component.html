@@ -1,0 +1,25 @@
+<form (ngSubmit)="grabar()" [formGroup]="formData">
+    
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Nombre del demo:</label>
+                <input class="form-control" placeholder="Ingrese nombre del demo" type="text" autocomplete="off" formControlName="demo" [ngClass]="{'is-invalid': submitted && formData.get('demo').errors}" />
+                <div *ngIf="submitted && formData.get('demo').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('demo').errors.required">Nombre del demo es requerido.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+    <div class="row">
+        <div class="modal-footer form-group">
+            <div class="">
+                <button type="submit" class="btn btn-success">Grabar</button>
+            </div>
+        </div>
+    </div>
+</form>

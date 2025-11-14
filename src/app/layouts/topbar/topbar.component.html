@@ -1,0 +1,59 @@
+<header id="page-topbar">
+	<div class="navbar-header">
+		<div class="d-flex">
+			<!-- LOGO -->
+			<div class="navbar-brand-box">
+				<a routerLink="/" class="logo logo-dark">
+					<span class="logo-sm">
+						<img src="assets/images/login-itp.png" alt="" height="35">
+					</span>
+					<span class="logo-lg">
+						<img src="assets/images/Ministerio_de_la_Produccion.png" alt="" height="45">
+					</span>
+				</a>
+
+				<a routerLink="/" class="logo logo-light">
+					<span class="logo-sm">
+						<img src="assets/images/login-itp.png" alt="" height="35">
+					</span>
+					<span class="logo-lg">
+						<img src="assets/images/Ministerio_de_la_Produccion.png" alt="" height="45">
+					</span>
+				</a>
+			</div>
+
+			<button type="button" class="btn btn-sm px-3 font-size-16 header-item" [ngClass]="{ 'd-none': theme === 'horizontal' }" id="vertical-menu-btn" (click)="toggleMobileMenu($event)">
+				<i class="fa fa-fw fa-bars"></i> {{nombreLargoSistema}}
+			</button>
+		</div>
+
+		<div class="d-flex">
+		
+
+			<div class="dropdown d-none d-lg-inline-block ms-1">
+				<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen" (click)="fullscreen()">
+				<i class="bx bx-fullscreen"></i>
+				</button>
+			</div>
+
+
+			<div class="dropdown d-inline-block" dropdown>
+				<button type="button" class="btn header-item" dropdownToggle id="page-header-user-dropdown">
+					<img class="rounded-circle header-profile-user" src="assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+					<span class="d-none d-xl-inline-block ms-1">{{nombresApellidos}} - {{currentRol}} </span>
+					<i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+				</button>
+				<div class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+					<!-- item-->
+					<!-- <a class="dropdown-item" href="javascript: void(0);" (click)="cambiarRol()"><i class="bx bx-cog font-size-16 align-middle me-1"></i>
+						Cambiar de Rol</a> -->
+					<a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
+						Cerrar sesión</a>
+				</div>
+			</div>
+			<!-- <div>
+				<span class="d-none d-xl-inline-block ms-1">{{currentRol}}</span>
+			</div> -->
+		</div>
+	</div>
+</header>

@@ -1,0 +1,169 @@
+<div class="account-pages my-5 pt-sm-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6 col-xl-5">
+				<div class="card overflow-hidden">
+					<div class="bg-primary-subtle">
+						<div class="row">
+							<div class="col-7">
+								<div class="text-primary p-4">
+									<h5 class="text-white">ITP - COMISIONES - {{year}}</h5>
+									<p class="text-white">Iniciar sesión</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body pt-0">
+						<div>
+							<a routerLink="/">
+								<div class="avatar-md profile-user-wid mb-4">
+									<span class="avatar-title rounded-circle bg-light">
+										<img src="assets/images/login-itp.png" alt="" class="rounded-circle" height="34">
+									</span>
+								</div>
+							</a>
+						</div>
+						<div class="p-2">
+							<form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+								<div class="mb-3">
+									<label for="usuario">Usuario</label>
+									<input type="text" formControlName="usuario" class="form-control" placeholder="Usuario" [ngClass]="{ 'is-invalid': submitted && f.usuario.errors }" />
+									@if(submitted && f.usuario.errors){
+										<div class="invalid-feedback">
+											@if(f.usuario.errors.email){
+												<div>Usuario es requerido</div>
+											}
+										</div>
+									}
+								</div>
+
+								<div class="mb-3">
+									<label for="clave">Clave</label>
+									<div class="input-group auth-pass-inputgroup">
+										<input [type]="fieldTextType ? 'text' : 'password'" class="form-control" formControlName="clave" placeholder="Clave" [ngClass]="{ 'is-invalid': submitted && f.clave.errors }">
+
+										<button class="btn btn-light ms-0" type="button" id="password-addon">
+										<i class="mdi mdi-eye-outline" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}" (click)="toggleFieldTextType()"></i></button>
+										@if(submitted && f.clave.errors){
+											<div class="invalid-feedback">
+											@if(f.clave.errors.required){
+												<span>Clave es requerido</span>
+											}
+											</div>
+										}
+									</div>
+								</div>
+
+								<div class="mt-3 d-grid">
+									<button class="btn btn-primary" type="submit">Ingresar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- <div class="container-fluid p-0">
+    <div class="row g-0">
+
+        <div class="col-xl-9 slider">
+            <div class="auth-full-bg pt-lg-5 p-4">
+                <div class="w-100">
+                    <div class="bg-overlay"></div>
+                    <div class="d-flex h-100 flex-column">
+
+                        <div class="p-4 mt-auto">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7 ">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3">
+			<div class="auth-full-page-content p-md-5 p-4">
+                <div class="w-100 h-100">
+
+                    <div class="d-flex flex-column ">
+						<div class="card overflow-hidden">
+							<div class="bg-primary-subtle">
+								<div class="row">
+									<div class="col-7">
+										<div class="text-primary p-4">
+											<h5 class="text-white">ITP - COMISIONES - {{year}}</h5>
+											<p class="text-white">Iniciar sesión</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body pt-0">
+								<div>
+									<a routerLink="/">
+										<div class="avatar-md profile-user-wid mb-4">
+											<span class="avatar-title rounded-circle bg-light">
+												<img src="assets/images/login-itp.png" alt="" class="rounded-circle" height="34">
+											</span>
+										</div>
+									</a>
+								</div>
+								<div class="p-2">
+									<form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+										<div class="mb-3">
+											<label for="usuario">Usuario</label>
+											<input type="text" formControlName="usuario" class="form-control" placeholder="Usuario" [ngClass]="{ 'is-invalid': submitted && f.usuario.errors }" />
+											@if(submitted && f.usuario.errors){
+												<div class="invalid-feedback">
+													@if(f.usuario.errors.email){
+														<div>Usuario es requerido</div>
+													}
+												</div>
+											}
+										</div>
+
+										<div class="mb-3">
+											<label for="clave">Clave</label>
+											<div class="input-group auth-pass-inputgroup">
+												<input [type]="fieldTextType ? 'text' : 'password'" class="form-control" formControlName="clave" placeholder="Clave" [ngClass]="{ 'is-invalid': submitted && f.clave.errors }">
+
+												<button class="btn btn-light ms-0" type="button" id="password-addon">
+												<i class="mdi mdi-eye-outline" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}" (click)="toggleFieldTextType()"></i></button>
+												@if(submitted && f.clave.errors){
+													<div class="invalid-feedback">
+													@if(f.clave.errors.required){
+														<span>Clave es requerido</span>
+													}
+													</div>
+												}
+											</div>
+										</div>
+
+										<div class="mb-3">
+											<div class="g-recaptcha" style="margin:auto; max-width:325px;">
+												<re-captcha (resolved)="checkCaptcha($event)" siteKey="{{keyCaptcha}}" ></re-captcha>
+											</div>
+										</div>
+
+										<div class="mt-3 d-grid">
+											<button class="btn btn-primary" type="submit">Ingresar</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+</div> -->

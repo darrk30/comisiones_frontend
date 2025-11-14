@@ -1,0 +1,220 @@
+<!-- <h1> comisiones-form</h1> -->
+<div class="container-fluid">
+  <!-- <app-page-title></app-page-title> -->
+   <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <form action="">
+              <!-- stepper -->
+              <ng-stepper #cdkStepper [linear]="true" class="wizard">
+                <cdk-step [optional]="false">
+                  <ng-template cdkStepLabel>
+                    <span class="number bx bxs-file-blank fs-2"></span>
+                    <span>DATOS DE COMISION</span>
+                  </ng-template>
+                  <section>
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="" class="control-label">Nombre de Comision</label>
+                          <input type="text" class="form-control" placeholder="Ingrese nombre de la comision" autocomplete="off">
+                          <div class="invalid-feedback">
+                            <span>Nombre de comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="control-label">Tipo de Comision</label>
+                          <select name="" id="" class="form-contro form-select">
+                            <option value="">Seleccionar</option>
+                            <option value="1">Comision</option>
+                            <option value="2">Comite</option>
+                            <option value="4">Grupo de trabajo</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span>Tipo de comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="control-label">Motivo de la comision</label>
+                          <select name="" id="" class="form-contro form-select">
+                            <option value="">Seleccionar</option>
+                            <option value="1">Temporal</option>
+                            <option value="2">Permanente</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span>Motivo de la comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="control-label">Estado de la comision</label>
+                          <select name="" id="" class="form-contro form-select">
+                            <option value="">Seleccionar</option>
+                            <option value="1">Propuesto</option>
+                            <option value="2">Aprobado</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span>Estado de la comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="" class="control-label">Objetivos de la comision:</label>
+                          <textarea class="form-control" placeholder="Ingrese objetivos de la comision" autocomplete="off"></textarea>
+                          <div class="invalid-feedback">
+                            <span>Objetivos de la comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Fecha Suscripción:</label>
+                          <input class="form-control" placeholder="Ingrese Fecha Suscripción" type="date" autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Fecha Suscripción es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Fecha Inicio:</label>
+                          <input class="form-control" placeholder="Ingrese Fecha Inicio" type="date" autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Fecha Inicio es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Fecha Fin:</label>
+                          <input class="form-control" placeholder="Ingrese Fecha Fin" type="date" autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Fecha Fin es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Duración de la comision:</label>
+                          <input class="form-control" placeholder="Ingrese Duración del convenio" type="text" autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Duración del convenio es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label required-label">Adjuntar archivo </label>
+                          <div class="custom-file-container">
+                            <input class="form-control" type="file" id="fileInput" hidden>
+                            <!-- <button type="button" class="btn btn-success" ><i class="fas fa-download me-1"></i></button> -->
+                            <button type="button" class="btn btn-danger">Seleccionar archivo</button>
+
+                            <span class="file-name">{{ 'Ningún archivo seleccionado'
+                              }}</span>
+                            <div class="invalid-feedback">
+                              <span>El archivo es requerido.</span>
+                              <span>El archivo debe ser formato PDF.</span>
+                              <span>El archivo debe tener un tamaño entre 0 y
+                                {{"XXXX"}} MB.</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Fecha de Inicio Renovación:</label>
+                          <input class="form-control" placeholder="Ingrese Fecha de Inicio Renovación" type="date"
+                            autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Fecha de Inicio Renovación es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Fecha de Finalización Renovación:</label>
+                          <input class="form-control" placeholder="Ingrese Fecha de Finalización Renovación" type="date"
+                            autocomplete="off" />
+                          <div class="invalid-feedback">
+                            <span>Fecha de Finalización Renovación es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="control-label">Observación:</label>
+                          <textarea class="form-control" placeholder="Ingrese Observación" autocomplete="off"></textarea>
+                          <div class="invalid-feedback">
+                            <span>Observación es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <div class="float-start">
+                          <button type="submit" class="btn btn-success">Grabar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="row mb-3">
+                                              <div class="col-md-12">
+                                                <div class="form-group">
+
+                                                  </div>
+                                              </div>
+                                            </div> -->
+                  </section>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <span class="number bx bxs-file-blank fs-2"></span>
+                    <span>INTEGRANTES</span>
+                  </ng-template>
+                  <section>
+                    <h1>Integrantes</h1>
+                  </section>
+                </cdk-step>
+                <cdk-step [optional]="true">
+                  <ng-template cdkStepLabel>
+                    <span class="number bx bxs-file-blank fs-2"></span>
+                    <span>ADJUNTAR ARCHIVOS</span>
+                  </ng-template>
+                  <section>
+                    <h1>Archivos</h1>
+                  </section>
+                </cdk-step>
+              </ng-stepper>
+            </form>
+          </div>
+        </div>
+    </div>
+   </div>
+</div>

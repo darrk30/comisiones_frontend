@@ -1,0 +1,69 @@
+<!-- <h1>integrantes list</h1> -->
+<div class="card">
+  <div class="card-header">
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <div class="float-start">
+          <h3>Lista de Integrantes</h3>
+        </div>
+        <div class="float-end" *ngIf="flagAction != 3">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop" (click)="crear(modalEntidad)">Agregar</button>
+        </div>
+      </div><!-- end col-->
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 25%;">Id</th>
+              <th scope="col" style="width: 25%;">Oficina/Dependencia</th>
+              <th scope="col" style="width: 25%;">Colaborador</th>
+              <th scope="col" style="width: 25%;">Cargo Fijo ITP</th>
+              <th scope="col" style="width: 25%;">Cargo en Comision</th>
+              <th scope="col" style="width: 25%;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{0}}</td>
+              <td>{{"Oficina/Dependencia"}}</td>
+              <td>{{"Colaborador"}}</td>
+              <td>{{"Cargo Fijo ITP"}}</td>
+              <td>{{"Cargo en Comision"}}</td>
+              <td>
+                <div class="dropdown" dropdown placement="bottom-right">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle
+                    aria-expanded="false">
+                    Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                    <li *ngIf="flagAction != 3"><a href="javascript: void(0);" class="dropdown-item"><i
+                          class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                    <li><a href="javascript: void(0);" class="dropdown-item"><i
+                          class="fas fa-eye text-success me-1"></i>ver</a></li>
+                    <li *ngIf="flagAction != 3"><a href="javascript: void(0);" class="dropdown-item"><i
+                          class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalEntidad role="document" let-modal>
+	<div class="modal-header">
+        <h5 class="modal-title mt-0">{{tituloModal}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+	</div>
+	<div class="modal-body">
+		<app-integrantes-form-modal [modalRef]="modalRef" [oficinaProponente]="oficinaProponente" [flagAccion]="flagAccion" (onSave)="listar()"></app-integrantes-form-modal>
+	</div>
+</ng-template>

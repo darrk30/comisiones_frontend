@@ -13,6 +13,10 @@ export class ArchivosRepository {
 		private http: HttpClient
 	) {}
 
+	getAllByConvenio(ideConvenio:number): Observable<ArchivoRpta> {
+		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivo-by-convenio/${ideConvenio}`);
+	}
+
 	getAll(): Observable<ArchivoRpta> {
 		return this.http.get<ArchivoRpta>(`${this.apiUrl}`);
 	}
@@ -22,7 +26,9 @@ export class ArchivosRepository {
 	}
 
 	create(entidad: Archivo): Observable<ArchivoRpta> {
-		return this.http.post<ArchivoRpta>(`${this.apiUrl}`, entidad);
+		const body = new FormData();
+		appendFormData(body, entidad);
+		return this.http.post<ArchivoRpta>(`${this.apiUrl}`, body);
 	}
 
 	update(id: number, entidad: Archivo): Observable<ArchivoRpta> {
@@ -40,6 +46,10 @@ export class ArchivosRepository {
 
 	delete(id: number): Observable<ArchivoRpta> {
 		return this.http.delete<ArchivoRpta>(`${this.apiUrl}/${id}`);
+	}
+
+	descargar(uuid: string): Observable<Blob> {
+		return this.http.get(`${this.apiUrl}/descargar/${uuid}`, { responseType: 'blob' });
 	}
 
 }

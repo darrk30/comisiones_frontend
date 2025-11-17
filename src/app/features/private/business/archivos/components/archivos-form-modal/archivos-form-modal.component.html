@@ -1,7 +1,33 @@
 <form (ngSubmit)="grabar()" [formGroup]="formData">
-    
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Tipo de Documento</label>
+                <select class="form-control form-select" formControlName="ideTipoDocumento" [ngClass]="{'is-invalid': submitted && formData.get('ideTipoDocumento').errors}">
+                    <option value=null>Seleccionar</option>
+                    @for(tipoDocumento of tiposDocumentosStateService.items();track $index){
+                        <option value="{{tipoDocumento.ideTipoDocumento}}">{{tipoDocumento.txtTipoDocumento}}</option>
+                    }
+                </select>
+                <div *ngIf="submitted && formData.get('ideTipoDocumento').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('ideTipoDocumento').errors.required">Tipo de Documento es requerido.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3" *ngIf="this.formData.get('ideTipoDocumento').value == 3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Otro Tipo Documento:</label>
+                <input class="form-control" placeholder="Ingrese Otro Tipo Documento" type="text" autocomplete="off" formControlName="txtTipoDocumentoOtro" [ngClass]="{'is-invalid': submitted && formData.get('txtTipoDocumentoOtro').errors}" />
+                <div *ngIf="submitted && formData.get('txtTipoDocumentoOtro').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('txtTipoDocumentoOtro').errors.required">Otro Tipo Documento es requerido.</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- <div class="row mb-3">
+    <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
                 <label class="control-label">Archivo</label>
@@ -11,28 +37,16 @@
                     <span class="file-name">{{ selectedFileName  || 'Ningún archivo seleccionado' }}</span>
                     <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
                         <span *ngIf="formData.get('archivo').errors.required">El archivo es requerido.</span>
-                        <span *ngIf="formData.get('archivo').errors.formatoInvalido">El archivo debe ser formato PDF.</span>  
+                        <span *ngIf="formData.get('archivo').errors.formatoInvalido">El archivo debe ser formato PDF.</span>
                         <span *ngIf="formData.get('archivo').errors.tamanoInvalido">El archivo debe tener un tamaño entre 0 y {{tamanioArchivo}} MB.</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label class="control-label">Nombre del archivo:</label>
-                <input class="form-control" placeholder="Ingrese nombre del archivo" type="text" autocomplete="off" formControlName="archivo" [ngClass]="{'is-invalid': submitted && formData.get('archivo').errors}" />
-                <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
-                    <span *ngIf="formData.get('archivo').errors.required">Nombre del archivo es requerido.</span>
                 </div>
             </div>
         </div>
     </div>
 
 
-   
+
     <div class="row">
         <div class="modal-footer form-group">
             <div class="">

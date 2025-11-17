@@ -11,7 +11,7 @@ import { Observable, Subject } from 'rxjs';
 export class ArchivosStateService {
     items = signal<Archivo[]>([]);
     item = signal<Archivo | null>(null);
-    
+
 
     constructor(
         private archivosRepository: ArchivosRepository,
@@ -26,6 +26,25 @@ export class ArchivosStateService {
     clearState() {
         this.item.set(null);
         this.items.set([]);
+    }
+
+    loadItemsByConvenio(ideConvenio:number): Observable<void> {
+        const subject = new Subject<void>();
+        this.spinner.show();
+        this.archivosRepository.getAllByConvenio(ideConvenio).subscribe({
+            next: (data:ArchivoRpta) => {
+                this.items.set(data.datos);
+                this.spinner.hide();
+                subject.next();
+                subject.complete();
+            },
+            error: () => {
+                this.spinner.hide();
+                subject.error('Error');
+            },
+        });
+
+        return subject.asObservable();
     }
 
     loadItems(): Observable<void> {

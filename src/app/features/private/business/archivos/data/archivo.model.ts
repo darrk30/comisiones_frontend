@@ -2,8 +2,10 @@ export interface Archivo {
     ideArchivo?:number;
     ideConvenio?:number;
     ideTipoDocumento?:number;
-    archivo?:string;
-    archivoRuta?:string;
+    txtArchivo?:string;
+    txtArchivoRuta?:string;
+    archivo?: File;
+    uuid?: string;
 }
 
 export interface ArchivoRpta {

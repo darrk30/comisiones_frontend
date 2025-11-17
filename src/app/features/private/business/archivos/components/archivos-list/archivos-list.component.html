@@ -1,80 +1,69 @@
 
-<div class="container-fluid">
-    
-    <app-page-title title="Lista de Convenios" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <form (ngSubmit)="buscar()" [formGroup]="formData">
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label">Archivo</label>
-                                    <input type="text" class="form-control" formControlName="archivo">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-md-12">
-                                <div class="float-start">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="crear(modalEntidad)">Agregar</button>
-                                </div>
-                                <div class="float-end">
-                                    <button type="submit" class="btn btn-info" >Buscar</button> &nbsp;
-                                </div> 
-                            </div><!-- end col-->
-                        </div>
-                    </form>
+<div class="card ">
+    <div class="card-header">
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <div class="float-start">
+                    <h3>Lista de Archivos</h3>
                 </div>
+                <div class="float-end" *ngIf="this.flagAction != 3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="crear(modalArchivo)">Agregar</button>
+                </div>
+            </div><!-- end col-->
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 25%;">Tipo Documento</th>
+                            <th scope="col" style="width: 45%;">Nombre del Archivo</th>
+                            <th scope="col" style="width: 25%;">Archivo</th>
+                            <th *ngIf="this.flagAction != 3" scope="col" style="width: 5%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(archivo of archivosStateService.items();track $index){
+                        <tr>
+                            <td>
+
+                                {{archivo.tipoDocumento?.txtTipoDocumento}}
+                                @if (archivo.ideTipoDocumento == 3) {
+                                    - {{archivo.txtTipoDocumentoOtro}}
+                                }
+                            </td>
+                            <td>{{archivo.txtArchivo}}</td>
+                            <td>
+                                @if (archivo.txtArchivoRuta){
+                                <button type="button" class="btn btn-danger" (click)="descargar(archivo)">
+                                    <i class="bx bxs-file-pdf me-1 bx-sm"></i>
+                                    <!-- <i class="bx bx-download me-1"></i> -->
+                                </button>
+                                }
+                                <!-- <button type="button" class="btn btn-danger" (click)="descargar(archivo)"><i class="fas fa-download me-1"></i></button>  -->
+                            </td>
+                            <td *ngIf="this.flagAction != 3">
+                                <div  class="dropdown" dropdown placement="bottom-right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
+                                        Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                                        <!-- <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(modalResultado,archivo)"><i class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li> -->
+                                        <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(archivo.ideArchivo)"><i class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
-				<div class="card-body">
-					<div class="row"> 
-						<div class="col-md-12">
-                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" style="width: 45%;">Nombre del Archivo</th>
-                                        <th scope="col" style="width: 5%;">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for(archivo of archivosFiltrados;track $index){
-                                    <tr>
-                                        <td>{{archivo.archivo}}</td>
-                                        <td >
-                                            <div  class="dropdown" dropdown placement="bottom-right">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
-                                                    Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                                                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(modalEntidad,archivo)"><i class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                                                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(archivo.ideArchivo)"><i class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>}
-                                </tbody>
-                            </table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
-
-
-
-<ng-template #modalEntidad role="document" let-modal>
+<ng-template #modalArchivo role="document" let-modal>
 	<div class="modal-header">
         <h5 class="modal-title mt-0">{{tituloModal}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>

@@ -1,1 +1,94 @@
-<h1> comisiones-list</h1>
+<!-- <h1> comisiones-list</h1> -->
+<div class="container-fluid">
+  <app-page-title title="Lista de Comisiones" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h1>FILTROS</h1> -->
+          <form action="">
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="" class="control-label">Motivo:</label>
+                  <select name="" id="" class="form-control">
+                    <option value="">Seleccionar</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="" class="control-label">Tipo de Comision:</label>
+                  <select name="" id="" class="form-control">
+                    <option value="">Seleccionar</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="" class="control-label">Estado:</label>
+                  <select name="" id="" class="form-control">
+                    <option value="">Seleccionar</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-12">
+                <div class="float-start">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    (click)="agregar()">Agregar</button>
+                </div>
+                <div class="float-end">
+                  <button type="submit" class="btn btn-info">Buscar</button> &nbsp;
+                  <!-- <button type="button" class="btn btn-success" (click)="descargarExcelResumen()">Descargar Resumen Excel</button> -->
+                  &nbsp;
+                  <!-- <button type="button" class="btn btn-success" (click)="descargarPdfResumen()">Descargar Resumen Pdf</button> -->
+                </div>
+              </div><!-- end col-->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20% !important;">Comision</th>
+                    <th scope="col" style="width: 15% !important;">Motivo</th>
+                    <th scope="col" style="width: 20% !important;">Tipo de Comision</th>
+                    <th scope="col" style="width: 10% !important;">Fecha Inicio</th>
+                    <th scope="col" style="width: 10% !important;">Fecha Fin</th>
+                    <th scope="col" style="width: 5% !important;">Comision</th>
+                    <th scope="col" style="width: 10% !important;">Estado</th>
+                    <th scope="col" style="width: 5% !important;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Comision</td>
+                    <td>Motivo</td>
+                    <td>Tipo Comision</td>
+                    <td>Fecha Ini.</td>
+                    <td>Fecha Fin.</td>
+                    <td>Comision</td>
+                    <td>Estado</td>
+                    <td>Acciones</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

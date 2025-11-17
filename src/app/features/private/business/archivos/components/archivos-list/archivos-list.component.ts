@@ -13,42 +13,33 @@ import { ArchivosStateService } from '../../services/archivos-state.service';
 import Swal from 'sweetalert2';
 import { saveAs } from "file-saver";
 import { ArchivoStore } from '../../services/archivo.store';
-import { PagetitleComponent } from '@/app/shared/components/pagetitle/pagetitle.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-archivos-list',
 	templateUrl: './archivos-list.component.html',
 	styleUrl: './archivos-list.component.css',
 	standalone:true,
-	imports:[DataTablesModule,BsDropdownModule,CommonModule,ModalModule, FormsModule, ReactiveFormsModule, PagetitleComponent,ArchivosFormModalComponent,],
+	imports:[DataTablesModule,BsDropdownModule,CommonModule,ModalModule,ArchivosFormModalComponent],
 })
 export class ArchivosListComponent {
 	private modalService = inject(BsModalService);
 	private spinner = inject(NgxSpinnerService);
 	private router = inject(Router);
-	private formBuilder = inject(FormBuilder);
 	public archivosStateService = inject(ArchivosStateService);
 	public archivoStore = inject(ArchivoStore);
 
+	@Input() ideConvenio: number;
+	@Input() flagAction:number;
 
 	modalRef?: BsModalRef;
 	@ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 	dtTrigger: Subject<void> = new Subject<any>();
-
 	dtOptions: DataTables.Settings = {};
 
-	originalArchivos: Archivo[] = [];
-	archivosFiltrados: Archivo[] = [];
-	breadCrumbItems: Array<{}>;
-
 	archivo:Archivo;
+
 	tituloModal: string;
 	flagAccion:number;
-
-	formData: FormGroup = this.formBuilder.group({
-		archivo:[],
-	});
 
 	ngOnInit(): void {
 		this.dtOptions = dtOptionsData;
@@ -57,9 +48,7 @@ export class ArchivosListComponent {
 	}
 
 	listar(){
-		this.archivosStateService.loadItems().subscribe(() => {
-			this.originalArchivos = this.archivosStateService.items();
-			this.archivosFiltrados = [...this.originalArchivos];
+		this.archivosStateService.loadItemsByConvenio(this.ideConvenio).subscribe(() => {
 			this.rerender();
 		});
 	}
@@ -85,8 +74,11 @@ export class ArchivosListComponent {
 
 	crear(modal:any){
 		this.tituloModal = 'Registrar Archivo';
+		let archivo:Archivo = {
+			ideConvenio: this.ideConvenio
+		};
+		this.archivo = archivo;
 		this.flagAccion = 1;
-		this.archivo = null;
 		this.modalRef = this.modalService.show(modal, { class: 'md', backdrop: 'static', keyboard: false });
 	}
 
@@ -121,19 +113,17 @@ export class ArchivosListComponent {
 				});
 			}
 		});
-	} 
+	}
 
-	buscar(){
-		const archivoSeleccionado = this.formData.get('archivo').value;
-
-		this.archivosFiltrados = this.originalArchivos.filter(c => {
-			
-			
-			const coincideArchivo = !archivoSeleccionado || c.archivo == archivoSeleccionado;
-
-			return coincideArchivo;
+	descargar(archivo: Archivo) {
+		const uuid = archivo.uuid;
+		this.archivoStore.descargar(uuid).subscribe({
+			next: (blob) => {
+				saveAs(blob, `${uuid}.pdf`);
+			},
+			error: (error) => {
+				console.error('Error al descargar el PDF', error);
+			}
 		});
-
-		this.rerender();
 	}
 }

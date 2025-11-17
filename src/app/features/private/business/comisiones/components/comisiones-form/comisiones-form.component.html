@@ -29,7 +29,7 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="" class="control-label">Tipo de Comision</label>
-                          <select name="" id="" class="form-contro form-select">
+                          <select name="" id="" class="form-control form-select">
                             <option value="">Seleccionar</option>
                             <option value="1">Comision</option>
                             <option value="2">Comite</option>
@@ -43,7 +43,7 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="" class="control-label">Motivo de la comision</label>
-                          <select name="" id="" class="form-contro form-select">
+                          <select name="" id="" class="form-control form-select">
                             <option value="">Seleccionar</option>
                             <option value="1">Temporal</option>
                             <option value="2">Permanente</option>
@@ -56,7 +56,7 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="" class="control-label">Estado de la comision</label>
-                          <select name="" id="" class="form-contro form-select">
+                          <select name="" id="" class="form-control form-select">
                             <option value="">Seleccionar</option>
                             <option value="1">Propuesto</option>
                             <option value="2">Aprobado</option>
@@ -195,21 +195,20 @@
                 </cdk-step>
                 <cdk-step [optional]="true">
                   <ng-template cdkStepLabel>
-                    <span class="number bx bxs-file-blank fs-2"></span>
+                    <span class="number bx bxs-user-detail fs-2"></span>
                     <span>INTEGRANTES</span>
                   </ng-template>
                   <section>
-                    <!-- <h1>Integrantes</h1> -->
                      <app-integrantes-list></app-integrantes-list>
                   </section>
                 </cdk-step>
                 <cdk-step [optional]="true">
                   <ng-template cdkStepLabel>
-                    <span class="number bx bxs-file-blank fs-2"></span>
+                    <span class="number bx bxs-cloud-upload fs-2"></span>
                     <span>ADJUNTAR ARCHIVOS</span>
                   </ng-template>
                   <section>
-                    <h1>Archivos</h1>
+                    <app-archivos-list ></app-archivos-list>
                   </section>
                 </cdk-step>
               </ng-stepper>

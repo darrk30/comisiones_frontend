@@ -13,8 +13,8 @@ export class ArchivosRepository {
 		private http: HttpClient
 	) {}
 
-	getAllByConvenio(ideConvenio:number): Observable<ArchivoRpta> {
-		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivo-by-convenio/${ideConvenio}`);
+	getAllByEquipoTrabajo(ideEquipoTrabajo:number): Observable<ArchivoRpta> {
+		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivo-by-convenio/${ideEquipoTrabajo}`);
 	}
 
 	getAll(): Observable<ArchivoRpta> {

@@ -28,10 +28,10 @@ export class ArchivosStateService {
         this.items.set([]);
     }
 
-    loadItemsByConvenio(ideConvenio:number): Observable<void> {
+    loadItemsByEquipoTrabajo(ideEquipoTrabajo:number): Observable<void> {
         const subject = new Subject<void>();
         this.spinner.show();
-        this.archivosRepository.getAllByConvenio(ideConvenio).subscribe({
+        this.archivosRepository.getAllByEquipoTrabajo(ideEquipoTrabajo).subscribe({
             next: (data:ArchivoRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();

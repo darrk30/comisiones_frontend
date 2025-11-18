@@ -1,6 +1,8 @@
 export interface Archivo {
     ideArchivo?:number;
-    ideConvenio?:number;
+    ideTabla:number;
+    txtTabla:string;
+    // ideConvenio?:number;
     ideTipoDocumento?:number;
     txtArchivo?:string;
     txtArchivoRuta?:string;

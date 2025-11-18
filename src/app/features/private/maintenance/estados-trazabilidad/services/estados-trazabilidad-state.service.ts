@@ -1,27 +1,27 @@
 import { Injectable, signal } from "@angular/core";
 import {
-  TipoEquipoTrabajo,
-  TipoEquipoTrabajoRpta,
-} from "../data/tipo-equipo-trabajo.model";
-import { TiposEquipoTrabajoRepository } from "../data/tipos-equipo-trabajo.repository";
+  EstadoTrazabilidad,
+  EstadoTrazabilidadRpta,
+} from "../data/estado-trazabilidad.model";
+import { EstadosTrazabilidadRepository } from "../data/estados-trazabilidad.repository";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({ providedIn: "root" })
-export class TiposEquipoTrabajoStateService {
-  items = signal<TipoEquipoTrabajo[]>([]);
-  item = signal<TipoEquipoTrabajo | null>(null);
+export class EstadosTrazabilidadStateService {
+  items = signal<EstadoTrazabilidad[]>([]);
+  item = signal<EstadoTrazabilidad | null>(null);
 
   constructor(
-    private tiposEquipoTrabajoRepository: TiposEquipoTrabajoRepository,
+    private EstadoTrazabilidadRepository: EstadosTrazabilidadRepository,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {}
 
   loadItems() {
     this.spinner.show();
-    this.tiposEquipoTrabajoRepository.getAll().subscribe({
-      next: (data: TipoEquipoTrabajoRpta) => {
+    this.EstadoTrazabilidadRepository.getAll().subscribe({
+      next: (data: EstadoTrazabilidadRpta) => {
         this.items.set(data.datos);
         this.spinner.hide();
       },
@@ -31,7 +31,7 @@ export class TiposEquipoTrabajoStateService {
 
   loadItemById(id: number) {
     this.spinner.show();
-    this.tiposEquipoTrabajoRepository.getBydId(id).subscribe({
+    this.EstadoTrazabilidadRepository.getBydId(id).subscribe({
       next: (data) => {
         this.item.set(data.dato);
         this.spinner.hide();

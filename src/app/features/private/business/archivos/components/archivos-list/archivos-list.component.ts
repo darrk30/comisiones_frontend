@@ -48,7 +48,7 @@ export class ArchivosListComponent {
 	}
 
 	listar(){
-		this.archivosStateService.loadItemsByConvenio(this.ideConvenio).subscribe(() => {
+		this.archivosStateService.loadItemsByEquipoTrabajo(this.ideConvenio).subscribe(() => {
 			this.rerender();
 		});
 	}
@@ -75,7 +75,8 @@ export class ArchivosListComponent {
 	crear(modal:any){
 		this.tituloModal = 'Registrar Archivo';
 		let archivo:Archivo = {
-			ideConvenio: this.ideConvenio
+			ideTabla: this.ideConvenio,
+      txtTabla: ''
 		};
 		this.archivo = archivo;
 		this.flagAccion = 1;

@@ -6,16 +6,20 @@ import { PagetitleComponent } from "@/app/shared/components/pagetitle/pagetitle.
 import { IntegrantesListComponent } from "../../../integrantes/components/integrantes-list/integrantes-list.component";
 import { ArchivosListComponent } from "../../../archivos/components/archivos-list/archivos-list.component";
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
+import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
+import { EstadosTrazabilidadStateService } from '@/app/features/private/maintenance/estados-trazabilidad/services/estados-trazabilidad-state.service';
+import { limpiarCamposVacios } from '@/app/core/helpers/clean-form';
 
 @Component({
   selector: 'app-comisiones-form',
   templateUrl: './comisiones-form.component.html',
   styleUrl: './comisiones-form.component.css',
   standalone: true,
-  imports: [CommonModule, PagetitleComponent, CdkStepperModule, NgStepperModule, IntegrantesListComponent, ArchivosListComponent]
+  imports:[CommonModule,PagetitleComponent,NgStepperModule,CdkStepperModule,FormsModule,ReactiveFormsModule,ArchivosListComponent, IntegrantesListComponent]
 })
 export class ComisionesFormComponent {
 
@@ -23,13 +27,32 @@ export class ComisionesFormComponent {
 	private formBuilder = inject(FormBuilder);
 	private toastr = inject(ToastrService);
 	private spinner = inject(NgxSpinnerService);
-	// public conveniosStateService = inject(ConveniosStateService);
+  public tiposEquipoTrabajoStateService = inject(TiposEquipoTrabajoStateService)
+  public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
+  public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
 
 	breadCrumbItems: Array<{}>;
 
   formData: FormGroup = this.formBuilder.group({
-    //TODO: add fields
+    ideEquipoTrabajo: [],
+    txtEquipoTrabajo: [,[Validators.required]],
+    ideTipoEquipoTrabajo: [,[Validators.required]],
+    ideMotivoEquipoTrabajo: [,[Validators.required]],
+    ideEstadoTrazabilidad: [,[Validators.required]],
+    txtObjetivosEquipoTrabajo: [],
+    fecSuscripcion: [],
+    fecInicio: [],
+    fecFinalizacion: [],
+    fecInicioRenovacion: [],
+    fecFinRenovacion:[],
+    txtArchivo: [],
+    txtArchivoRuta: [],
+    txtDuracionComite: [{value:null,disabled:true}],
+    txtObservacion: [],
+    uuid: []
+
   },{
+		// validators: fechasValidator
 
   })
 
@@ -37,7 +60,7 @@ export class ComisionesFormComponent {
 	fileError: boolean = false;
 	selectedFileName: string | null = null;
 
-  ideComision:number;
+  ideEquipoTrabajo:number;
 	titleComponent:string;
 	flagAction:number;
 	idePagina:number;
@@ -54,8 +77,9 @@ export class ComisionesFormComponent {
 
 		this.breadCrumbItems = [{ label: this.titleComponent }];
 		// this.conveniosStateService.clearState();
-		// this.listarTiposConvenios();
-		// this.listarModalidadesConvenios();
+		this.listarTiposEquipoTrabajo();
+    this.listarMotivosEquipoTrabajo()
+    this.listarEstadosTrazabilidad()
 		// this.listarEstadosConvenios();
 		// this.getConvenio();
 
@@ -68,6 +92,30 @@ export class ComisionesFormComponent {
 			this.formData.disable();
 			this.idePagina = 3;
 		}
+	}
+
+  grabar(){
+    const raw = this.formData.getRawValue()
+    const limpio = limpiarCamposVacios(raw)
+    console.log(raw);
+
+    // this.formData.patchValue(limpio)
+    if(this.formData.valid){
+      //TODO: save
+    }
+    this.submitted = true
+  }
+
+  listarTiposEquipoTrabajo(){
+		this.tiposEquipoTrabajoStateService.loadItems();
+	}
+
+  listarMotivosEquipoTrabajo(){
+		this.motivosEquipoTrabajoStateService.loadItems();
+	}
+
+  listarEstadosTrazabilidad(){
+		this.estadosTrazabilidadStateService.loadItems();
 	}
 
 }

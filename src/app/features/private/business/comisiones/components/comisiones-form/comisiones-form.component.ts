@@ -6,7 +6,7 @@ import { PagetitleComponent } from "@/app/shared/components/pagetitle/pagetitle.
 import { IntegrantesListComponent } from "../../../integrantes/components/integrantes-list/integrantes-list.component";
 import { ArchivosListComponent } from "../../../archivos/components/archivos-list/archivos-list.component";
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
@@ -14,6 +14,9 @@ import { MotivosEquipoTrabajoStateService } from '@/app/features/private/mainten
 import { EstadosTrazabilidadStateService } from '@/app/features/private/maintenance/estados-trazabilidad/services/estados-trazabilidad-state.service';
 import { limpiarCamposVacios, toDateInputValue, transformFormData } from '@/app/core/helpers/clean-form';
 import { EquiposTrabajoStateService } from '../../services/equipos-trabajo-state.service';
+import { EstadosComisionStateService } from '@/app/features/private/maintenance/estados-comision/services/estados-comision-state.service';
+import { environment } from '@/environments/environment';
+import { fechasValidator } from '../../validator/fechas.validator';
 
 @Component({
   selector: 'app-comisiones-form',
@@ -30,7 +33,8 @@ export class ComisionesFormComponent {
 	private spinner = inject(NgxSpinnerService);
   public tiposEquipoTrabajoStateService = inject(TiposEquipoTrabajoStateService)
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
-  public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
+  // public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
+  public estadosComisionStateService = inject(EstadosComisionStateService)
   public equiposTrabajoStateService = inject(EquiposTrabajoStateService)
 
 	breadCrumbItems: Array<{}>;
@@ -40,7 +44,7 @@ export class ComisionesFormComponent {
     txtEquipoTrabajo: [,[Validators.required]],
     ideTipoEquipoTrabajo: [,[Validators.required]],
     ideMotivoEquipoTrabajo: [,[Validators.required]],
-    ideEstadoTrazabilidad: [,[Validators.required]],
+    ideEstadoComision: [,[Validators.required]],
     txtObjetivosEquipoTrabajo: [],
     fecSuscripcion: [],
     fecInicio: [],
@@ -51,16 +55,19 @@ export class ComisionesFormComponent {
     txtArchivoRuta: [],
     txtDuracionComite: [{value:null,disabled:true}],
     txtObservacion: [],
+ 		// archivo: [, [this.validateTamanioArchivo.bind(this), this.validateFormatoArchivo]],
     uuid: []
 
   },{
-		// validators: fechasValidator
-
+		validators: fechasValidator
   })
 
   submitted = false;
 	fileError: boolean = false;
 	selectedFileName: string | null = null;
+
+	tamanioArchivo:number = environment.tamanioArchivoMB;
+
 
   ideEquipoTrabajo:number;
 	titleComponent:string;
@@ -108,7 +115,8 @@ export class ComisionesFormComponent {
 		this.equiposTrabajoStateService.clearState();
 		this.listarTiposEquipoTrabajo();
     this.listarMotivosEquipoTrabajo()
-    this.listarEstadosTrazabilidad()
+    // this.listarEstadosTrazabilidad()
+    this.listarEstadosComision()
 		this.getEquipoTrabajo();
 
 		if (this.flagAction == 1) { // Modo CREAR
@@ -150,8 +158,8 @@ export class ComisionesFormComponent {
 		this.motivosEquipoTrabajoStateService.loadItems();
 	}
 
-  listarEstadosTrazabilidad(){
-		this.estadosTrazabilidadStateService.loadItems();
+  listarEstadosComision(){
+		this.estadosComisionStateService.loadItems();
 	}
 
   actualizarDuracionConvenio() {
@@ -191,6 +199,36 @@ export class ComisionesFormComponent {
 		} else {
 			this.formData.get('txtDuracionComite')?.setValue(null);
 		}
+	}
+
+  validateTamanioArchivo(control: AbstractControl): ValidationErrors | null {
+
+		const archivo = control.value as File;
+		if (!archivo) {
+			return null;
+		}
+		if (archivo && (archivo.size > 0 && archivo.size <= this.tamanioArchivo * 1024 * 1024)) { // Tamaño entre 0 y 5 MB
+			return null;
+		} else {
+			return { tamanoInvalido: true };
+		}
+	}
+
+	validateFormatoArchivo(control: AbstractControl): ValidationErrors | null {
+
+		const archivo = control.value as File;
+		if (!archivo) {
+			return null;
+		}
+		if(archivo){
+			const extension = archivo.name.split('.').pop()?.toLowerCase();
+			if (extension === 'pdf') { // Archivo PDF
+				return null; // Válido
+			} else {
+				return { formatoInvalido: true }; // Formato no válido
+			}
+		}
+
 	}
 
 }

@@ -20,9 +20,7 @@ import { IntegrantesFormModalComponent } from '../integrantes-form-modal/integra
   templateUrl: './integrantes-list.component.html',
   styleUrl: './integrantes-list.component.css',
   standalone: true,
-  // imports: [ModalModule,CommonModule],
   	imports:[DataTablesModule,BsDropdownModule,CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,IntegrantesFormModalComponent],
-
 })
 export class IntegrantesListComponent {
 
@@ -50,7 +48,7 @@ export class IntegrantesListComponent {
     fecEvaluacion:[],
   });
 
-  Integrante:Integrante;
+  integrante:Integrante;
   tituloModal: string;
   flagAccion:number;
 
@@ -71,7 +69,7 @@ export class IntegrantesListComponent {
   }
 
   listar(){
-    this.integrantesStateService.loadItemsByConvenio(this.ideEquipoTrabajo).subscribe(() => {
+    this.integrantesStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
       this.originalIntegrantes = this.integrantesStateService.items();
       this.integrantesFiltrados = [...this.originalIntegrantes];
       this.rerender();
@@ -98,27 +96,28 @@ export class IntegrantesListComponent {
   }
 
   crear(modal:any){
+    // console.log('ideEquipoTrabajo: ',this.ideEquipoTrabajo);
     this.tituloModal = 'Registrar Integrante';
     let Integrante:Integrante = {
-      // ideConvenio: this.ideEquipoTrabajo
+      // ideEquipoTrabajo: this.ideEquipoTrabajo
       ideTabla: this.ideEquipoTrabajo,
-      txtTabla: 'EquipoTrabajo'
+      txtTabla: 'TMC_EQUIPO_TRABAJO'
     };
-    this.Integrante = Integrante;
+    this.integrante = Integrante;
     this.flagAccion = 1;
     this.modalRef = this.modalService.show(modal, { class: 'md modal-lg', backdrop: 'static', keyboard: false });
   }
 
   editar(modal:any,Integrante:Integrante){
     this.tituloModal = 'Editar Integrante';
-    this.Integrante = Integrante;
+    this.integrante = Integrante;
     this.flagAccion = 2;
     this.modalRef = this.modalService.show(modal, { class: 'md modal-lg', backdrop: 'static', keyboard: false });
   }
 
   ver(modal:any,Integrante:Integrante){
     this.tituloModal = 'Ver Integrante';
-    this.Integrante = Integrante;
+    this.integrante = Integrante;
     this.flagAccion = 3;
     this.modalRef = this.modalService.show(modal, { class: 'md modal-lg', backdrop: 'static', keyboard: false });
   }

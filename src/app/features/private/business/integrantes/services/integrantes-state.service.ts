@@ -27,11 +27,11 @@ export class IntegrantesStateService {
         this.items.set([]);
     }
 
-    loadItemsByConvenio(ideConvenio:number): Observable<void> {
+    loadItemsByEquipoTrabajo(ideEquipoTrabajo:number): Observable<void> {
         //this.items.set([]);
         const subject = new Subject<void>();
         this.spinner.show();
-        this.IntegrantesRepository.getAllByConvenio(ideConvenio).subscribe({
+        this.IntegrantesRepository.getAllByEquipoTrabajo(ideEquipoTrabajo).subscribe({
             next: (data:IntegranteRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();

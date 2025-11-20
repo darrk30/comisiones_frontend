@@ -4,6 +4,7 @@ export interface EquipoTrabajo {
     ideMotivoEquipoTrabajo: number;
     ideTipoEquipoTrabajo: number;
     ideEstadoTrazabilidad: number;
+    ideEstadoComision: number;
     txtObjetivosEquipoTrabajo: string;
     fecSuscripcion: string;
     fecInicio: string;
@@ -16,6 +17,8 @@ export interface EquipoTrabajo {
     txtObservacion: string;
     uuid: string;
     tipoEquipoTrabajo:any
+    motivoEquipoTrabajo:any
+    estadoComision:any
 }
 
 export interface EquipoTrabajoRpta{

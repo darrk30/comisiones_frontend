@@ -8,6 +8,7 @@ export interface Integrante {
     ideCargo?: number;
     txtCargoComite?: string;
     flgInvitado?: boolean;
+    persona?:any;
 }
 
 export interface IntegranteRpta {

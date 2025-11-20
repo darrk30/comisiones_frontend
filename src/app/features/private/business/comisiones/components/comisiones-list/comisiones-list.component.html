@@ -35,10 +35,10 @@
                 <div class="form-group">
                   <label for="" class="control-label">Estado:</label>
                   <select class="form-control form-select"
-                    formControlName="ideEstadoTrazabilidad">
+                    formControlName="ideEstadoComision">
                     <option value="">Seleccionar</option>
-                    @for(estadoTrazabilidad of estadosTrazabilidadStateService.itemsListado();track $index){
-                      <option value="{{estadoTrazabilidad.ideEstadoTrazabilidad}}">{{estadoTrazabilidad.txtEstadoTrazabilidad}}</option>
+                    @for(estadoComision of estadosComisionStateService.itemsListado();track $index){
+                      <option value="{{estadoComision.ideEstadoComision}}">{{estadoComision.txtEstadoComision}}</option>
                     }
                   </select>
                 </div>
@@ -88,12 +88,12 @@
                   <tr>
                     <!-- <td class="wrap-columna-convenio">Comision</td> -->
                     <td>{{equipoTrabajo.txtEquipoTrabajo}}</td>
-                    <td>{{equipoTrabajo.ideMotivoEquipoTrabajo}}</td>
-                    <td>{{equipoTrabajo.ideTipoEquipoTrabajo}}</td>
+                    <td>{{equipoTrabajo.motivoEquipoTrabajo.txtMotivoEquipoTrabajo}}</td>
+                    <td>{{equipoTrabajo.tipoEquipoTrabajo.txtTipoEquipoTrabajo}}</td>
                     <td>{{equipoTrabajo.fecInicio | date:'yyyy-MM-dd'}}</td>
                     <td>{{equipoTrabajo.fecFinalizacion | date:'yyyy-MM-dd'}}</td>
                     <td>{{""}}</td>
-                    <td>{{equipoTrabajo.ideEstadoTrazabilidad}}</td>
+                    <td>{{equipoTrabajo.estadoComision?.txtEstadoComision}}</td>
                     <td>
                       <div class="dropdown" dropdown placement="bottom-right">
                         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">

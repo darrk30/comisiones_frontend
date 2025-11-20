@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,34 +8,40 @@ import { EquiposTrabajoStateService } from '../../../comisiones/services/equipos
 import { IntegrantesStateService } from '../../services/integrantes-state.service';
 import { transformFormData } from '@/app/core/helpers/clean-form';
 import { Integrante } from '../../data/integrante.model';
+import { OficinasStateService } from '@/app/features/private/maintenance/oficinas/services/oficinas-state.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { PersonasStateService } from '@/app/features/private/maintenance/personas/services/personas-state.service';
 
 @Component({
   selector: 'app-integrantes-form-modal',
   templateUrl: './integrantes-form-modal.component.html',
   styleUrl: './integrantes-form-modal.component.css',
   standalone: true,
-  imports: [ModalModule,CommonModule],
+	imports:[ModalModule,FormsModule,ReactiveFormsModule,CommonModule,NgSelectModule]
 })
 export class IntegrantesFormModalComponent {
+
 	private modalService = inject(BsModalService);
 	private formBuilder = inject(FormBuilder);
   public integrantesStateService = inject(IntegrantesStateService)
   public equiposTrabajoStateService = inject(EquiposTrabajoStateService);
-	// public oficinasStateService = inject(OficinasStateService);
-	// public personasStateService = inject(PersonasStateService);
-	@Input() integrante:Integrante;
+	public oficinasStateService = inject(OficinasStateService);
+	public personasStateService = inject(PersonasStateService);
+
+  @Input() integrante:Integrante;
 	@Input() flagAccion: number;
 
 	@Output() onSave = new EventEmitter<void>();
 
   formData: FormGroup = this.formBuilder.group({
-		// ideOficinaProponente: [],
-		// ideConvenio: [,[Validators.required]],
-		// ideOficina: [,[Validators.required]],
-		// ideCoordinadorTitular: [],
-		// ideCoordinadorAlterno: [],
-		// numAporteMonetario: [,[Validators.required]],
-		// numAporteNoMonetario: [,[Validators.required]],
+    ideIntegrante: [],
+    ideTabla: [,[Validators.required]], //ideEquipoTrabajo
+    txtTabla: ['TMC_EQUIPO_TRABAJO',[Validators.required]],
+    ideOficina: [,[Validators.required]],
+    ideColaborador: [],
+    ideCargo: [],
+    txtCargoComite: [],
+    flgInvitado: [false]
 	});
 
   submitted = false;
@@ -43,26 +49,26 @@ export class IntegrantesFormModalComponent {
 	constructor(){
 		this.formData.get('ideOficina')?.valueChanges.subscribe((v) => {
 			if(!v || v==null) return;
-			console.log(v)
-			// this.listarPersonasByOficina(v)
+			console.log('oficina:',v)
+			this.listarPersonasByOficina(v)
 		});
 	}
 
   ngOnInit(): void {
-		// this.listarOficinas();
+		this.listarOficinas();
 		this.formData.patchValue(this.integrante);
 		if(this.flagAccion == 3) {
 			this.formData.disable();
 		}
 	}
 
-  // listarOficinas(){
-	// 	this.oficinasStateService.loadItems();
-	// }
+  listarOficinas(){
+		this.oficinasStateService.loadItems();
+	}
 
-	// listarPersonasByOficina(ideOficina){
-	// 	this.personasStateService.loadItemsByOficina(ideOficina);
-	// }
+	listarPersonasByOficina(ideOficina){
+		this.personasStateService.loadItemsByOficina(ideOficina);
+	}
 
 
   grabar(){
@@ -75,7 +81,8 @@ export class IntegrantesFormModalComponent {
 			});
 
 		}
-		console.log(this.formData)
+		// console.log(this.formData)
+		console.log(this.formData.value)
 		this.submitted = true
 	}
 

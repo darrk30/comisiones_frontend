@@ -13,8 +13,8 @@ import { EquiposTrabajoStateService } from '../../services/equipos-trabajo-state
 import { EquipoTrabajo } from '../../data/equipo-trabajo.model';
 import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
 import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
-import { EstadosTrazabilidadStateService } from '@/app/features/private/maintenance/estados-trazabilidad/services/estados-trazabilidad-state.service';
 import Swal from 'sweetalert2';
+import { EstadosComisionStateService } from '@/app/features/private/maintenance/estados-comision/services/estados-comision-state.service';
 
 @Component({
   selector: 'app-comisiones-list',
@@ -32,7 +32,8 @@ export class ComisionesListComponent  {
 	public equipoTrabajoStateService = inject(EquiposTrabajoStateService);
   public tiposEquipoTrabajoStateService = inject(TiposEquipoTrabajoStateService)
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
-  public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
+  // public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
+  public estadosComisionStateService = inject(EstadosComisionStateService)
 	// public convenioStore = inject(ConvenioStore);
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -47,7 +48,8 @@ export class ComisionesListComponent  {
 	aniosSuscripcion:any;
 
   formData: FormGroup = this.formBuilder.group({
-		ideEstadoTrazabilidad:[""],
+		// ideEstadoTrazabilidad:[""],
+		ideEstadoComision:[""],
 		ideMotivoEquipoTrabajo:[""],
 		ideTipoEquipoTrabajo:[""],
 	});
@@ -60,7 +62,7 @@ export class ComisionesListComponent  {
 	  this.listar();
     this.listarTiposEquipoTrabajo();
     this.listarMotivosEquipoTrabajo()
-    this.listarEstadosTrazabilidad()
+    this.listarEstadosComision()
   }
 
   listar(){
@@ -88,8 +90,8 @@ export class ComisionesListComponent  {
 		this.motivosEquipoTrabajoStateService.loadItems();
 	}
 
-  listarEstadosTrazabilidad(){
-		this.estadosTrazabilidadStateService.loadItems();
+  listarEstadosComision(){
+		this.estadosComisionStateService.loadItems();
 	}
 
   ngAfterViewInit(): void {
@@ -142,11 +144,20 @@ export class ComisionesListComponent  {
     this.equiposTrabajoFiltrados = this.originalEquiposTrabajo.filter(c=>{
       // const estadoSeleccionado =+ this.formData.get('ideEstadoTrazabilidad').value
       const tiposEquipoTrabajoSeleccionado: number[] = this.formData.get('ideTipoEquipoTrabajo').value
+      const motivosEquipoTrabajoSeleccionado: number[] = this.formData.get('ideMotivoEquipoTrabajo').value
+      const estadosComisionSeleccionado: number[] = this.formData.get('ideEstadoComision').value
 
       const coincideTipoEquipoTrabajo = tiposEquipoTrabajoSeleccionado.length === 0 ||
 				c.tipoEquipoTrabajo && tiposEquipoTrabajoSeleccionado.includes(c.tipoEquipoTrabajo.ideTipoEquipoTrabajo);
 
-      return coincideTipoEquipoTrabajo
+      const coincideMotivoEquipoTrabajo = motivosEquipoTrabajoSeleccionado.length === 0 ||
+				c.motivoEquipoTrabajo && motivosEquipoTrabajoSeleccionado.includes(c.motivoEquipoTrabajo.ideMotivoEquipoTrabajo);
+
+      const coincideEstadoComision = estadosComisionSeleccionado.length === 0 ||
+				c.estadoComision && estadosComisionSeleccionado.includes(c.estadoComision.ideEstadoComision);
+
+
+        return coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
     })
 
 		this.rerender();

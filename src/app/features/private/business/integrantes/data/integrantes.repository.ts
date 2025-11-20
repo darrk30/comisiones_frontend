@@ -12,8 +12,8 @@ export class IntegrantesRepository {
 		private http: HttpClient
 	) {}
 
-	getAllByConvenio(ideConvenio:number): Observable<IntegranteRpta> {
-		return this.http.get<IntegranteRpta>(`${this.apiUrl}/get-all-Integrante-by-convenio/${ideConvenio}`);
+	getAllByEquipoTrabajo(ideEquipoTrabajo:number): Observable<IntegranteRpta> {
+		return this.http.get<IntegranteRpta>(`${this.apiUrl}/get-all-integrantes-by-equipo-trabajo/${ideEquipoTrabajo}`);
 	}
 
 	getAll(): Observable<IntegranteRpta> {

@@ -63,14 +63,14 @@
                         <div class="form-group">
                           <label for="" class="control-label">Estado de la comision</label>
                           <select  class="form-control form-select"
-                            formControlName="ideEstadoTrazabilidad" [ngClass]="{'is-invalid': submitted && formData.get('ideEstadoTrazabilidad').errors}">
+                            formControlName="ideEstadoComision" [ngClass]="{'is-invalid': submitted && formData.get('ideEstadoComision').errors}">
                             <option [ngValue]="null">Seleccionar</option>
-                            @for(estadoTrazabilidad of estadosTrazabilidadStateService.items(); track $index){
-                              <option value="{{estadoTrazabilidad.ideEstadoTrazabilidad}}">{{estadoTrazabilidad.txtEstadoTrazabilidad}}</option>
+                            @for(estadoComision of estadosComisionStateService.items(); track $index){
+                              <option value="{{estadoComision.ideEstadoComision}}">{{estadoComision.txtEstadoComision}}</option>
                             }
                           </select>
-                          <div *ngIf="submitted && formData.get('ideEstadoTrazabilidad').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('ideEstadoTrazabilidad').errors.required">Estado de la comision es requerido</span>
+                          <div *ngIf="submitted && formData.get('ideEstadoComision').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('ideEstadoComision').errors.required">Estado de la comision es requerido</span>
                           </div>
                         </div>
                       </div>
@@ -130,30 +130,28 @@
                       </div>
                     </div>
 
-                    <hr>
+                    <!-- <hr>
                     <div class="row mb-3">
                       <div class="col-md-4">
                         <div class="form-group">
                           <label class="control-label required-label">Adjuntar archivo </label>
-                          <div class="custom-file-container">
-                            <input class="form-control" type="file" id="fileInput" hidden>
-                            <!-- <button type="button" class="btn btn-success" ><i class="fas fa-download me-1"></i></button> -->
-                            <button type="button" class="btn btn-danger">Seleccionar archivo</button>
+                            <div class="custom-file-container">
+                              <input *ngIf="this.flagAction != 3" class="form-control" type="file" id="fileInput" (change)="onFileSelected($event)" [ngClass]="{'is-invalid': submitted && formData.get('archivo').errors}" hidden>
+                              <button type="button" class="btn btn-success" *ngIf="this.formData.get('txtArchivoBaseLegalRuta').value" (click)="descargar()"><i class="fas fa-download me-1"></i></button>
+                              <button *ngIf="this.flagAction != 3" type="button" class="btn btn-danger" (click)="triggerFileInput()">Seleccionar archivo</button>
 
-                            <span class="file-name">{{ 'Ningún archivo seleccionado'
-                              }}</span>
-                            <div class="invalid-feedback">
-                              <span>El archivo es requerido.</span>
-                              <span>El archivo debe ser formato PDF.</span>
-                              <span>El archivo debe tener un tamaño entre 0 y
-                                {{"XXXX"}} MB.</span>
+                              <span *ngIf="this.flagAction != 3" class="file-name">{{ selectedFileName  || 'Ningún archivo seleccionado' }}</span>
+                              <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
+                                  <span *ngIf="formData.get('archivo').errors.required">El archivo es requerido.</span>
+                                  <span *ngIf="formData.get('archivo').errors.formatoInvalido">El archivo debe ser formato PDF.</span>
+                                  <span *ngIf="formData.get('archivo').errors.tamanoInvalido">El archivo debe tener un tamaño entre 0 y {{tamanioArchivo}} MB.</span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <hr> -->
 
-                    <hr>
                     <div class="row mb-3">
                       <div class="col-md-3">
                         <div class="form-group">
@@ -190,7 +188,7 @@
                       </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row mb-3" *ngIf="this.flagAction != 3">
                       <div class="col-md-12">
                         <div class="float-start">
                           <button type="submit" class="btn btn-success">Grabar</button>
@@ -207,22 +205,29 @@
                                             </div> -->
                   </section>
                 </cdk-step>
-                <cdk-step [optional]="true">
+                <cdk-step [optional]="true" *ngIf="this.formData.get('ideEquipoTrabajo').value">
                   <ng-template cdkStepLabel>
                     <span class="number bx bxs-user-detail fs-2"></span>
                     <span>INTEGRANTES</span>
                   </ng-template>
                   <section>
-                     <app-integrantes-list></app-integrantes-list>
+                    <app-integrantes-list
+                      *ngIf="flagAction !== undefined"
+                      [ideEquipoTrabajo]="this.formData.get('ideEquipoTrabajo').value"
+                      [flagAction]="flagAction"
+                       ></app-integrantes-list>
                   </section>
                 </cdk-step>
-                <cdk-step [optional]="true">
+                <cdk-step [optional]="true" *ngIf="this.formData.get('ideEquipoTrabajo').value">
                   <ng-template cdkStepLabel>
                     <span class="number bx bxs-cloud-upload fs-2"></span>
                     <span>ADJUNTAR ARCHIVOS</span>
                   </ng-template>
                   <section>
-                    <app-archivos-list ></app-archivos-list>
+                    <app-archivos-list
+                      [ideEquipoTrabajo]="this.formData.get('ideEquipoTrabajo').value"
+                      [flagAction]="flagAction"
+                      ></app-archivos-list>
                   </section>
                 </cdk-step>
               </ng-stepper>

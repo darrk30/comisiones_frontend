@@ -7,7 +7,7 @@ import { appendFormData } from '@/app/core/helpers/clean-form';
 
 @Injectable({providedIn: 'root'})
 export class EquiposTrabajoRepository {
-	private apiUrl = `${environment.urlBackend}/api/EquipoTrabajo`;
+	private apiUrl = `${environment.urlBackend}/api/equipo-trabajo`;
 
   	constructor(
 		private http: HttpClient

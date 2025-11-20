@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import {
   MotivoEquipoTrabajo,
   MotivoEquipoTrabajoRpta,
@@ -11,6 +11,11 @@ import { ToastrService } from "ngx-toastr";
 export class MotivosEquipoTrabajoStateService {
   items = signal<MotivoEquipoTrabajo[]>([]);
   item = signal<MotivoEquipoTrabajo | null>(null);
+
+   readonly itemsListado = computed(() =>
+        // this.items().filter(e => e.ideMotivoEquipoTrabajo != 2)
+        this.items()
+    );
 
   constructor(
     private MotivosEquipoTrabajoRepository: MotivosEquipoTrabajoRepository,

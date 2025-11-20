@@ -9,7 +9,7 @@ import {
 
 @Injectable({ providedIn: "root" })
 export class EstadosTrazabilidadRepository {
-  private apiUrl = `${environment.urlBackend}/api/estadotrazabilidad`;
+  private apiUrl = `${environment.urlBackend}/api/estado-trazabilidad`;
 
   constructor(private http: HttpClient) {}
 

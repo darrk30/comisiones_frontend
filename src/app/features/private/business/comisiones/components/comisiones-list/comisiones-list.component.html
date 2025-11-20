@@ -5,30 +5,41 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <!-- <h1>FILTROS</h1> -->
-          <form action="">
+          <form (ngSubmit)="buscar()" [formGroup]="formData">
             <div class="row mb-3">
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="" class="control-label">Motivo:</label>
-                  <select name="" id="" class="form-control">
-                    <option value="">Seleccionar</option>
+                  <select  class="form-control form-select"
+                    formControlName="ideMotivoEquipoTrabajo">
+                    <option value>Seleccionar</option>
+                    @for(motivoEquipoTrabajo of motivosEquipoTrabajoStateService.itemsListado();track $index){
+                      <option value="{{motivoEquipoTrabajo.ideMotivoEquipoTrabajo}}">{{motivoEquipoTrabajo.txtMotivoEquipoTrabajo}}</option>
+                    }
                   </select>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="" class="control-label">Tipo de Comision:</label>
-                  <select name="" id="" class="form-control">
-                    <option value="">Seleccionar</option>
+                  <select  class="form-control form-select"
+                    formControlName="ideTipoEquipoTrabajo">
+                    <option value>Seleccionar</option>
+                    @for(tipoEquipoTrabajo of tiposEquipoTrabajoStateService.itemsListado();track $index){
+                      <option value="{{tipoEquipoTrabajo.ideTipoEquipoTrabajo}}">{{tipoEquipoTrabajo.txtTipoEquipoTrabajo}}</option>
+                    }
                   </select>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="" class="control-label">Estado:</label>
-                  <select name="" id="" class="form-control">
+                  <select class="form-control form-select"
+                    formControlName="ideEstadoTrazabilidad">
                     <option value="">Seleccionar</option>
+                    @for(estadoTrazabilidad of estadosTrazabilidadStateService.itemsListado();track $index){
+                      <option value="{{estadoTrazabilidad.ideEstadoTrazabilidad}}">{{estadoTrazabilidad.txtEstadoTrazabilidad}}</option>
+                    }
                   </select>
                 </div>
               </div>
@@ -73,16 +84,31 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @for(equipoTrabajo of equiposTrabajoFiltrados; track $index){
                   <tr>
-                    <td>Comision</td>
-                    <td>Motivo</td>
-                    <td>Tipo Comision</td>
-                    <td>Fecha Ini.</td>
-                    <td>Fecha Fin.</td>
-                    <td>Comision</td>
-                    <td>Estado</td>
-                    <td>Acciones</td>
+                    <!-- <td class="wrap-columna-convenio">Comision</td> -->
+                    <td>{{equipoTrabajo.txtEquipoTrabajo}}</td>
+                    <td>{{equipoTrabajo.ideMotivoEquipoTrabajo}}</td>
+                    <td>{{equipoTrabajo.ideTipoEquipoTrabajo}}</td>
+                    <td>{{equipoTrabajo.fecInicio | date:'yyyy-MM-dd'}}</td>
+                    <td>{{equipoTrabajo.fecFinalizacion | date:'yyyy-MM-dd'}}</td>
+                    <td>{{""}}</td>
+                    <td>{{equipoTrabajo.ideEstadoTrazabilidad}}</td>
+                    <td>
+                      <div class="dropdown" dropdown placement="bottom-right">
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
+                          Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                                class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                                class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
+                        </ul>
+                      </div>
+                    </td>
                   </tr>
+                }
                 </tbody>
               </table>
             </div>

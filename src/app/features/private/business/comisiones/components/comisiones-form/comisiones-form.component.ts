@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, numberAttribute } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { NgStepperModule } from 'angular-ng-stepper'
@@ -12,7 +12,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
 import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
 import { EstadosTrazabilidadStateService } from '@/app/features/private/maintenance/estados-trazabilidad/services/estados-trazabilidad-state.service';
-import { limpiarCamposVacios } from '@/app/core/helpers/clean-form';
+import { limpiarCamposVacios, toDateInputValue, transformFormData } from '@/app/core/helpers/clean-form';
+import { EquiposTrabajoStateService } from '../../services/equipos-trabajo-state.service';
 
 @Component({
   selector: 'app-comisiones-form',
@@ -30,6 +31,7 @@ export class ComisionesFormComponent {
   public tiposEquipoTrabajoStateService = inject(TiposEquipoTrabajoStateService)
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
   public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
+  public equiposTrabajoStateService = inject(EquiposTrabajoStateService)
 
 	breadCrumbItems: Array<{}>;
 
@@ -70,18 +72,44 @@ export class ComisionesFormComponent {
             this.titleComponent = data.title;
             this.flagAction = data.flagAction;
         });
+
+    this.ideEquipoTrabajo =  Number(this.route.snapshot.paramMap.get('id'))
+
+    this.formData.get('fecInicio')?.valueChanges.subscribe(() => {
+			this.actualizarDuracionConvenio();
+		});
+
+		this.formData.get('fecFinalizacion')?.valueChanges.subscribe(() => {
+			this.actualizarDuracionConvenio();
+		});
+
+    effect(() => {
+			const item = this.equiposTrabajoStateService.item();
+			if (item) {
+				console.log("Nuevo valor recibido:", item);
+				const datosTransformados = {
+					...item,
+					fecSuscripcion: toDateInputValue(item.fecSuscripcion),
+					fecInicio: toDateInputValue(item.fecInicio),
+					fecFinalizacion: toDateInputValue(item.fecFinalizacion),
+					fecInicioRenovacion: toDateInputValue(item.fecInicioRenovacion),
+					fecFinRenovacion: toDateInputValue(item.fecFinRenovacion),
+				};
+				this.formData.patchValue(datosTransformados);
+
+			}
+		});
   }
 
   ngOnInit(): void {
-		console.log(this.flagAction)
+		console.log('flagAction: ',this.flagAction)
 
 		this.breadCrumbItems = [{ label: this.titleComponent }];
-		// this.conveniosStateService.clearState();
+		this.equiposTrabajoStateService.clearState();
 		this.listarTiposEquipoTrabajo();
     this.listarMotivosEquipoTrabajo()
     this.listarEstadosTrazabilidad()
-		// this.listarEstadosConvenios();
-		// this.getConvenio();
+		this.getEquipoTrabajo();
 
 		if (this.flagAction == 1) { // Modo CREAR
 			this.formData.get('archivo')?.addValidators(Validators.required);
@@ -101,10 +129,18 @@ export class ComisionesFormComponent {
 
     // this.formData.patchValue(limpio)
     if(this.formData.valid){
-      //TODO: save
+ 			const formDataClean = transformFormData(this.formData.getRawValue());
+      this.equiposTrabajoStateService.postForm(formDataClean, this.formData.get('ideEquipoTrabajo').value)
     }
+
     this.submitted = true
   }
+
+  getEquipoTrabajo(){
+		if(!this.ideEquipoTrabajo) return;
+		this.equiposTrabajoStateService.loadItemById(this.ideEquipoTrabajo);
+  }
+
 
   listarTiposEquipoTrabajo(){
 		this.tiposEquipoTrabajoStateService.loadItems();
@@ -116,6 +152,45 @@ export class ComisionesFormComponent {
 
   listarEstadosTrazabilidad(){
 		this.estadosTrazabilidadStateService.loadItems();
+	}
+
+  actualizarDuracionConvenio() {
+		const fechaInicio = this.formData.get('fecInicio')?.value;
+		const fechaFin = this.formData.get('fecFinalizacion')?.value;
+
+		if (fechaInicio && fechaFin) {
+			const inicio = new Date(fechaInicio);
+			const fin = new Date(fechaFin);
+
+			if (fin < inicio) {
+				this.formData.get('txtDuracionComite')?.setValue('Fecha final menor que inicio');
+				return;
+			}
+
+			const años = fin.getFullYear() - inicio.getFullYear();
+			const meses = fin.getMonth() - inicio.getMonth();
+			const dias = fin.getDate() - inicio.getDate();
+
+			let totalAños = años;
+			let totalMeses = meses;
+			let totalDias = dias;
+
+			if (totalDias < 0) {
+				totalMeses--;
+				const prevMonth = new Date(fin.getFullYear(), fin.getMonth(), 0);
+				totalDias += prevMonth.getDate();
+			}
+
+			if (totalMeses < 0) {
+				totalAños--;
+				totalMeses += 12;
+			}
+
+			const texto = `${totalAños} año(s), ${totalMeses} mes(es), ${totalDias} día(s)`;
+			this.formData.get('txtDuracionComite')?.setValue(texto);
+		} else {
+			this.formData.get('txtDuracionComite')?.setValue(null);
+		}
 	}
 
 }

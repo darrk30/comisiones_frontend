@@ -9,7 +9,7 @@ import {
 
 @Injectable({ providedIn: "root" })
 export class TiposEquipoTrabajoRepository {
-  private apiUrl = `${environment.urlBackend}/api/tipoequipotrabajo`;
+  private apiUrl = `${environment.urlBackend}/api/tipo-equipo-trabajo`;
 
   constructor(private http: HttpClient) {}
 

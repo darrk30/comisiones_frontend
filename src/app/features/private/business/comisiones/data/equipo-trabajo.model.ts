@@ -10,11 +10,12 @@ export interface EquipoTrabajo {
     fecFinalizacion: string;
     fecInicioRenovacion: string;
     fecFinRenovacion: string;
-    uuid: string;
-    txtArchivo: string;
+    // txtArchivo: string;
     txtArchivoRuta: string;
     txtDuracionComite: string;
     txtObservacion: string;
+    uuid: string;
+    tipoEquipoTrabajo:any
 }
 
 export interface EquipoTrabajoRpta{

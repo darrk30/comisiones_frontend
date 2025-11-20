@@ -17,6 +17,17 @@ const routes: Routes = [
             // canActivate: [AdminGuard]
 
     },
+    {
+      path: "editar/:id",
+      component: ComisionesFormComponent ,
+      data: { title: 'COMISION - EDITAR', flagAction: 2 },
+      // canActivate: [AdminGuard]
+    },
+    {
+      path: "ver/:id",
+      component: ComisionesFormComponent ,
+      data: { title: 'COMISION - VER', flagAction: 3 },
+    },
 ]
 
 @NgModule({

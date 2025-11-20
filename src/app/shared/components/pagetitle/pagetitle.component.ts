@@ -25,15 +25,15 @@ export class PagetitleComponent implements OnInit {
 
 	regresar(){
 		if(this.idePagina == 1){
-			this.router.navigate([`negocio/convenio`]);
+			this.router.navigate([`negocio/comision`]);
 		}else if(this.idePagina == 3){
-			this.router.navigate([`reporte/convenio`]);
+			this.router.navigate([`reporte/comision`]);
 		}else if(this.idePagina == 4){
 			this.router.navigate([`mantenimiento/institucion`]);
 		}else{
 			this.router.navigate([`dashboard`]);
 		}
-		
+
 	}
 
 }

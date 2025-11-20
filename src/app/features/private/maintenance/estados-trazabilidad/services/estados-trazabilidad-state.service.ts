@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import {
   EstadoTrazabilidad,
   EstadoTrazabilidadRpta,
@@ -11,6 +11,10 @@ import { ToastrService } from "ngx-toastr";
 export class EstadosTrazabilidadStateService {
   items = signal<EstadoTrazabilidad[]>([]);
   item = signal<EstadoTrazabilidad | null>(null);
+
+  readonly itemsListado = computed(() =>
+    this.items()
+  );
 
   constructor(
     private EstadoTrazabilidadRepository: EstadosTrazabilidadRepository,

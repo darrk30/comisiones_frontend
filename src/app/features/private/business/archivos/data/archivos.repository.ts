@@ -14,7 +14,7 @@ export class ArchivosRepository {
 	) {}
 
 	getAllByEquipoTrabajo(ideEquipoTrabajo:number): Observable<ArchivoRpta> {
-		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivo-by-convenio/${ideEquipoTrabajo}`);
+		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivos-by-equipo-trabajo/${ideEquipoTrabajo}`);
 	}
 
 	getAll(): Observable<ArchivoRpta> {
@@ -26,9 +26,10 @@ export class ArchivosRepository {
 	}
 
 	create(entidad: Archivo): Observable<ArchivoRpta> {
-		const body = new FormData();
-		appendFormData(body, entidad);
-		return this.http.post<ArchivoRpta>(`${this.apiUrl}`, body);
+		// const body = new FormData();
+		// appendFormData(body, entidad);
+		// return this.http.post<ArchivoRpta>(`${this.apiUrl}`, body);
+		return this.http.post<ArchivoRpta>(`${this.apiUrl}`, entidad);
 	}
 
 	update(id: number, entidad: Archivo): Observable<ArchivoRpta> {
@@ -50,6 +51,10 @@ export class ArchivosRepository {
 
 	descargar(uuid: string): Observable<Blob> {
 		return this.http.get(`${this.apiUrl}/descargar/${uuid}`, { responseType: 'blob' });
+	}
+
+  descargarById(id: number): Observable<Blob> {
+		return this.http.get(`${this.apiUrl}/descargar/${id}`, { responseType: 'blob' });
 	}
 
 }

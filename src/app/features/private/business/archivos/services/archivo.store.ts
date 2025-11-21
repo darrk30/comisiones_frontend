@@ -10,4 +10,8 @@ export class ArchivoStore {
     descargar(uuid: string): Observable<Blob> {
         return this.archivosRepository.descargar(uuid);
     }
+
+    descargarById(id: number): Observable<Blob> {
+        return this.archivosRepository.descargarById(id);
+    }
 }

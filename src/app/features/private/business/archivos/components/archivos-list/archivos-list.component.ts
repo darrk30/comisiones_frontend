@@ -28,7 +28,7 @@ export class ArchivosListComponent {
 	public archivosStateService = inject(ArchivosStateService);
 	public archivoStore = inject(ArchivoStore);
 
-	@Input() ideConvenio: number;
+	@Input() ideEquipoTrabajo: number;
 	@Input() flagAction:number;
 
 	modalRef?: BsModalRef;
@@ -48,7 +48,7 @@ export class ArchivosListComponent {
 	}
 
 	listar(){
-		this.archivosStateService.loadItemsByEquipoTrabajo(this.ideConvenio).subscribe(() => {
+		this.archivosStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
 			this.rerender();
 		});
 	}
@@ -75,8 +75,8 @@ export class ArchivosListComponent {
 	crear(modal:any){
 		this.tituloModal = 'Registrar Archivo';
 		let archivo:Archivo = {
-			ideTabla: this.ideConvenio,
-      txtTabla: ''
+			ideTabla: this.ideEquipoTrabajo,
+      txtTabla: 'TMC_EQUIPO_TRABAJO'
 		};
 		this.archivo = archivo;
 		this.flagAccion = 1;
@@ -116,11 +116,23 @@ export class ArchivosListComponent {
 		});
 	}
 
-	descargar(archivo: Archivo) {
+ 	descargar(archivo: Archivo) {
 		const uuid = archivo.uuid;
 		this.archivoStore.descargar(uuid).subscribe({
 			next: (blob) => {
 				saveAs(blob, `${uuid}.pdf`);
+			},
+			error: (error) => {
+				console.error('Error al descargar el PDF', error);
+			}
+		});
+	}
+
+  descargarById(archivo: Archivo) {
+		const id = archivo.ideArchivo;
+		this.archivoStore.descargarById(id).subscribe({
+			next: (blob) => {
+				saveAs(blob, `${archivo.uuid}.pdf`);
 			},
 			error: (error) => {
 				console.error('Error al descargar el PDF', error);

@@ -22,13 +22,24 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="" class="control-label">Tipo de Comision:</label>
-                  <select  class="form-control form-select"
+                  <!-- <select  class="form-control form-select"
                     formControlName="ideTipoEquipoTrabajo">
                     <option value>Seleccionar</option>
                     @for(tipoEquipoTrabajo of tiposEquipoTrabajoStateService.itemsListado();track $index){
                       <option value="{{tipoEquipoTrabajo.ideTipoEquipoTrabajo}}">{{tipoEquipoTrabajo.txtTipoEquipoTrabajo}}</option>
                     }
-                  </select>
+                  </select> -->
+                  <ng-select
+                    formControlName="ideTipoEquipoTrabajo"
+                    [items]="tiposEquipoTrabajoStateService.items()"
+                    bindLabel="txtTipoEquipoTrabajo"
+                    bindValue="ideTipoEquipoTrabajo"
+                    placeholder="Seleccionar"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [multiple]="true"
+                  >
+                  </ng-select>
                 </div>
               </div>
               <div class="col-md-4">
@@ -73,12 +84,12 @@
                 class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
                 <thead>
                   <tr>
-                    <th scope="col" style="width: 20% !important;">Comision</th>
+                    <th scope="col" style="width: 25% !important;">Comision</th>
                     <th scope="col" style="width: 15% !important;">Motivo</th>
                     <th scope="col" style="width: 20% !important;">Tipo de Comision</th>
                     <th scope="col" style="width: 10% !important;">Fecha Inicio</th>
                     <th scope="col" style="width: 10% !important;">Fecha Fin</th>
-                    <th scope="col" style="width: 5% !important;">Comision</th>
+                    <!-- <th scope="col" style="width: 5% !important;">Comision</th> -->
                     <th scope="col" style="width: 10% !important;">Estado</th>
                     <th scope="col" style="width: 5% !important;">Acciones</th>
                   </tr>
@@ -92,7 +103,7 @@
                     <td>{{equipoTrabajo.tipoEquipoTrabajo.txtTipoEquipoTrabajo}}</td>
                     <td>{{equipoTrabajo.fecInicio | date:'yyyy-MM-dd'}}</td>
                     <td>{{equipoTrabajo.fecFinalizacion | date:'yyyy-MM-dd'}}</td>
-                    <td>{{""}}</td>
+                    <!-- <td>{{""}}</td> -->
                     <td>{{equipoTrabajo.estadoComision?.txtEstadoComision}}</td>
                     <td>
                       <div class="dropdown" dropdown placement="bottom-right">

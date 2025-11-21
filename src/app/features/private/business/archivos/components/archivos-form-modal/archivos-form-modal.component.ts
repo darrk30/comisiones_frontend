@@ -21,15 +21,19 @@ export class ArchivosFormModalComponent {
 	public archivosStateService = inject(ArchivosStateService);
 	public tiposDocumentosStateService = inject(TiposDocumentosStateService);
 
-	@Input() archivo:Archivo;
+  archivoBase64: string | null = null;
 
+	@Input() archivo:Archivo;
 	@Output() onSave = new EventEmitter<void>();
 
 	formData: FormGroup = this.formBuilder.group({
 		ideArchivo: [],
-		ideConvenio: [,[Validators.required]],
+    ideTabla: [,[Validators.required]],
+    txtTabla: ['TMC_EQUIPO_TRABAJO'],
 		ideTipoDocumento: [,[Validators.required]],
 		txtTipoDocumentoOtro: [],
+    txtArchivo: [],
+    base64:[],
 		archivo: [null, [Validators.required,this.validateTamanioArchivo.bind(this), this.validateFormatoArchivo]],
 	});
 
@@ -62,13 +66,14 @@ export class ArchivosFormModalComponent {
 
 			const formDataTransformed = transformFormData(this.formData.getRawValue());
 
-			this.archivosStateService.postForm(formDataTransformed,this.formData.get('ideArchivo').value?this.formData.get('ideArchivo').value:null, () => {
+      this.archivosStateService.postForm(formDataTransformed,this.formData.get('ideArchivo').value?this.formData.get('ideArchivo').value:null, () => {
 				this.modalService?.hide();
 				this.onSave.emit();
 			});
 
 		}
-		console.log(this.formData)
+		// console.log(this.formData)
+		console.log(this.formData.value)
 		this.submitted = true
 	}
 
@@ -115,12 +120,28 @@ export class ArchivosFormModalComponent {
 		const file = event.target.files[0];
 		console.log(file)
 		if (file) {
-			this.formData.patchValue({
-				archivo: file
-			});
 			this.selectedFileName = file.name;
-			this.formData.get('archivo')?.updateValueAndValidity(); // Actualiza el estado de validación del campo
-			this.fileError = false;
+
+      console.log(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.archivoBase64 = reader.result as string; // Incluye "data:...;base64,"
+
+        this.formData.patchValue({
+          archivo: file,
+          // base64: this.archivoBase64,
+          base64: this.archivoBase64.split(',')[1],
+          txtArchivo: this.selectedFileName
+        });
+
+			  this.formData.get('archivo')?.updateValueAndValidity(); // Actualiza el estado de validación del campo
+
+      };
+      reader.readAsDataURL(file);
+
+      this.fileError = false;
+
 		} else {
 			this.selectedFileName = 'Ningún archivo seleccionado';
 		  	this.fileError = true; // Marca error si no hay archivo seleccionado

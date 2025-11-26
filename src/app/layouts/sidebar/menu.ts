@@ -43,6 +43,12 @@ export const MENU: MenuItem[] = [
                 link: '/negocio/comision',
                 parentId: 6
             },
+            {
+                id: 8,
+                label: 'Reuniones',
+                link: '/negocio/reunion',
+                parentId: 6
+            }
         ]
     },
     {

@@ -4,15 +4,15 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EquiposTrabajoStateService } from '../../../comisiones/services/equipos-trabajo-state.service';
-import { IntegrantesStateService } from '../../services/integrantes-state.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { dtOptionsData } from '@/app/core/helpers/dtoptions.data';
-import Swal from 'sweetalert2';
-import { Integrante } from '../../data/integrante.model';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
+import Swal from 'sweetalert2';
+import { Integrante } from '../../data/integrante.model';
+import { EquiposTrabajoStateService } from '../../../comisiones/services/equipos-trabajo-state.service';
+import { IntegrantesStateService } from '../../services/integrantes-state.service';
 import { IntegrantesFormModalComponent } from '../integrantes-form-modal/integrantes-form-modal.component';
 
 @Component({

@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <app-page-title title="Reunion" [flgBotonRegresar]="true" [idePagina]="idePagina" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <form action="">
+            <ng-stepper #cdkStepper  [linear]="true" class="wizard">
+              <cdk-step [optional]="false">
+                <ng-template cdkStepLabel>
+                  <span class="number bx bxs-file-blank fs-2"></span>
+                  <span>DATOS DE REUNION</span>
+                </ng-template>
+                <section>
+                  <div class="row mb-3">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="control-label">Fecha y Hora de Reunion:</label>
+                        <input type="datetime-local" class="form-control" autocomplete="off"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="control-label">Tipo de Sesion:</label>
+                        <select name="" id="" class="form-contro form-select">
+                          <option value="">Seleccionar</option>
+                          <option value="1">Sesion Ordinaria</option>
+                          <option value="2">Sesion Extra Ordinaria</option>
+                          <option value="3">Votacion</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label">Tema de la Reunion:</label>
+                        <!-- <input type="text" class="form-control" autocomplete="off" /> -->
+                         <textarea name="" id="" class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <app-participantes-list></app-participantes-list>
+
+                  <app-puntos-agenda-list></app-puntos-agenda-list>
+
+                  <app-acuerdos-list></app-acuerdos-list>
+
+                  <app-acuerdos-list [flagTarea]="true"></app-acuerdos-list>
+
+
+                  <div class="row mb-3" >
+                      <div class="col-md-12">
+                        <div class="float-start">
+                          <button type="submit" class="btn btn-success">Grabar</button>
+                        </div>
+                      </div>
+                  </div>
+                </section>
+              </cdk-step>
+              <cdk-step [optional]="true">
+                <ng-template cdkStepLabel>
+                  <span class="number bx bxs-file-blank fs-2"></span>
+                  <span>ARCHIVOS</span>
+                </ng-template>
+                <section>
+
+                </section>
+              </cdk-step>
+            </ng-stepper>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

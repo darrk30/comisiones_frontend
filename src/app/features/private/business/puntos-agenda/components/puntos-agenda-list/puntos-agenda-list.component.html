@@ -1,0 +1,64 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="float-start">
+          <h5>Puntos de agenda</h5>
+        </div>
+        <div class="float-end" *ngIf="flagAction != 3">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            (click)="crear(modalEntidad)">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+<div class="row ">
+  <div class="col-md-12">
+    <!-- <h4>Puntos de agenda</h4> -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 20%;">Tema de agenda</th>
+          <th scope="col" style="width: 65%;">Detalle</th>
+          <th scope="col" style="width: 15%;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>tema de agenda</td>
+          <td>detalle</td>
+          <td >
+            <div class="dropdown" dropdown placement="bottom-right">
+              <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
+                aria-expanded="false">
+                Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                      class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                <li><a href="javascript: void(0);" class="dropdown-item"
+                    (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                      class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  </div>
+
+</div>
+
+<ng-template #modalEntidad role="document" let-modal>
+	<div class="modal-header">
+        <h5 class="modal-title mt-0">{{tituloModal}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+	</div>
+	<div class="modal-body">
+		<!-- <app-integrantes-form-modal [modalRef]="modalRef" [integrante]="integrante" [flagAccion]="flagAccion" (onSave)="listar()"></app-integrantes-form-modal> -->
+     <app-puntos-agenda-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"></app-puntos-agenda-form-modal>
+	</div>
+</ng-template>

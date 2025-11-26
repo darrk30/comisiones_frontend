@@ -1,0 +1,66 @@
+<form action="">
+  <!-- <h4>participantes form</h4> -->
+   <div class="row mb-3">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="" class="control-label">Tipo Participante:</label>
+         <select  class="form-control form-select" >
+          <option value="">Seleccionar</option>
+          <option value="1">Miembro</option>
+          <option value="2">Invitado</option>
+        </select>
+
+        <!-- <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+   <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="" class="control-label">Oficina / Dependencia:</label>
+         <select  class="form-control form-select" >
+          <option value="">Seleccionar</option>
+        </select>
+
+        <!-- <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12">
+        <div class="form-group">
+          <label for="" class="control-label">Colaborador:</label>
+          <select  class="form-control form-select">
+            <option value>Seleccionar</option>
+            <option value="1">Juan Perez</option>
+          </select>
+          <div *ngIf="submitted && formData.get('ideColaborador').errors" class="invalid-feedback">
+              <span *ngIf="formData.get('ideColaborador').errors.required">Colaborador es requerido.</span>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="" class="control-label">Cargo desempeñado en la comision:</label>
+        <input type="text" class="form-control" placeholder="Cargo desempeñado en la comision" autocomplete="off"
+          >
+        <!-- <div *ngIf="submitted && formData.get('txtCargoComite').errors" class="invalid-feedback">
+          <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en la comision es requerido</span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+     <div class="row"  >
+        <div class="modal-footer form-group">
+            <div class="">
+                <button type="submit" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</form>

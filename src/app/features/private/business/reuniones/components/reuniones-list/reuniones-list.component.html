@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <h3>Lista de Reuniones / Actas</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <form action="">
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="">Comision: </label>
+                    <select name="" id="" class="form-control form-select">
+                      <option value="">Seleccionar</option>
+                      <option value="1">Comite 1</option>
+                      <option value="2">Comite 2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-12">
+                  <div class="float-start">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                      (click)="agregar()">Agregar</button>
+                  </div>
+                  <div class="float-end">
+                    <button type="submit" class="btn btn-info">Buscar</button> &nbsp;
+                    <!-- <button type="button" class="btn btn-success" (click)="descargarExcelResumen()">Descargar Resumen Excel</button> -->
+                    &nbsp;
+                    <!-- <button type="button" class="btn btn-success" (click)="descargarPdfResumen()">Descargar Resumen Pdf</button> -->
+                  </div>
+                </div><!-- end col-->
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20%;">Comision</th>
+                    <th scope="col" style="width: 15%;">Nro Acta</th>
+                    <th scope="col" style="width: 30%;">Asunto general del Acta</th>
+                    <th scope="col" style="width: 20%;">Tipo </th>
+                    <th scope="col" style="width: 15%;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>comision</td>
+                    <td>nro acta</td>
+                    <td>tema reunion</td>
+                    <td>tipo</td>
+                    <td><div class="dropdown" dropdown placement="bottom-right">
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
+                          Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                                class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                                class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

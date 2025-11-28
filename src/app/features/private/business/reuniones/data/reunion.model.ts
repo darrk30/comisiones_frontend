@@ -1,13 +1,13 @@
 export interface Reunion {
-    ideReunion: number;
+    ideReunion?: number;
     ideEquipoTrabajo: number;
     ideTipoSesion: number;
     fecReunion: string;
     txtCodigoActaReunion: string;
     txtAnio: string;
     txtTemaReunion: string;
-    participantes:any
-    puntosAgenda:any
+    integrantes:any
+    agendas:any
     acuerdos:any
     // tareas:any
 }

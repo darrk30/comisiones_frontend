@@ -1,5 +1,8 @@
 export interface Persona {
-    idePersona
+    idePersona,
+    txtApellidos,
+    txtNombres,
+    txtCargo
 }
 
 export interface PersonaRpta {

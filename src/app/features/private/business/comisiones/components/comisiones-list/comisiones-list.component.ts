@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { PagetitleComponent } from "@/app/shared/components/pagetitle/pagetitle.component";
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { dtOptionsData } from '@/app/core/helpers/dtoptions.data';
@@ -9,11 +8,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import Swal from 'sweetalert2';
+import { PagetitleComponent } from "@/app/shared/components/pagetitle/pagetitle.component";
 import { EquiposTrabajoStateService } from '../../services/equipos-trabajo-state.service';
 import { EquipoTrabajo } from '../../data/equipo-trabajo.model';
 import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
 import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
-import Swal from 'sweetalert2';
 import { EstadosComisionStateService } from '@/app/features/private/maintenance/estados-comision/services/estados-comision-state.service';
 
 @Component({
@@ -34,13 +34,10 @@ export class ComisionesListComponent  {
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
   // public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
   public estadosComisionStateService = inject(EstadosComisionStateService)
-	// public convenioStore = inject(ConvenioStore);
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 	dtTrigger: Subject<void> = new Subject<any>();
-
 	dtOptions: DataTables.Settings = {};
-
 
 	originalEquiposTrabajo: EquipoTrabajo[] = [];
 	equiposTrabajoFiltrados: EquipoTrabajo[] = [];
@@ -82,7 +79,7 @@ export class ComisionesListComponent  {
 		});
 	}
 
-    listarTiposEquipoTrabajo(){
+  listarTiposEquipoTrabajo(){
 		this.tiposEquipoTrabajoStateService.loadItems();
 	}
 

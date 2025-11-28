@@ -1,5 +1,6 @@
 export interface Oficina {
-    ideOficina
+    ideOficina,
+    txtOficina
 }
 
 export interface OficinaRpta {

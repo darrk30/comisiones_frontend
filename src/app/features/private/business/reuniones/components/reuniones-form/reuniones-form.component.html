@@ -5,7 +5,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <form action="">
+          <form [formGroup]="formData" (ngSubmit)="grabar()">
             <ng-stepper #cdkStepper  [linear]="true" class="wizard">
               <cdk-step [optional]="false">
                 <ng-template cdkStepLabel>
@@ -17,18 +17,26 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="control-label">Fecha y Hora de Reunion:</label>
-                        <input type="datetime-local" class="form-control" autocomplete="off"/>
+                        <input type="datetime-local" class="form-control" placeholder="Ingrese Fecha y Hora de Reunion" autocomplete="off"
+                          formControlName="fecReunion" [ngClass]="{'is-invalid': submitted && formData.get('fecReunion').errors}"/>
+                          <div *ngIf="submitted && formData.get('fecReunion').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('fecReunion').errors.required">Fecha y Hora de reunion es requerido.</span>
+                          </div>
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="control-label">Tipo de Sesion:</label>
-                        <select name="" id="" class="form-contro form-select">
-                          <option value="">Seleccionar</option>
-                          <option value="1">Sesion Ordinaria</option>
-                          <option value="2">Sesion Extra Ordinaria</option>
-                          <option value="3">Votacion</option>
+                        <select class="form-contro form-select"
+                          formControlName="ideTipoSesion" [ngClass]="{'is-invalid': submitted && formData.get('ideTipoSesion').errors}">
+                          <option [ngValue]="null">Seleccionar</option>
+                         @for(tipoSesion of tiposSesionStateService.items();track $index){
+                              <option value="{{tipoSesion.ideTipoSesion}}">{{tipoSesion.txtTipoSesion}}</option>
+                            }
                         </select>
+                        <div *ngIf="submitted && formData.get('ideTipoSesion').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('ideTipoSesion').errors.required">Tipo de Sesion es requerido.</span>
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -37,19 +45,30 @@
                       <div class="form-group">
                         <label class="control-label">Tema de la Reunion:</label>
                         <!-- <input type="text" class="form-control" autocomplete="off" /> -->
-                         <textarea name="" id="" class="form-control"></textarea>
+                         <textarea  class="form-control"
+                          formControlName="txtTema" placeholder="Ingrese tema de Reunion" [ngClass]="{'is-invalid': submitted && formData.get('txtTema').errors}" ></textarea>
+                          <div *ngIf="submitted && formData.get('txtTema').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('txtTema').errors.required">Tema de Reunion es requerido.</span>
+                          </div>
                       </div>
                     </div>
                   </div>
 
-                  <app-participantes-list></app-participantes-list>
+                  <app-participantes-list
+                    (listChange)="onParticipantesChange($event)">
+                  </app-participantes-list>
 
-                  <app-puntos-agenda-list></app-puntos-agenda-list>
+                  <app-puntos-agenda-list [flagAction]="flagAction"
+                    (listChange)="onPuntosAgendaChange($event)">
+                  </app-puntos-agenda-list>
 
-                  <app-acuerdos-list></app-acuerdos-list>
+                  <app-acuerdos-list [flagTarea]="false"
+                    (listChange)="onAcuerdosChange($event)">
+                  </app-acuerdos-list>
 
-                  <app-acuerdos-list [flagTarea]="true"></app-acuerdos-list>
-
+                  <app-acuerdos-list [flagTarea]="true"
+                    (listChange)="onTareasChange($event)">
+                  </app-acuerdos-list>
 
                   <div class="row mb-3" >
                       <div class="col-md-12">
@@ -66,7 +85,11 @@
                   <span>ARCHIVOS</span>
                 </ng-template>
                 <section>
-
+                  <app-archivos-list
+                      [ideTabla]="this.formData.get('ideReunion').value"
+                      [txtTabla]="txtTabla"
+                      [flagAction]="flagAction"
+                   ></app-archivos-list>
                 </section>
               </cdk-step>
             </ng-stepper>

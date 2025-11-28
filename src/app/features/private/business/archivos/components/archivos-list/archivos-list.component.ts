@@ -28,8 +28,12 @@ export class ArchivosListComponent {
 	public archivosStateService = inject(ArchivosStateService);
 	public archivoStore = inject(ArchivoStore);
 
-	@Input() ideEquipoTrabajo: number;
+	// @Input() ideEquipoTrabajo: number;
+	@Input() ideTabla: number;
+	@Input() txtTabla: string;
 	@Input() flagAction:number;
+
+
 
 	modalRef?: BsModalRef;
 	@ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -48,7 +52,10 @@ export class ArchivosListComponent {
 	}
 
 	listar(){
-		this.archivosStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
+		// this.archivosStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
+		// 	this.rerender();
+		// });
+    this.archivosStateService.loadItemsByEquipoTrabajo(this.ideTabla).subscribe(() => {
 			this.rerender();
 		});
 	}
@@ -75,12 +82,16 @@ export class ArchivosListComponent {
 	crear(modal:any){
 		this.tituloModal = 'Registrar Archivo';
 		let archivo:Archivo = {
-			ideTabla: this.ideEquipoTrabajo,
-      txtTabla: 'TMC_EQUIPO_TRABAJO'
+			// ideTabla: this.ideEquipoTrabajo,
+			ideTabla: this.ideTabla,
+      // txtTabla: 'TMC_EQUIPO_TRABAJO'
+      txtTabla: this.txtTabla
 		};
 		this.archivo = archivo;
 		this.flagAccion = 1;
 		this.modalRef = this.modalService.show(modal, { class: 'md', backdrop: 'static', keyboard: false });
+    console.log('archivo: ',archivo);
+
 	}
 
 	editar(modal:any,archivo:Archivo){

@@ -1,9 +1,13 @@
-<form action="">
+<form (ngSubmit)="grabar()" [formGroup]="formData">
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Tema</label>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control"
+          formControlName="txtAgenda" [ngClass]="{'is-invalid': submitted && formData.get('txtAgenda').errors}" >
+          <div *ngIf="submitted && formData.get('txtAgenda').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('txtAgenda').errors.required">Tema de agenda es requerido.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -11,7 +15,11 @@
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Detalle</label>
-        <textarea type="text" class="form-control" ></textarea>
+        <textarea type="text" class="form-control"
+          formControlName="txtDetalle" [ngClass]="{'is-invalid': submitted && formData.get('txtDetalle').errors}"></textarea>
+        <div *ngIf="submitted && formData.get('txtDetalle').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('txtDetalle').errors.required">Detalle de agenda es requerido.</span>
+        </div>
       </div>
     </div>
   </div>

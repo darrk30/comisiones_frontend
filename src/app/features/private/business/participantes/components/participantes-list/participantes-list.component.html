@@ -6,8 +6,12 @@
           <h5>Participantes</h5>
         </div>
         <div class="float-end" *ngIf="flagAction != 3">
+          <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            (click)="crear(false)">Agregar Miembros</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            (click)="crear(modalEntidad)">Agregar</button>
+            (click)="crear(true)">Agregar Invitados</button>
+            </div>
         </div>
       </div>
     </div>
@@ -28,28 +32,29 @@
             </tr>
           </thead>
           <tbody>
+            @for (item of lista; track $index) {
             <tr>
-              <td>oficina</td>
-              <td>colaborador</td>
-              <td>cargo fijo</td>
-              <td>tipo de participante</td>
-              <td>cargo en comite</td>
+              <td>{{item.ideOficina}}-{{item?.txtOficina}}</td>
+              <td>{{item.ideColaborador}}-{{item?.txtPersona}}</td>
+              <td>{{item?.txtCargo ?? ''}}</td>
+              <td>{{item.flgInvitado?'Invitado':'Miembro'}}</td>
+              <td>{{item.txtCargoComite}}</td>
               <td>
                 <div class="dropdown" dropdown placement="bottom-right">
-                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
                     aria-expanded="false">
                     Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
-                          class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                    <li><a href="javascript: void(0);" class="dropdown-item"
-                        (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                    <!-- <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(item,$index)"><i
+                          class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li> -->
+                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar($index)"><i
                           class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
                   </ul>
                 </div>
               </td>
             </tr>
+            }
           </tbody>
         </table>
       </div>
@@ -63,7 +68,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
 	</div>
 	<div class="modal-body">
-		<!-- <app-integrantes-form-modal [modalRef]="modalRef" [integrante]="integrante" [flagAccion]="flagAccion" (onSave)="listar()"></app-integrantes-form-modal> -->
-     <app-participantes-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"></app-participantes-form-modal>
+    <app-participantes-form-modal
+      [modalRef]="modalRef" [flagInvitado]="flagInvitado" [integrante]="integrante"
+      [flagAccion]="flagAccion" (onSave)="load($event)" (onSaveList)="loadItems($event)"></app-participantes-form-modal>
 	</div>
 </ng-template>

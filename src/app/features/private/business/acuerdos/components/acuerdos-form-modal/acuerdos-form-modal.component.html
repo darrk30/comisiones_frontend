@@ -1,11 +1,11 @@
-<form action="">
+<form [formGroup]="formData" (ngSubmit)="grabar()">
 
-  <!-- <h1>Acuerdos form</h1> -->
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
-        <label for="">Descripcion</label>
-        <input type="text" class="form-control">
+        <label for="">Detalle</label>
+        <textarea type="text" class="form-control"
+          formControlName="txtAcuerdo" ></textarea>
       </div>
     </div>
   </div>
@@ -13,11 +13,24 @@
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Responsables / Oficina:</label>
-        <select  class="form-control form-select">
+        <!-- <select  class="form-control form-select">
           <option value="">Seleccionar</option>
           <option value="1">OPPM</option>
           <option value="2">OA</option>
-        </select>
+        </select> -->
+                <ng-select
+                  [items]="oficinasStateService.items()"
+                  bindLabel="txtOficina"
+                  bindValue="ideOficina"
+                  placeholder="Seleccionar Oficina / Dependencia"
+                  formControlName="ideOficina"
+                  [ngClass]="{'is-invalid': submitted && formData.get('ideOficina')?.invalid}"
+                  [searchable]="true"
+                  [clearable]="false">
+        </ng-select>
+        <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -25,19 +38,30 @@
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Responsable:</label>
-        <select  class="form-control form-select">
-          <option value="">Seleccionar</option>
-          <option value="1">Juan perez</option>
-          <option value="2">Maria suarez</option>
-        </select>
+          <select  class="form-control form-select"
+            formControlName="ideIntegrante" [ngClass]="{'is-invalid': submitted && formData.get('ideIntegrante').errors}">
+            <option value>Seleccionar</option>
+            @for(persona of personasStateService.items();track $index){
+                <option value="{{persona.idePersona}}">
+                  {{persona.txtNombres}} {{persona.txtApellidos}}
+                   {{ persona.txtCargo ? ' (' + persona.txtCargo + ')' : '' }}
+                </option>
+            }
+                <!-- <option value="1">Juan perez</option>
+                <option value="2">Maria huaman</option> -->
+          </select>
+          <div *ngIf="submitted && formData.get('ideIntegrante').errors" class="invalid-feedback">
+              <span *ngIf="formData.get('ideIntegrante').errors.required">Colaborador es requerido.</span>
+          </div>
       </div>
     </div>
   </div>
-  <div class="row mb-3">
+  <div *ngIf="!flagTarea" class="row mb-3">
     <div class="col-md-4">
       <div class="form-group">
         <label for="">Fecha limite de presentacion:</label>
-        <input type="date" class="form-control">
+        <input type="date" class="form-control"
+          formControlName="fecLimitePresentacion" >
       </div>
     </div>
   </div>

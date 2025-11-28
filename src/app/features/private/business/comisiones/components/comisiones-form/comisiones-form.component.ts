@@ -31,6 +31,7 @@ export class ComisionesFormComponent {
 	private formBuilder = inject(FormBuilder);
 	private toastr = inject(ToastrService);
 	private spinner = inject(NgxSpinnerService);
+  readonly txtTabla: string = 'TMC_EQUIPO_TRABAJO'
   public tiposEquipoTrabajoStateService = inject(TiposEquipoTrabajoStateService)
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
   // public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
@@ -67,7 +68,6 @@ export class ComisionesFormComponent {
 	selectedFileName: string | null = null;
 
 	tamanioArchivo:number = environment.tamanioArchivoMB;
-
 
   ideEquipoTrabajo:number;
 	titleComponent:string;
@@ -124,7 +124,7 @@ export class ComisionesFormComponent {
 			this.idePagina = 1;
 		}else if(this.flagAction == 2){
 			this.idePagina = 1;
-		}else if(this.flagAction == 3) { // Modo CREAR
+		}else if(this.flagAction == 3) { // Modo VER
 			this.formData.disable();
 			this.idePagina = 3;
 		}

@@ -29,7 +29,8 @@ export class ArchivosFormModalComponent {
 	formData: FormGroup = this.formBuilder.group({
 		ideArchivo: [],
     ideTabla: [,[Validators.required]],
-    txtTabla: ['TMC_EQUIPO_TRABAJO'],
+    // txtTabla: ['TMC_EQUIPO_TRABAJO'],
+    txtTabla: [,[Validators.required]],
 		ideTipoDocumento: [,[Validators.required]],
 		txtTipoDocumentoOtro: [],
     txtArchivo: [],
@@ -54,6 +55,8 @@ export class ArchivosFormModalComponent {
 		//this.archivosStateService.clearState();
 		this.listarTiposDocumentos();
 		this.formData.patchValue(this.archivo);
+    console.log(this.formData.value);
+
 	}
 
 	listarTiposDocumentos(){

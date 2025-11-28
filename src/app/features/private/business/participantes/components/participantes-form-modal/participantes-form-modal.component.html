@@ -1,6 +1,6 @@
-<form action="">
+<form [formGroup]="formData" (ngSubmit)="grabar()">
   <!-- <h4>participantes form</h4> -->
-   <div class="row mb-3">
+   <!-- <div class="row mb-3">
     <div class="col-md-4">
       <div class="form-group">
         <label for="" class="control-label">Tipo Participante:</label>
@@ -10,19 +10,30 @@
           <option value="2">Invitado</option>
         </select>
 
-        <!-- <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
+        <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
                     <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
-        </div> -->
+        </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  @if(flagInvitado){
    <div class="row mb-3">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="" class="control-label">Oficina / Dependencia:</label>
-         <select  class="form-control form-select" >
-          <option value="">Seleccionar</option>
-        </select>
+        <ng-select
+                  [items]="oficinasStateService.items()"
+                  bindLabel="txtOficina"
+                  bindValue="ideOficina"
+                  placeholder="Seleccionar Oficina / Dependencia"
+                  formControlName="ideOficina"
+                  [ngClass]="{'is-invalid': submitted && formData.get('ideOficina')?.invalid}"
+                  [searchable]="true"
+                  [clearable]="false">
+        </ng-select>
+        <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
+                    <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
+        </div>
 
         <!-- <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
                     <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
@@ -34,9 +45,15 @@
     <div class="col-md-12">
         <div class="form-group">
           <label for="" class="control-label">Colaborador:</label>
-          <select  class="form-control form-select">
-            <option value>Seleccionar</option>
-            <option value="1">Juan Perez</option>
+          <select  class="form-control form-select"
+            formControlName="ideColaborador" [ngClass]="{'is-invalid': submitted && formData.get('ideColaborador').errors}">
+            <option [ngValue]="null">Seleccionar</option>
+            @for(persona of personasStateService.items();track $index){
+                <option value="{{persona.idePersona}}">
+                  {{persona.txtNombres}} {{persona.txtApellidos}}
+                   {{ persona.txtCargo ? ' (' + persona.txtCargo + ')' : '' }}
+                </option>
+            }
           </select>
           <div *ngIf="submitted && formData.get('ideColaborador').errors" class="invalid-feedback">
               <span *ngIf="formData.get('ideColaborador').errors.required">Colaborador es requerido.</span>
@@ -49,13 +66,45 @@
       <div class="form-group">
         <label for="" class="control-label">Cargo desempeñado en la comision:</label>
         <input type="text" class="form-control" placeholder="Cargo desempeñado en la comision" autocomplete="off"
-          >
-        <!-- <div *ngIf="submitted && formData.get('txtCargoComite').errors" class="invalid-feedback">
+          formControlName="txtCargoComite" [ngClass]="{'is-invalid': submitted && formData.get('txtCargoComite').errors}">
+        <div *ngIf="submitted && formData.get('txtCargoComite').errors" class="invalid-feedback">
           <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en la comision es requerido</span>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
+  }@else{
+
+  <div class="row mb-3">
+    <div class="col-md-12">
+       <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 25%;">Oficina / Dependencia</th>
+              <th scope="col" style="width: 20%;">Colaborador</th>
+              <th scope="col" style="width: 20%;">Cargo Fijo ITP</th>
+              <th scope="col" style="width: 25%;">Cargo en comite</th>
+              <th scope="col" style="width: 10%;">Seleccionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(miembro of miembrosList; track $index ){
+            <tr>
+              <td>{{miembro.txtOficina}}</td>
+              <td>{{miembro.txtPersona}}</td>
+              <td>{{miembro.txtCargo}}</td>
+              <td>{{miembro.txtCargoComite}}</td>
+              <td>
+                <input type="checkbox" [ngValue]="miembro.checked">
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+    </div>
+  </div>
+  }
+
      <div class="row"  >
         <div class="modal-footer form-group">
             <div class="">

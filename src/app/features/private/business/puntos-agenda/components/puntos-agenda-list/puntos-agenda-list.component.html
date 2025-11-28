@@ -7,7 +7,7 @@
         </div>
         <div class="float-end" *ngIf="flagAction != 3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            (click)="crear(modalEntidad)">Agregar</button>
+            (click)="crear()">Agregar</button>
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
 <div class="row ">
   <div class="col-md-12">
     <!-- <h4>Puntos de agenda</h4> -->
-    <table class="table">
+    <table class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
       <thead>
         <tr>
           <th scope="col" style="width: 20%;">Tema de agenda</th>
@@ -25,25 +25,27 @@
         </tr>
       </thead>
       <tbody>
+        @for (item of lista; track $index) {
         <tr>
-          <td>tema de agenda</td>
-          <td>detalle</td>
+          <td>{{item.txtAgenda}}</td>
+          <td>{{item.txtDetalle}}</td>
           <td >
             <div class="dropdown" dropdown placement="bottom-right">
-              <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
                 aria-expanded="false">
                 Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(item,$index)"><i
                       class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
                 <li><a href="javascript: void(0);" class="dropdown-item"
-                    (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                    (click)="eliminar($index)"><i
                       class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
               </ul>
             </div>
           </td>
         </tr>
+      }
       </tbody>
     </table>
   </div>
@@ -58,7 +60,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
 	</div>
 	<div class="modal-body">
-		<!-- <app-integrantes-form-modal [modalRef]="modalRef" [integrante]="integrante" [flagAccion]="flagAccion" (onSave)="listar()"></app-integrantes-form-modal> -->
-     <app-puntos-agenda-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"></app-puntos-agenda-form-modal>
+     <app-puntos-agenda-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"  [puntoAgenda]="puntoAgenda"  (onSave)="load($event)"></app-puntos-agenda-form-modal>
 	</div>
 </ng-template>

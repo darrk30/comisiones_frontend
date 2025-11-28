@@ -7,7 +7,7 @@
         </div>
         <div class="float-end" *ngIf="flagAction != 3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            (click)="crear(modalEntidad)">Agregar</button>
+            (click)="crear()">Agregar</button>
         </div>
       </div>
     </div>
@@ -19,33 +19,36 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col" style="width: 40%;">Acuerdo</th>
-              <th scope="col" style="width: 30%;">Oficina responsable</th>
-              <th scope="col" style="width: 15%;">Fecha limite </th>
+              <th scope="col" style="width: 30%;">{{titulo}}</th>
+              <th scope="col" style="width: 20%;">Oficina responsable</th>
+              <th scope="col" style="width: 20%;">Personal</th>
+              <th *ngIf="!flagTarea" scope="col" style="width: 15%;">Fecha limite </th>
               <th scope="col" style="width: 15%;">Acciones</th>
             </tr>
           </thead>
           <tbody>
+            @for (item of lista; track $index) {
             <tr>
-              <td>acuerdo</td>
-              <td>oficina</td>
-              <td>fecha limite</td>
+              <td>{{item.txtAcuerdo}}</td>
+              <td>{{item.ideOficina}}-{{item?.txtOficina}}</td>
+              <td>{{item.ideIntegrante}}-{{item?.txtPersona}}</td>
+              <td *ngIf="!flagTarea">{{item.fecLimitePresentacion}}</td>
               <td>
                 <div class="dropdown" dropdown placement="bottom-right">
-                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
                     aria-expanded="false">
                     Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(item,$index)"><i
                           class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                    <li><a href="javascript: void(0);" class="dropdown-item"
-                        (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar($index)"><i
                           class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
                   </ul>
                 </div>
               </td>
             </tr>
+            }
           </tbody>
         </table>
       </div>
@@ -59,7 +62,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
 	</div>
 	<div class="modal-body">
-		<!-- <app-integrantes-form-modal [modalRef]="modalRef" [integrante]="integrante" [flagAccion]="flagAccion" (onSave)="listar()"></app-integrantes-form-modal> -->
-     <app-acuerdos-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"></app-acuerdos-form-modal>
+     <app-acuerdos-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion" [flagTarea]="flagTarea" [acuerdo]="acuerdo"  (onSave)="load($event)"></app-acuerdos-form-modal>
 	</div>
 </ng-template>

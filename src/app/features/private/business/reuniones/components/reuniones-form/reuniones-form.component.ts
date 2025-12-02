@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,7 @@ import { TiposSesionStateService } from '@/app/features/private/maintenance/tipo
 import { ReunionesStateService } from '../../services/reuniones-state.service';
 import { Reunion } from '../../data/reunion.model';
 import { ArchivosListComponent } from '../../../archivos/components/archivos-list/archivos-list.component';
+import { PuntoAgenda } from '../../../puntos-agenda/data/punto-agenda.model';
 
 @Component({
   selector: "app-reuniones-form",
@@ -41,13 +42,13 @@ export class ReunionesFormComponent {
   breadCrumbItems: Array<{}>;
 
   formData: FormGroup = this.formBuilder.group({
-    ideReunion: [],
+    ideReunion: [0],
     ideEquipoTrabajo: [],
     ideTipoSesion: [null, Validators.required],
     fecReunion: [null, Validators.required],
     txtCodigoActaReunion: [],
     txtAnio: [],
-    txtTema: ['', Validators.required],
+    txtTemaReunion: ['', Validators.required],
 
     // participantes: this.formBuilder.array([]),
     participantes: [],
@@ -59,7 +60,8 @@ export class ReunionesFormComponent {
   });
 
   participantes: any[] = [];
-  puntosAgenda: any[] = [];
+  // puntosAgenda: any[] = [];
+  puntosAgenda: PuntoAgenda[] = [];
   acuerdos: any[] = [];
   tareas: any[] = [];
 
@@ -79,6 +81,48 @@ export class ReunionesFormComponent {
     });
 
     this.ideReunion = Number(this.route.snapshot.paramMap.get("id"));
+
+    effect(() => {
+          const item = this.reunionesStateService.item();
+          console.log('registro-item: ',item);
+
+          if (item) {
+          //   console.log("Nuevo valor recibido:", item);
+          //   const datosTransformados = {
+          //     ...item,
+          //     fecSuscripcion: toDateInputValue(item.fecSuscripcion),
+          //     fecInicio: toDateInputValue(item.fecInicio),
+          //     fecFinalizacion: toDateInputValue(item.fecFinalizacion),
+          //     fecInicioRenovacion: toDateInputValue(item.fecInicioRenovacion),
+          //     fecFinRenovacion: toDateInputValue(item.fecFinRenovacion),
+          //   };
+            // this.formData.patchValue(datosTransformados);
+            this.formData.patchValue(item);
+
+            // this.puntosAgenda.splice(0)
+            this.puntosAgenda = []
+            this.puntosAgenda = item.agendas
+            this.participantes = []
+            this.participantes = item.integrantes
+
+            this.acuerdos = []
+            this.acuerdos = item.acuerdos.filter(item=> !item.flgTarea )
+            this.tareas = []
+            this.tareas = item.acuerdos.filter(item=> item.flgTarea )
+
+            // item?.agendas?.forEach(el => {
+            //   const puntoAgendaItem: PuntoAgenda = {
+            //     ideAgenda: el.ideAgenda,
+            //     ideReunion: el.ideReunion,
+            //     txtAgenda: el.txtAgenda,
+            //     txtDetalle: el.txtDetalle
+            //   }
+
+            //   this.puntosAgenda.push(puntoAgendaItem)
+            // });
+
+          }
+        });
   }
 
   ngOnInit(): void {
@@ -86,6 +130,8 @@ export class ReunionesFormComponent {
     this.breadCrumbItems = [{ label: this.titleComponent }];
 		this.reunionesStateService.clearState();
 		this.listarTiposSesion();
+
+    this.getReunion();
 
     if (this.flagAction == 1) {
       // Modo CREAR
@@ -108,20 +154,20 @@ export class ReunionesFormComponent {
 
     // this.formData.patchValue(limpio)
     if (this.formData.valid) {
-      const formDataClean = transformFormData(this.formData.getRawValue());
-      this.formData.get('acuerdos').setValue(this.acuerdos)
-      console.log('formDataClean: ',formDataClean);
+      // const formDataClean = transformFormData(this.formData.getRawValue());
+      // this.formData.get('acuerdos').setValue(this.acuerdos)
+      // console.log('formDataClean: ',formDataClean);
 
       const acuerdosTareas = [].concat(this.acuerdos, this.tareas)
 
       const ReunionRequest: Reunion = {
-        // ideReunion: null,
+        ideReunion: this.formData.get('ideReunion').value,
         ideEquipoTrabajo: 8, //
         ideTipoSesion: this.formData.get('ideTipoSesion').value,
         fecReunion: this.formData.get('fecReunion').value,
         txtCodigoActaReunion: null, //evaluar como se va generar
         txtAnio: null, //***** */
-        txtTemaReunion: this.formData.get('txtTema').value,
+        txtTemaReunion: this.formData.get('txtTemaReunion').value,
         // acuerdos: this.acuerdos,
         acuerdos: acuerdosTareas,
         integrantes: this.participantes,

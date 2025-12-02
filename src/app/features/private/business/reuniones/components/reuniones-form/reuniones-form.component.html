@@ -46,27 +46,39 @@
                         <label class="control-label">Tema de la Reunion:</label>
                         <!-- <input type="text" class="form-control" autocomplete="off" /> -->
                          <textarea  class="form-control"
-                          formControlName="txtTema" placeholder="Ingrese tema de Reunion" [ngClass]="{'is-invalid': submitted && formData.get('txtTema').errors}" ></textarea>
-                          <div *ngIf="submitted && formData.get('txtTema').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtTema').errors.required">Tema de Reunion es requerido.</span>
+                          formControlName="txtTemaReunion" placeholder="Ingrese tema de Reunion" [ngClass]="{'is-invalid': submitted && formData.get('txtTemaReunion').errors}" ></textarea>
+                          <div *ngIf="submitted && formData.get('txtTemaReunion').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('txtTemaReunion').errors.required">Tema de Reunion es requerido.</span>
                           </div>
                       </div>
                     </div>
                   </div>
 
                   <app-participantes-list
+                    [flagAction]="flagAction"
+                    [ideReunion]="ideReunion"
+                    [lista]="participantes"
                     (listChange)="onParticipantesChange($event)">
                   </app-participantes-list>
 
-                  <app-puntos-agenda-list [flagAction]="flagAction"
+                  <app-puntos-agenda-list
+                    [flagAction]="flagAction"
+                    [ideReunion]="ideReunion"
+                    [lista]="puntosAgenda"
                     (listChange)="onPuntosAgendaChange($event)">
                   </app-puntos-agenda-list>
 
-                  <app-acuerdos-list [flagTarea]="false"
+                  <app-acuerdos-list
+                    [flagTarea]="false"
+                    [ideReunion]="ideReunion"
+                    [lista]="acuerdos"
                     (listChange)="onAcuerdosChange($event)">
                   </app-acuerdos-list>
 
-                  <app-acuerdos-list [flagTarea]="true"
+                  <app-acuerdos-list
+                    [flagTarea]="true"
+                    [ideReunion]="ideReunion"
+                    [lista]="tareas"
                     (listChange)="onTareasChange($event)">
                   </app-acuerdos-list>
 

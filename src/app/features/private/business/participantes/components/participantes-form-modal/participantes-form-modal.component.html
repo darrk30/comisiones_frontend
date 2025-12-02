@@ -90,12 +90,12 @@
           <tbody>
             @for(miembro of miembrosList; track $index ){
             <tr>
-              <td>{{miembro.txtOficina}}</td>
-              <td>{{miembro.txtPersona}}</td>
-              <td>{{miembro.txtCargo}}</td>
+              <td>{{miembro.persona.txtOficina}}</td>
+              <td>{{miembro.persona.txtApellidos}}, {{miembro.persona.txtNombres}} </td>
+              <td>{{miembro.persona.txtCargo}}</td>
               <td>{{miembro.txtCargoComite}}</td>
               <td>
-                <input type="checkbox" [ngValue]="miembro.checked">
+                <input type="checkbox" [(ngModel)]="miembro.checked" [ngModelOptions]="{standalone: true}">
               </td>
             </tr>
             }

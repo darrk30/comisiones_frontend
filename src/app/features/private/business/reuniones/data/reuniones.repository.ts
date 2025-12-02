@@ -31,9 +31,10 @@ export class ReunionesRepository {
 
   update(id: number, entidad: Reunion): Observable<ReunionRpta> {
     entidad.ideReunion = id;
-    const body = new FormData();
-    appendFormData(body, entidad);
-    return this.http.put<ReunionRpta>(`${this.apiUrl}/${id}`, body);
+    // const body = new FormData();
+    // appendFormData(body, entidad);
+    // return this.http.put<ReunionRpta>(`${this.apiUrl}/${id}`, body);
+    return this.http.put<ReunionRpta>(`${this.apiUrl}/${id}`, entidad);
   }
 
   postForm(entidad: Reunion,id?: number){

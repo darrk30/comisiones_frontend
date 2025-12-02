@@ -17,18 +17,18 @@ export class PuntosAgendaFormModalComponent  {
   private formBuilder = inject(FormBuilder);
 
   @Input() puntoAgenda: PuntoAgenda = null;
-  @Input() flagAccion: number;
+  @Input() flagActionLocal: number;
 
   @Output() onSave = new EventEmitter<any>();
 
   ideAgenda: number | null = null;
 
   formData: FormGroup = this.formBuilder.group({
-    txtAgenda: [ '', Validators.required],
-    txtDetalle: [ '', Validators.required]
+    ideAgenda: [0],
+    ideReunion: [0],
+    txtAgenda: [ , Validators.required],
+    txtDetalle: [ , Validators.required]
   });
-
-  // formData!: FormGroup;
 
   submitted = false;
 
@@ -39,20 +39,27 @@ export class PuntosAgendaFormModalComponent  {
   //   detalle: [this.puntoAgenda?.txtDetalle || '', Validators.required]
   // });
     this.ideAgenda = (this.puntoAgenda? this.puntoAgenda.ideAgenda : 0)
+
 		// this.listarOficinas();
-    // if(this.flagAccion !== 1){
-		this.formData.patchValue(this.puntoAgenda);
-		if(this.flagAccion == 3) {
-			this.formData.disable();
-		}
+    // if(this.flagActionLocal==1){
+
     // }
+    if (this.flagActionLocal == 2) {
+      this.formData.patchValue(this.puntoAgenda);
+      // if (this.flagActionLocal == 3) {
+      //   this.formData.disable();
+      // }
+    }
   }
 
   grabar() {
     console.log(this.formData.value);
     console.log(this.ideAgenda);
 
-    if (this.formData.invalid) return;
+    if (this.formData.invalid){
+      this.submitted = true;
+      return;
+    }
 
     this.onSave.emit({
       ...this.formData.value,

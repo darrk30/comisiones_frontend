@@ -5,7 +5,11 @@
       <div class="form-group">
         <label for="">Detalle</label>
         <textarea type="text" class="form-control"
-          formControlName="txtAcuerdo" ></textarea>
+          formControlName="txtAcuerdo" [ngClass]="{'is-invalid': submitted && formData.get('txtAcuerdo')?.invalid}">
+        </textarea>
+        <div *ngIf="submitted && formData.get('txtAcuerdo').errors" class="invalid-feedback">
+          <span *ngIf="formData.get('txtAcuerdo').errors.required">Detalle es requerido.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -18,18 +22,18 @@
           <option value="1">OPPM</option>
           <option value="2">OA</option>
         </select> -->
-                <ng-select
-                  [items]="oficinasStateService.items()"
-                  bindLabel="txtOficina"
-                  bindValue="ideOficina"
-                  placeholder="Seleccionar Oficina / Dependencia"
-                  formControlName="ideOficina"
-                  [ngClass]="{'is-invalid': submitted && formData.get('ideOficina')?.invalid}"
-                  [searchable]="true"
-                  [clearable]="false">
+        <ng-select
+            [items]="oficinasStateService.items()"
+            bindLabel="txtOficina"
+            bindValue="ideOficina"
+            placeholder="Seleccionar Oficina / Dependencia"
+            formControlName="ideOficina"
+            [ngClass]="{'is-invalid': submitted && formData.get('ideOficina')?.invalid}"
+            [searchable]="true"
+            [clearable]="false">
         </ng-select>
         <div *ngIf="submitted && formData.get('ideOficina').errors" class="invalid-feedback">
-                    <span *ngIf="formData.get('ideOficina').errors.required">Oficina es requerido.</span>
+                    <span *ngIf="formData.get('ideOficina').errors.required">Responsables es requerido.</span>
         </div>
       </div>
     </div>
@@ -61,7 +65,10 @@
       <div class="form-group">
         <label for="">Fecha limite de presentacion:</label>
         <input type="date" class="form-control"
-          formControlName="fecLimitePresentacion" >
+          formControlName="fecLimitePresentacion" [ngClass]="{'is-invalid': !flagTarea && submitted && formData.get('fecLimitePresentacion').errors}">
+          <div *ngIf="!flagTarea && submitted && formData.get('fecLimitePresentacion').errors" class="invalid-feedback">
+              <span *ngIf="formData.get('fecLimitePresentacion').errors.required">Fecha limite de presentacion es requerido.</span>
+          </div>
       </div>
     </div>
   </div>

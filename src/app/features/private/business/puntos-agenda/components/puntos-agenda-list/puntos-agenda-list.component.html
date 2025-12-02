@@ -60,6 +60,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
 	</div>
 	<div class="modal-body">
-     <app-puntos-agenda-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion"  [puntoAgenda]="puntoAgenda"  (onSave)="load($event)"></app-puntos-agenda-form-modal>
+    <app-puntos-agenda-form-modal
+      [modalRef]="modalRef" [flagActionLocal]="flagActionLocal"  [puntoAgenda]="puntoAgenda"
+      (onSave)="load($event)"
+    ></app-puntos-agenda-form-modal>
 	</div>
 </ng-template>

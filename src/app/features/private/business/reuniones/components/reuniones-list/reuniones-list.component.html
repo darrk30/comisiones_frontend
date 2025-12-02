@@ -4,16 +4,28 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <form action="">
+          <form [formGroup]="formData" (ngSubmit)="buscar()">
               <div class="row mb-3">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="">Comision: </label>
-                    <select name="" id="" class="form-control form-select">
+                    <!-- <select  class="form-control form-select">
                       <option value="">Seleccionar</option>
                       <option value="1">Comite 1</option>
                       <option value="2">Comite 2</option>
-                    </select>
+                    </select> -->
+
+                    <ng-select
+                    formControlName="ideEquipoTrabajo"
+                    [items]="equiposTrabajoStateService.items()"
+                    bindLabel="txtEquipoTrabajo"
+                    bindValue="ideEquipoTrabajo"
+                    placeholder="Seleccionar"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [multiple]="true"
+                  >
+                  </ng-select>
                   </div>
                 </div>
               </div>
@@ -43,35 +55,42 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <table class="table">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
                 <thead>
                   <tr>
+                    <th scope="col" style="width: 5%;">Id</th>
                     <th scope="col" style="width: 20%;">Comision</th>
                     <th scope="col" style="width: 15%;">Nro Acta</th>
-                    <th scope="col" style="width: 30%;">Asunto general del Acta</th>
-                    <th scope="col" style="width: 20%;">Tipo </th>
+                    <th scope="col" style="width: 20%;">Asunto general del Acta</th>
+                    <th scope="col" style="width: 15%;">Tipo Sesion </th>
+                    <th scope="col" style="width: 10%;">Fecha y Hora </th>
                     <th scope="col" style="width: 15%;">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @for(reunion of reunionesFiltrados; track $index){
                   <tr>
-                    <td>comision</td>
-                    <td>nro acta</td>
-                    <td>tema reunion</td>
-                    <td>tipo</td>
+                    <td>{{reunion.ideReunion}}</td>
+                    <td>{{reunion.txtEquipoTrabajo}}</td>
+                    <td>{{reunion.txtCodigoActaReunion}}</td>
+                    <td>{{reunion.txtTemaReunion}}</td>
+                    <td>{{reunion.txtTipoSesion}}</td>
+                    <td>{{reunion.fecReunion | date:'yyyy-MM-dd  HH:mm'}}</td>
                     <td><div class="dropdown" dropdown placement="bottom-right">
-                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dropdownToggle aria-expanded="false">
                           Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(reunion)"><i
                                 class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(reunion.ideReunion)"><i
                                 class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
                         </ul>
                       </div>
                     </td>
                   </tr>
+                }
                 </tbody>
               </table>
             </div>

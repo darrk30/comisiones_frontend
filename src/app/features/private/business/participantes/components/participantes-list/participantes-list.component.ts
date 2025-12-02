@@ -29,7 +29,6 @@ export class ParticipantesListComponent  {
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
 
-  // modalRef?: BsModalRef;
   modalRef?: BsModalRef<ParticipantesFormModalComponent>;
   @ViewChild("modalEntidad", { static: false }) modalTemplate: any;
 
@@ -37,21 +36,20 @@ export class ParticipantesListComponent  {
   dtTrigger: Subject<void> = new Subject<any>();
 
   dtOptions: DataTables.Settings = {};
-  // @Input() flagInvitado:number;
-  flagInvitado:number;
+
+  @Input() ideReunion: number;
+  @Input() flagAction: number;
 
   @Output() listChange = new EventEmitter<any[]>();
-
-  // @Input() ideEquipoTrabajo: number;
-  @Input() flagAction:number;
 
   integrante: Integrante //participante
   tituloModal: string;
   titulo: string
-  // flagAction:number;
-  flagAccion:number;
+  flagActionLocal:number;
+  flagInvitado:number;
+  idxCurrent: number
 
-  lista: any[] = [];
+  @Input() lista: any[] = [];
 
   ngOnInit():void{
     this.inicializar()
@@ -74,13 +72,12 @@ export class ParticipantesListComponent  {
 
     this.flagInvitado = esInvitado
     this.inicializar()
-     // console.log('ideReunion: ',this.ideReunion);
      this.tituloModal = "Agregar "+ this.titulo;
      // let integrante: integrante ={
      //   ideReunion: 0,
      // }
      // this.integrante = integrante
-     this.flagAction = 1;
+     this.flagActionLocal = 1;
      this.modalRef = this.modalService.show(this.modalTemplate, {
        class: "md modal-lg",
        backdrop: "static",
@@ -105,53 +102,55 @@ export class ParticipantesListComponent  {
      console.log('flagAction',this.flagAction);
      console.log('list: ',this.lista);
 
-     if (this.flagAction == 1) {
+     if (this.flagActionLocal == 1) {
        const item = {
-         ideIntegrante: this.lista.length + 1,
-         // ideReunion: 0,
-         ideTabla: data.ideTabla,
-         txtIntegrante: data.txtIntegrante,
+         ideIntegrante: 0,
+         ideTabla:  this.ideReunion,
+         txtTabla: data.txtTabla,
          ideOficina: data.ideOficina,
          ideColaborador: parseInt(data.ideColaborador),
          ideCargo: data.ideCargo,
          txtCargoComite: data.txtCargoComite,
          flgInvitado: data.flgInvitado,
+         persona:{
+          txtOficina: data.persona.txtOficina,
+          txtApellidos: data.persona.txtApellidos,
+          txtNombres: data.persona.txtNombres,
+          txtCargo: data.persona.txtCargo
+          }
 
-         txtOficina: data.txtOficina,
-         txtPersona: data.txtPersona,
-         txtCargo: data.txtCargo
        };
 
        this.lista.push(item);
        this.emitirLista()
 
-     } else if (this.flagAction == 2) {
-       const idxItem = this.lista.findIndex(x=>x.ideintegrante == data.ideintegrante)
-       this.lista[idxItem] = data;
-
+     } else if (this.flagActionLocal == 2) {
+       this.lista[this.idxCurrent] = data;
        this.emitirLista()
-
      }
 
      this.modalRef?.hide();
    }
 
    loadItems(data: any[]){
+
+    this.lista = this.lista.filter(item=> item.flagInvitado)
     data.forEach(dataItem => {
-             const item = {
-         ideIntegrante: this.lista.length + 1,
-         // ideReunion: 0,
-         ideTabla: dataItem.ideTabla,
-         txtIntegrante: dataItem.txtIntegrante,
+        const item = {
+         ideIntegrante: 0,
+         ideTabla: this.ideReunion,
+         txtTabla: dataItem.txtTabla,
          ideOficina: dataItem.ideOficina,
          ideColaborador: dataItem.ideColaborador,
          ideCargo: dataItem.ideCargo,
          txtCargoComite: dataItem.txtCargoComite,
          flgInvitado: dataItem.flgInvitado,
-
-         txtOficina: dataItem.txtOficina,
-         txtPersona: dataItem.txtPersona,
-         txtCargo: dataItem.txtCargo
+          persona:{
+            txtOficina: dataItem.persona.txtOficina,
+            txtApellidos: dataItem.persona.txtApellidos,
+            txtNombres: dataItem.persona.txtNombres,
+            txtCargo: dataItem.persona.txtCargo
+          }
        };
 
        this.lista.push(item);

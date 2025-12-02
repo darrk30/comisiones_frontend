@@ -29,7 +29,7 @@ export class ArchivosListComponent {
 	public archivoStore = inject(ArchivoStore);
 
 	// @Input() ideEquipoTrabajo: number;
-	@Input() ideTabla: number;
+	@Input() ideTabla: number | 0;
 	@Input() txtTabla: string;
 	@Input() flagAction:number;
 
@@ -46,6 +46,7 @@ export class ArchivosListComponent {
 	flagAccion:number;
 
 	ngOnInit(): void {
+    this.ideTabla = this.ideTabla ?? 0;
 		this.dtOptions = dtOptionsData;
 		this.archivosStateService.clearState();
 		this.listar();
@@ -55,7 +56,7 @@ export class ArchivosListComponent {
 		// this.archivosStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
 		// 	this.rerender();
 		// });
-    this.archivosStateService.loadItemsByEquipoTrabajo(this.ideTabla).subscribe(() => {
+    this.archivosStateService.loadItemsByIdeTabla(this.ideTabla,this.txtTabla).subscribe(() => {
 			this.rerender();
 		});
 	}

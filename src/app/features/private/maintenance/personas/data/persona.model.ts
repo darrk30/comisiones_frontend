@@ -2,7 +2,9 @@ export interface Persona {
     idePersona,
     txtApellidos,
     txtNombres,
-    txtCargo
+    txtCargo,
+    txtOficina
+
 }
 
 export interface PersonaRpta {

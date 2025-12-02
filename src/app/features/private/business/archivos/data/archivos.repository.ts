@@ -18,7 +18,7 @@ export class ArchivosRepository {
 	}
 
   getAllByIdeTabla(ideTabla:number,txtTabla:string): Observable<ArchivoRpta> {
-		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivos-by-tabla/${ideTabla}`);
+		return this.http.get<ArchivoRpta>(`${this.apiUrl}/get-all-archivos-by-tabla/${ideTabla}/${txtTabla}`);
 	}
 
 	getAll(): Observable<ArchivoRpta> {

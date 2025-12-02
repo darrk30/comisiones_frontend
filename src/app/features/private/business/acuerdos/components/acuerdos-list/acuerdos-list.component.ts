@@ -29,12 +29,13 @@ export class AcuerdosListComponent  {
   modalRef?: BsModalRef<AcuerdosFormModalComponent>;
   @ViewChild("modalEntidad", { static: false }) modalTemplate: any;
 
-  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement: DataTableDirective;
   dtTrigger: Subject<void> = new Subject<any>();
 
   dtOptions: DataTables.Settings = {};
 
-  // @Input() ideEquipoTrabajo: number;
+  @Input() ideReunion: number;
   @Input() flagAction:number;
   @Input() flagTarea:number;
 
@@ -43,10 +44,11 @@ export class AcuerdosListComponent  {
   acuerdo: Acuerdo
   tituloModal: string;
   titulo: string;
-  // flagAction:number;
-  flagAccion:number;
+  flagActionLocal: number;
+  idxCurrent: number
 
-  lista: any[] = [];
+  // lista: any[] = [];
+  @Input() lista: any[] = [];
 
   ngOnInit():void{
     if(!this.flagTarea){
@@ -67,7 +69,7 @@ export class AcuerdosListComponent  {
     //   ideReunion: 0,
     // }
     // this.acuerdo = acuerdo
-    this.flagAction = 1;
+    this.flagActionLocal = 1;
     this.modalRef = this.modalService.show(this.modalTemplate, {
       class: "md modal-lg",
       backdrop: "static",
@@ -75,15 +77,16 @@ export class AcuerdosListComponent  {
     });
   }
 
-  editar(item: any) {
+  editar(item: any, idx:number) {
     this.tituloModal = "Editar "+this.titulo;
-    this.flagAction = 2;
+    this.flagActionLocal = 2;
     this.modalRef = this.modalService.show(this.modalTemplate, {
       class: "md modal-lg",
       backdrop: "static",
       keyboard: false,
     });
     this.acuerdo = item
+    this.idxCurrent = idx
   }
 
   load(data: any) {
@@ -92,28 +95,29 @@ export class AcuerdosListComponent  {
 
     console.log('list: ',this.lista);
 
-    if (this.flagAction == 1) {
+    if (this.flagActionLocal == 1) {
       const item = {
-        ideAcuerdo: this.lista.length + 1,
-        // ideReunion: 0,
+        ideAcuerdo: 0,  //this.lista.length + 1,
+        ideReunion: this.ideReunion,
         txtAcuerdo: data.txtAcuerdo,
         ideOficina: data.ideOficina,
         ideIntegrante: data.ideIntegrante,
         fecLimitePresentacion: data.fecLimitePresentacion,
         flgTarea: data.flgTarea,
-        txtOficina: data.txtOficina,
-        txtPersona: data.txtPersona,
+        persona: data.persona
+        // ,
+        // txtOficina: data.txtOficina,
+        // txtPersona: data.txtPersona,
       };
 
       this.lista.push(item);
       this.emitirLista()
 
-    } else if (this.flagAction == 2) {
-      const idxItem = this.lista.findIndex(x=>x.ideAcuerdo == data.ideAcuerdo)
-      this.lista[idxItem] = data;
-
+    } else if (this.flagActionLocal == 2) {
+      // const idxItem = this.lista.findIndex(x=>x.ideAcuerdo == data.ideAcuerdo)
+      // this.lista[idxItem] = data;
+      this.lista[this.idxCurrent] = data;
       this.emitirLista()
-
     }
 
     this.modalRef?.hide();

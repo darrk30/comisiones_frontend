@@ -39,7 +39,6 @@ export class ReunionesListComponent {
   originalReuniones: Reunion[] = [];
   reunionesFiltrados: Reunion[] = [];
   breadCrumbItems: Array<{}>;
-  // aniosSuscripcion:any;
 
   formData: FormGroup = this.formBuilder.group({
     ideEquipoTrabajo: [""],
@@ -52,9 +51,8 @@ export class ReunionesListComponent {
     ];
     this.dtOptions = dtOptionsData;
     this.equiposTrabajoStateService.clearState();
-    // this.listar();
-    // this.listarEquiposTrabajo();
-    // this.listarMotivosEquipoTrabajo()
+    this.listar();
+    this.listarEquiposTrabajo();
   }
 
   listar(){
@@ -72,6 +70,10 @@ export class ReunionesListComponent {
 			this.rerender();
 			this.spinner.hide();
 		});
+	}
+
+  listarEquiposTrabajo(){
+		this.equiposTrabajoStateService.loadItems();
 	}
 
   ngAfterViewInit(): void {
@@ -102,23 +104,36 @@ export class ReunionesListComponent {
     ]);
   }
 
-    eliminar(ideReunion:number){
-      Swal.fire({
-        title: '¿Estás seguro de eliminar el registro?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#34c38f',
-        cancelButtonColor: '#f46a6a',
-        confirmButtonText: 'Si, Eliminar',
-        cancelButtonText: 'Cancelar'
-      }).then(result => {
-        if (result.value) {
-          this.spinner.show();
-          this.reunionesStateService.deleteItem(ideReunion).subscribe(() => {
-            this.listar();
-          });
-        }
-      });
-    }
+  eliminar(ideReunion:number){
+    Swal.fire({
+      title: '¿Estás seguro de eliminar el registro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.value) {
+        this.spinner.show();
+        this.reunionesStateService.deleteItem(ideReunion).subscribe(() => {
+          this.listar();
+        });
+      }
+    });
+  }
+
+  buscar(){
+    this.reunionesFiltrados = this.originalReuniones.filter(c=>{
+      const equiposTrabajoSeleccionado: number[] = this.formData.get('ideEquipoTrabajo').value
+
+      const coincideEquipoTrabajo = equiposTrabajoSeleccionado.length === 0 ||
+				c.ideEquipoTrabajo && equiposTrabajoSeleccionado.includes(c.ideEquipoTrabajo);
+
+        return coincideEquipoTrabajo
+    })
+
+		this.rerender();
+  }
 
 }

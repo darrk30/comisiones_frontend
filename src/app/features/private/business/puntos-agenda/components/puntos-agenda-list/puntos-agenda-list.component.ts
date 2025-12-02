@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, input, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -37,22 +37,21 @@ export class PuntosAgendaListComponent {
 
   dtOptions: DataTables.Settings = {};
 
-  // @Input() ideReunion: number;
+  @Input() ideReunion: number;
   @Input() flagAction: number;
 
-  // @Output() puntosAgenda: PuntoAgenda[] = []
-  @Output() listChange = new EventEmitter<any[]>();
+  @Output() listChange = new EventEmitter<PuntoAgenda[]>();
 
   puntoAgenda: PuntoAgenda;
   tituloModal: string;
-  flagAccion: number;
+  flagActionLocal: number;
+  idxCurrent: number
 
-  lista: any[] = []; //******/
+  @Input() lista: PuntoAgenda[] = [];
 
   ngOnInit(): void {
-    // this.listar();
-    // this.flagAccion = this.flagAction
     console.log(this.flagAction);
+    console.log(this.flagActionLocal);
   }
 
   private emitirLista() {
@@ -66,7 +65,7 @@ export class PuntosAgendaListComponent {
     //   ideReunion: 0,
     // }
     // this.puntoAgenda = puntoAgenda
-    this.flagAction = 1;
+    this.flagActionLocal = 1;
     this.modalRef = this.modalService.show(this.modalTemplate, {
       class: "md modal-lg",
       backdrop: "static",
@@ -74,26 +73,28 @@ export class PuntosAgendaListComponent {
     });
   }
 
-  editar(item: any) {
+  editar(item: any, idx: number) {
     this.tituloModal = "Editar punto de agenda";
-    this.flagAction = 2;
+    this.flagActionLocal = 2;
     this.modalRef = this.modalService.show(this.modalTemplate, {
       class: "md modal-lg",
       backdrop: "static",
       keyboard: false,
     });
     this.puntoAgenda = item
+    this.idxCurrent = idx
   }
 
   load(data: any) {
-    console.log("data:", data);
-    console.log('flagAction',this.flagAction);
-
+    console.log("data: ", data);
+    console.log('flagAction: ',this.flagAction);
+    console.log('flagActionLocal: ',this.flagActionLocal);
     console.log('list: ',this.lista);
 
-    if (this.flagAction == 1) {
-      const item = {
-        ideAgenda: this.lista.length + 1,
+    if (this.flagActionLocal == 1) {
+      const item:PuntoAgenda = {
+        ideAgenda: 0, //data.ideAgenda,//this.lista.length + 1,
+        ideReunion: this.ideReunion, //data.ideReunion,
         txtAgenda: data.txtAgenda,
         txtDetalle: data.txtDetalle,
       };
@@ -101,12 +102,11 @@ export class PuntosAgendaListComponent {
       this.lista.push(item);
       this.emitirLista()
 
-    } else if (this.flagAction == 2) {
-      const idxItem = this.lista.findIndex(x=>x.ideAgenda == data.ideAgenda)
-      this.lista[idxItem] = data;
-
+    } else if (this.flagActionLocal == 2) {
+      // const idxItem = this.lista.findIndex(x=>x.ideAgenda == data.ideAgenda)
+      // const idxItem = this.lista.findIndex(x=>x.ideAgenda == data.ideAgenda)
+      this.lista[this.idxCurrent] = data;
       this.emitirLista()
-
     }
 
     this.modalRef?.hide();

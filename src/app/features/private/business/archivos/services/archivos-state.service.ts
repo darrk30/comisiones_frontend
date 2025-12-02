@@ -47,7 +47,7 @@ export class ArchivosStateService {
         return subject.asObservable();
     }
 
-    loadItemsByIdeTabla(ideTabla:number,txtTabla): Observable<void> {
+    loadItemsByIdeTabla(ideTabla:number,txtTabla: string): Observable<void> {
         const subject = new Subject<void>();
         this.spinner.show();
         this.archivosRepository.getAllByIdeTabla(ideTabla,txtTabla).subscribe({

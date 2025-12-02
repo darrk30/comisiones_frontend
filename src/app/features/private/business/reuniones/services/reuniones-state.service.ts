@@ -67,8 +67,8 @@ export class ReunionesStateService {
             next: (data:ReunionRpta) => {
                 //this.loadItems();
                 console.log(data)
-                this.router.navigate([`negocio/comision/editar/${data.dato.ideReunion}`]);
-                this.toastr.success('Equipo de Trabajo registrado correctamente');
+                this.router.navigate([`negocio/reunion/editar/${data.dato.ideReunion}`]);
+                this.toastr.success('Reunion registrado correctamente');
                 this.spinner.hide();
                 if (onSuccess) onSuccess();
             },

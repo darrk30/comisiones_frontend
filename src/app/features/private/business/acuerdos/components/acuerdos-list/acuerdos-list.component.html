@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="float-start">
-          <h5>{{titulo}}</h5>
+          <h5>{{titulo}}s</h5>
         </div>
         <div class="float-end" *ngIf="flagAction != 3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
@@ -30,9 +30,9 @@
             @for (item of lista; track $index) {
             <tr>
               <td>{{item.txtAcuerdo}}</td>
-              <td>{{item.ideOficina}}-{{item?.txtOficina}}</td>
-              <td>{{item.ideIntegrante}}-{{item?.txtPersona}}</td>
-              <td *ngIf="!flagTarea">{{item.fecLimitePresentacion}}</td>
+              <td>{{item.ideOficina}}-{{item?.persona.txtOficina}}</td>
+              <td>{{item.ideIntegrante}}-{{item?.persona.txtApellidos}}, {{item?.persona.txtNombres}}</td>
+              <td *ngIf="!flagTarea">{{item.fecLimitePresentacion | date:'yyyy-MM-dd'}}</td>
               <td>
                 <div class="dropdown" dropdown placement="bottom-right">
                   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" dropdownToggle
@@ -62,6 +62,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
 	</div>
 	<div class="modal-body">
-     <app-acuerdos-form-modal [modalRef]="modalRef" [flagAccion]="flagAccion" [flagTarea]="flagTarea" [acuerdo]="acuerdo"  (onSave)="load($event)"></app-acuerdos-form-modal>
+     <app-acuerdos-form-modal
+        [modalRef]="modalRef" [flagActionLocal]="flagActionLocal" [flagTarea]="flagTarea" [acuerdo]="acuerdo"
+        (onSave)="load($event)" >
+      </app-acuerdos-form-modal>
+
 	</div>
 </ng-template>

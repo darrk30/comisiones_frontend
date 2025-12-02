@@ -34,9 +34,9 @@
           <tbody>
             @for (item of lista; track $index) {
             <tr>
-              <td>{{item.ideOficina}}-{{item?.txtOficina}}</td>
-              <td>{{item.ideColaborador}}-{{item?.txtPersona}}</td>
-              <td>{{item?.txtCargo ?? ''}}</td>
+              <td>{{item.ideOficina}}-{{item?.persona.txtOficina}}</td>
+              <td>{{item.ideColaborador}}-{{item?.persona.txtApellidos }}, {{item?.persona.txtNombres}}</td>
+              <td>{{item?.persona.txtCargo ?? ''}}</td>
               <td>{{item.flgInvitado?'Invitado':'Miembro'}}</td>
               <td>{{item.txtCargoComite}}</td>
               <td>
@@ -69,7 +69,8 @@
 	</div>
 	<div class="modal-body">
     <app-participantes-form-modal
-      [modalRef]="modalRef" [flagInvitado]="flagInvitado" [integrante]="integrante"
-      [flagAccion]="flagAccion" (onSave)="load($event)" (onSaveList)="loadItems($event)"></app-participantes-form-modal>
+      [modalRef]="modalRef" [flagActionLocal]="flagActionLocal" [flagInvitado]="flagInvitado" [integrante]="integrante"
+      (onSave)="load($event)" (onSaveList)="loadItems($event)"
+    ></app-participantes-form-modal>
 	</div>
 </ng-template>

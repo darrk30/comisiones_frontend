@@ -6,6 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Acuerdo } from '../../data/acuerdo.modal';
 import { OficinasStateService } from '@/app/features/private/maintenance/oficinas/services/oficinas-state.service';
 import { PersonasStateService } from '@/app/features/private/maintenance/personas/services/personas-state.service';
+import { fechasValidator } from '../../../comisiones/validator/fechas.validator';
+import { toDateInputValue } from '@/app/core/helpers/clean-form';
+import { Persona } from '@/app/features/private/maintenance/personas/data/persona.model';
 
 @Component({
   selector: "app-acuerdos-form-modal",
@@ -27,7 +30,7 @@ export class AcuerdosFormModalComponent {
   public personasStateService = inject(PersonasStateService);
 
   @Input() acuerdo: Acuerdo = null;
-  @Input() flagAccion: number;
+  @Input() flagActionLocal: number;
   @Input() flagTarea: number;
 
   @Output() onSave = new EventEmitter<any>();
@@ -35,13 +38,13 @@ export class AcuerdosFormModalComponent {
   ideAcuerdo: number | null = null;
 
   formData: FormGroup = this.formBuilder.group({
-    ideAcuerdo: [],
-    ideReunion: [],
-    txtAcuerdo: [],
-    ideOficina: [],
-    ideIntegrante: [],
+    ideAcuerdo: [0],
+    ideReunion: [0],
+    txtAcuerdo: [, [Validators.required]],
+    ideOficina: [, [Validators.required]],
+    ideIntegrante: [, [Validators.required]],
     fecLimitePresentacion: [],
-    flgTarea: []
+    flgTarea: [],
   });
 
   submitted = false;
@@ -55,11 +58,21 @@ export class AcuerdosFormModalComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.acuerdo);
+    console.log("acuerdo: ", this.acuerdo);
     this.ideAcuerdo = this.acuerdo ? this.acuerdo.ideAcuerdo : 0;
     this.listarOficinas();
-    this.formData.patchValue(this.acuerdo);
-    if (this.flagAccion == 3) {
+
+    if (this.flagActionLocal == 2) {
+      const acuerdoTransformado = {
+        ...this.acuerdo,
+        fecLimitePresentacion: toDateInputValue(
+          this.acuerdo.fecLimitePresentacion
+        ),
+      };
+      this.formData.patchValue(acuerdoTransformado);
+    }
+
+    if (this.flagActionLocal == 3) {
       this.formData.disable();
     }
   }
@@ -68,28 +81,43 @@ export class AcuerdosFormModalComponent {
     console.log(this.formData.value);
     console.log(this.ideAcuerdo);
 
-    if (this.formData.invalid) return;
+    if (this.formData.invalid) {
+      this.submitted = true;
+      return;
+    }
 
     this.onSave.emit({
       ...this.formData.value,
       ideAcuerdo: this.ideAcuerdo,
       flgTarea: this.flagTarea,
-      txtOficina: this.getTxtOficina(this.formData.get("ideOficina").value),
-      txtPersona: this.getTxtPersona(this.formData.get("ideIntegrante").value),
+      // txtOficina: this.getTxtOficina(this.formData.get("ideOficina").value),
+      // txtPersona: this.getTxtPersona(this.formData.get("ideIntegrante").value),
+      persona: this.getPersona(this.formData.get("ideIntegrante").value),
     });
-
+    this.formData.reset();
     this.submitted = true;
     this.modalService?.hide();
   }
 
   private getTxtOficina(id: number): string {
-    const item = this.oficinasStateService.items().find((x) => x.ideOficina === id);
+    const item = this.oficinasStateService
+      .items()
+      .find((x) => x.ideOficina === id);
     return item?.txtOficina ?? "";
   }
 
   private getTxtPersona(idePersona: number): string {
-    const item = this.personasStateService.items().find(x => x.idePersona == idePersona);
-    return (item?.txtApellidos + ', '+ item?.txtNombres );
+    const item = this.personasStateService
+      .items()
+      .find((x) => x.idePersona == idePersona);
+    return item?.txtApellidos + ", " + item?.txtNombres;
+  }
+
+  private getPersona(idePersona: number): Persona {
+    const item = this.personasStateService
+      .items()
+      .find((x) => x.idePersona == idePersona);
+    return item;
   }
 
   get form() {

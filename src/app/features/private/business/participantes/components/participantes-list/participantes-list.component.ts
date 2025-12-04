@@ -39,6 +39,7 @@ export class ParticipantesListComponent  {
 
   @Input() ideReunion: number;
   @Input() flagAction: number;
+  @Input() ideEquipoTrabajo: number ;
 
   @Output() listChange = new EventEmitter<any[]>();
 
@@ -86,17 +87,6 @@ export class ParticipantesListComponent  {
 
   }
 
-  //  editar(item: any) {
-  //    this.tituloModal = "Editar "+this.titulo;
-  //    this.flagAction = 2;
-  //    this.modalRef = this.modalService.show(this.modalTemplate, {
-  //      class: "md modal-lg",
-  //      backdrop: "static",
-  //      keyboard: false,
-  //    });
-  //    this.integrante = item
-  //  }
-
    load(data: any) {
      console.log("data:", data);
      console.log('flagAction',this.flagAction);
@@ -113,10 +103,10 @@ export class ParticipantesListComponent  {
          txtCargoComite: data.txtCargoComite,
          flgInvitado: data.flgInvitado,
          persona:{
-          txtOficina: data.persona.txtOficina,
-          txtApellidos: data.persona.txtApellidos,
-          txtNombres: data.persona.txtNombres,
-          txtCargo: data.persona.txtCargo
+          txtOficina: data?.persona?.txtOficina ?? '',
+          txtApellidos: data?.persona?.txtApellidos ?? '',
+          txtNombres: data?.persona?.txtNombres ?? '',
+          txtCargo: data?.persona?.txtCargo ?? ''
           }
 
        };
@@ -133,8 +123,8 @@ export class ParticipantesListComponent  {
    }
 
    loadItems(data: any[]){
+    this.lista = this.lista.filter(item=> item.flgInvitado)
 
-    this.lista = this.lista.filter(item=> item.flagInvitado)
     data.forEach(dataItem => {
         const item = {
          ideIntegrante: 0,

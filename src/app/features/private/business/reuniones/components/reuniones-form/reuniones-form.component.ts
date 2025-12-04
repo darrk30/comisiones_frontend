@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,6 +16,8 @@ import { ReunionesStateService } from '../../services/reuniones-state.service';
 import { Reunion } from '../../data/reunion.model';
 import { ArchivosListComponent } from '../../../archivos/components/archivos-list/archivos-list.component';
 import { PuntoAgenda } from '../../../puntos-agenda/data/punto-agenda.model';
+import { ReunionStore } from '../../services/reunion-store';
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "app-reuniones-form",
@@ -38,6 +40,7 @@ export class ReunionesFormComponent {
 
   public tiposSesionStateService = inject(TiposSesionStateService)
   public reunionesStateService = inject(ReunionesStateService)
+  public reunionStore = inject(ReunionStore);
 
   breadCrumbItems: Array<{}>;
 
@@ -49,7 +52,6 @@ export class ReunionesFormComponent {
     txtCodigoActaReunion: [],
     txtAnio: [],
     txtTemaReunion: ['', Validators.required],
-
     // participantes: this.formBuilder.array([]),
     participantes: [],
     puntosAgenda: [],
@@ -60,7 +62,6 @@ export class ReunionesFormComponent {
   });
 
   participantes: any[] = [];
-  // puntosAgenda: any[] = [];
   puntosAgenda: PuntoAgenda[] = [];
   acuerdos: any[] = [];
   tareas: any[] = [];
@@ -68,6 +69,8 @@ export class ReunionesFormComponent {
   submitted = false;
   fileError: boolean = false;
   selectedFileName: string | null = null;
+
+  ideEquipoTrabajo: number
 
   ideReunion: number;
   titleComponent: string;
@@ -82,47 +85,31 @@ export class ReunionesFormComponent {
 
     this.ideReunion = Number(this.route.snapshot.paramMap.get("id"));
 
-    effect(() => {
-          const item = this.reunionesStateService.item();
-          console.log('registro-item: ',item);
+    if (this.flagAction == 1) {
+      this.ideEquipoTrabajo = Number(this.route.snapshot.paramMap.get("idet"));
+    } else if (this.flagAction == 2) {
+      effect(() => {
+        const item = this.reunionesStateService.item();
+        // console.log("edit-item: ", item);
 
-          if (item) {
-          //   console.log("Nuevo valor recibido:", item);
-          //   const datosTransformados = {
-          //     ...item,
-          //     fecSuscripcion: toDateInputValue(item.fecSuscripcion),
-          //     fecInicio: toDateInputValue(item.fecInicio),
-          //     fecFinalizacion: toDateInputValue(item.fecFinalizacion),
-          //     fecInicioRenovacion: toDateInputValue(item.fecInicioRenovacion),
-          //     fecFinRenovacion: toDateInputValue(item.fecFinRenovacion),
-          //   };
-            // this.formData.patchValue(datosTransformados);
-            this.formData.patchValue(item);
+        if (item) {
+          this.ideEquipoTrabajo = item.ideEquipoTrabajo;
+          this.formData.patchValue(item);
+          console.log("form-ini: ", this.formData.value);
 
-            // this.puntosAgenda.splice(0)
-            this.puntosAgenda = []
-            this.puntosAgenda = item.agendas
-            this.participantes = []
-            this.participantes = item.integrantes
+          this.puntosAgenda = [];
+          this.puntosAgenda = item.agendas;
+          this.participantes = [];
+          this.participantes = item.integrantes;
 
-            this.acuerdos = []
-            this.acuerdos = item.acuerdos.filter(item=> !item.flgTarea )
-            this.tareas = []
-            this.tareas = item.acuerdos.filter(item=> item.flgTarea )
+          this.acuerdos = [];
+          this.acuerdos = item.acuerdos.filter((item) => !item.flgTarea);
+          this.tareas = [];
+          this.tareas = item.acuerdos.filter((item) => item.flgTarea);
+        }
+      });
+    }
 
-            // item?.agendas?.forEach(el => {
-            //   const puntoAgendaItem: PuntoAgenda = {
-            //     ideAgenda: el.ideAgenda,
-            //     ideReunion: el.ideReunion,
-            //     txtAgenda: el.txtAgenda,
-            //     txtDetalle: el.txtDetalle
-            //   }
-
-            //   this.puntosAgenda.push(puntoAgendaItem)
-            // });
-
-          }
-        });
   }
 
   ngOnInit(): void {
@@ -152,36 +139,41 @@ export class ReunionesFormComponent {
     const limpio = limpiarCamposVacios(raw);
     console.log('raw: ',raw);
 
-    // this.formData.patchValue(limpio)
     if (this.formData.valid) {
-      // const formDataClean = transformFormData(this.formData.getRawValue());
-      // this.formData.get('acuerdos').setValue(this.acuerdos)
-      // console.log('formDataClean: ',formDataClean);
 
       const acuerdosTareas = [].concat(this.acuerdos, this.tareas)
 
       const ReunionRequest: Reunion = {
         ideReunion: this.formData.get('ideReunion').value,
-        ideEquipoTrabajo: 8, //
+        ideEquipoTrabajo: this.ideEquipoTrabajo, //
         ideTipoSesion: this.formData.get('ideTipoSesion').value,
         fecReunion: this.formData.get('fecReunion').value,
-        txtCodigoActaReunion: null, //evaluar como se va generar
-        txtAnio: null, //***** */
+        txtCodigoActaReunion: this.formData.get('txtCodigoActaReunion').value,
+        txtAnio: this.formData.get('txtAnio').value, //checar
         txtTemaReunion: this.formData.get('txtTemaReunion').value,
-        // acuerdos: this.acuerdos,
         acuerdos: acuerdosTareas,
         integrantes: this.participantes,
-        // tareas: this.tareas,
         agendas: this.puntosAgenda
       }
 
       console.log('ReunionRequest: ',ReunionRequest);
-      // this.reunionesStateService.postForm(formDataClean,this.formData.get("ideReunion").value);
       this.reunionesStateService.postForm(ReunionRequest,this.formData.get("ideReunion").value);
 
     }
 
     this.submitted = true;
+  }
+
+  descargarActa() {
+    const id = this.formData.get('ideReunion').value;
+    this.reunionStore.descargarById(id).subscribe({
+      next: (blob) => {
+        saveAs(blob, `${this.formData.get('txtCodigoActaReunion').value}.pdf`);
+      },
+      error: (error) => {
+        console.error('Error al descargar el PDF', error);
+      }
+    });
   }
 
   onParticipantesChange(lista: any[]) {

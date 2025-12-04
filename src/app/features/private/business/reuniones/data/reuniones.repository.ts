@@ -1,5 +1,5 @@
 import { environment } from '@/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -52,5 +52,19 @@ export class ReunionesRepository {
   descargar(uuid: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/descargar/${uuid}`, { responseType: 'blob' });
   }
+
+  // descargarById(id: number): Observable<Blob> {
+	// 	return this.http.get(`${this.apiUrl}/descargar-acta/${id}`, { responseType: 'blob' });
+	// }
+
+
+//  descargarById(id: number): Observable<Blob> {
+// 		return this.http.get(`${this.apiUrl}/acta/${id}/pdf`, { responseType: 'blob' });
+// 	}
+
+ descargarById(id: number): Observable<HttpResponse<Blob>> {
+		return this.http.get(`${this.apiUrl}/acta/${id}/pdf`, { observe:'response', responseType: 'blob'
+    });
+	}
 
 }

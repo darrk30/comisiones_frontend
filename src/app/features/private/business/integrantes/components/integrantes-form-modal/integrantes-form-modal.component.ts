@@ -41,6 +41,7 @@ export class IntegrantesFormModalComponent {
     ideColaborador: [],
     ideCargo: [],
     txtCargoComite: [],
+    flgSecretarioComite: [false],
     flgInvitado: [false]
 	});
 

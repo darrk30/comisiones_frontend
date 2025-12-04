@@ -6,7 +6,7 @@ import { ComisionesFormComponent } from './components/comisiones-form/comisiones
 const routes: Routes = [
  {
       path: "",
-      component: ComisionesListComponent
+      component: ComisionesListComponent,
       // canActivate: [AdminGuard]
 
     },

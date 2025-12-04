@@ -9,13 +9,16 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="">Comision: </label>
-                    <!-- <select  class="form-control form-select">
-                      <option value="">Seleccionar</option>
-                      <option value="1">Comite 1</option>
-                      <option value="2">Comite 2</option>
-                    </select> -->
+                    <select  class="form-control form-select"
+                      formControlName="ideEquipoTrabajo">
+                      <!-- <option [ngValue]="null">Seleccionar</option> -->
+                      <option value>Seleccionar</option>
+                      @for(equipoTrabajo of equiposTrabajoStateService.items();track $index ){
+                        <option value="{{equipoTrabajo.ideEquipoTrabajo}}">{{equipoTrabajo.txtEquipoTrabajo}}</option>
+                      }
+                    </select>
 
-                    <ng-select
+                    <!-- <ng-select
                     formControlName="ideEquipoTrabajo"
                     [items]="equiposTrabajoStateService.items()"
                     bindLabel="txtEquipoTrabajo"
@@ -24,8 +27,8 @@
                     [searchable]="true"
                     [clearable]="true"
                     [multiple]="true"
-                  >
-                  </ng-select>
+                    >
+                  </ng-select> -->
                   </div>
                 </div>
               </div>
@@ -56,7 +59,7 @@
           <div class="row">
             <div class="col-md-12">
               <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
+                class="table align-middle table-wrap table-hover dt-responsive wrap w-100" >
                 <thead>
                   <tr>
                     <th scope="col" style="width: 5%;">Id</th>
@@ -84,6 +87,8 @@
                         <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
                           <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(reunion)"><i
                                 class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="descargarActa(reunion)"><i
+                                class="fas fa-file-alt text-info me-1"></i>Descargar</a></li>
                           <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(reunion.ideReunion)"><i
                                 class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
                         </ul>

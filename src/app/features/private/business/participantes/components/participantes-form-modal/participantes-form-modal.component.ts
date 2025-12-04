@@ -31,6 +31,7 @@ export class ParticipantesFormModalComponent {
   public integrantesStateService = inject(IntegrantesStateService);
 
   @Input() integrante: Integrante = null;
+  @Input() ideEquipoTrabajo: number ;
   @Input() flagActionLocal: number;
   @Input() flagInvitado: boolean;
 
@@ -80,7 +81,7 @@ export class ParticipantesFormModalComponent {
   }
 
   listarMiembros() {
-    this.integrantesStateService.loadItemsByEquipoTrabajo(8).subscribe(() => {
+    this.integrantesStateService.loadItemsByEquipoTrabajo(this.ideEquipoTrabajo).subscribe(() => {
       const items = this.integrantesStateService.items();
 
       this.miembrosList = items.map((item) => ({
@@ -98,6 +99,12 @@ export class ParticipantesFormModalComponent {
 
       console.log("miembrosList: ", this.miembrosList);
     });
+  }
+
+  marcarTodos(checked: boolean){
+    this.miembrosList.forEach((item)=>{
+      item.checked = checked
+    })
   }
 
   grabar() {

@@ -11,7 +11,7 @@ const routes: Routes = [
 
     },
     {
-      path: "crear",
+      path: "crear/:idet", // id: ideEquipoTrabajo
       component: ReunionesFormComponent ,
       data: { title: 'REUNION - REGISTRAR', flagAction: 1 },
             // canActivate: [AdminGuard]

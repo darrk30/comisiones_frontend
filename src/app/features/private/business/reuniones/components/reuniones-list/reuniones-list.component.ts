@@ -132,13 +132,12 @@ export class ReunionesListComponent {
         const contentDisposition = response.headers.get("Content-Disposition");
         let fileName = `ACTA-${reunion.txtCodigoActaReunion}-${reunion.txtAnio}-ITP/GTP.pdf`;
         // console.log(contentDisposition);
-
-        if (contentDisposition) {
-          const match = contentDisposition.match(/filename="?([^"]+)"?/);
-          if (match && match.length > 1) {
-            fileName = match[1];
-          }
-        }
+        // if (contentDisposition) {
+        //   const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        //   if (match && match.length > 1) {
+        //     fileName = match[1];
+        //   }
+        // }
 
         saveAs(blob, fileName);
       },

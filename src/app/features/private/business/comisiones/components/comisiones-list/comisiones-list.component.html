@@ -84,7 +84,8 @@
                 class="table align-middle table-nowrap table-hover dt-responsive nowrap w-100">
                 <thead>
                   <tr>
-                    <th scope="col" style="width: 25% !important;">Comision</th>
+                    <th scope="col" style="width: 5% !important;">Id</th>
+                    <th scope="col" style="width: 20% !important;">Comision</th>
                     <th scope="col" style="width: 15% !important;">Motivo</th>
                     <th scope="col" style="width: 20% !important;">Tipo de Comision</th>
                     <th scope="col" style="width: 10% !important;">Fecha Inicio</th>
@@ -98,6 +99,7 @@
                   @for(equipoTrabajo of equiposTrabajoFiltrados; track $index){
                   <tr>
                     <!-- <td class="wrap-columna-convenio">Comision</td> -->
+                    <td>{{equipoTrabajo.ideEquipoTrabajo}}</td>
                     <td>{{equipoTrabajo.txtEquipoTrabajo}}</td>
                     <td>{{equipoTrabajo.motivoEquipoTrabajo.txtMotivoEquipoTrabajo}}</td>
                     <td>{{equipoTrabajo.tipoEquipoTrabajo.txtTipoEquipoTrabajo}}</td>

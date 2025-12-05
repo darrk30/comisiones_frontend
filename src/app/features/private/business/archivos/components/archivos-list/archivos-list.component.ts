@@ -33,8 +33,6 @@ export class ArchivosListComponent {
 	@Input() txtTabla: string;
 	@Input() flagAction:number;
 
-
-
 	modalRef?: BsModalRef;
 	@ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 	dtTrigger: Subject<void> = new Subject<any>();
@@ -144,7 +142,9 @@ export class ArchivosListComponent {
 		const id = archivo.ideArchivo;
 		this.archivoStore.descargarById(id).subscribe({
 			next: (blob) => {
-				saveAs(blob, `${archivo.uuid}.pdf`);
+				// saveAs(blob, `${archivo.uuid}.pdf`);
+        const filename = archivo.txtArchivo ?? 'archivo.pdf'
+				saveAs(blob, `${archivo.txtArchivo}`);
 			},
 			error: (error) => {
 				console.error('Error al descargar el PDF', error);

@@ -68,6 +68,7 @@ export class ArchivosFormModalComponent {
 			//const nuevoPerfil: Perfil = this.formData.value;
 
 			const formDataTransformed = transformFormData(this.formData.getRawValue());
+      console.log('formDataTransformed: ',formDataTransformed);
 
       this.archivosStateService.postForm(formDataTransformed,this.formData.get('ideArchivo').value?this.formData.get('ideArchivo').value:null, () => {
 				this.modalService?.hide();

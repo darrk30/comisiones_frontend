@@ -15,17 +15,14 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { ReunionStore } from '../../services/reunion-store';
 import { saveAs } from "file-saver";
+import { PagetitleComponent } from '@/app/shared/components/pagetitle/pagetitle.component';
 
 @Component({
   selector: "app-reuniones-list",
   standalone: true,
   imports: [
-    DataTablesModule,
-    BsDropdownModule,
-    CommonModule,
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
+    DataTablesModule,BsDropdownModule,CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,
+    PagetitleComponent
   ],
   templateUrl: "./reuniones-list.component.html",
   styleUrl: "./reuniones-list.component.css",
@@ -58,8 +55,8 @@ export class ReunionesListComponent {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: "Lista de comisiones" },
-      { label: "comisiones", active: true },
+      { label: "Lista de Reuniones" },
+      { label: "Reuniones", active: true },
     ];
     this.dtOptions = dtOptionsData;
     this.equiposTrabajoStateService.clearState();
@@ -115,6 +112,7 @@ export class ReunionesListComponent {
       this.toastr.error("Seleccione un Equipo de Trabajo");
       return;
     }
+
     this.router.navigate([`negocio/reunion/crear/${this.ideEquipoTrabajo}`]);
   }
 

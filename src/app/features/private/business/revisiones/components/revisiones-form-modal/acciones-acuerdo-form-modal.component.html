@@ -1,0 +1,70 @@
+<form [formGroup]="formData" (ngSubmit)="grabar()">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="">Comision:</label>
+        <input type="text" class="form-control" formControlName="txtEquipoTrabajo" >
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="">Acta:</label>
+        <input type="text" class="form-control" formControlName="txtCodigoActaReunion" >
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="">Acuerdo:</label>
+        <input type="text" class="form-control" formControlName="txtAcuerdo" >
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="">Accion Realizada:</label>
+        <textarea type="text" class="form-control" formControlName="txtAccionRealizada"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label required-label">Adjuntar archivo </label>
+        <div class="custom-file-container">
+          <input  class="form-control" type="file" id="fileInput"
+            (change)="onFileSelected($event)"
+            hidden>
+
+          <button *ngIf="false" type="button" class="btn btn-success"
+            (click)="descargar()"><i class="fas fa-download me-1"></i></button>
+
+          <button  type="button" class="btn btn-danger"
+            (click)="triggerFileInput()">Seleccionar archivo</button>
+
+          <span  class="file-name ms-2">{{ selectedFileName || 'Ningún archivo seleccionado'}}</span>
+
+          <!-- <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
+            <span *ngIf="formData.get('archivo').errors.required">El archivo es requerido.</span>
+            <span *ngIf="formData.get('archivo').errors.formatoInvalido">El archivo debe ser formato PDF.</span>
+            <span *ngIf="formData.get('archivo').errors.tamanoInvalido">El archivo debe tener un tamaño entre 0 y
+              {{tamanioArchivo}} MB.</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <hr> -->
+
+  <div class="row"  >
+        <div class="modal-footer form-group">
+            <div class="">
+                <button type="submit" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</form>

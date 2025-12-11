@@ -14,6 +14,11 @@ const routes: Routes = [
 		loadChildren: () => import('./reuniones/reuniones.module').then(m => m.ReunionesModule),
 		canActivate: []
 	},
+  {
+		path: 'revision',
+		loadChildren: () => import('./revisiones/revisiones.module').then(m => m.RevisionesModule),
+		canActivate: []
+	},
 ];
 
 @NgModule({

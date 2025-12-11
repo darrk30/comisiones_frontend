@@ -18,6 +18,10 @@ export class ReunionesRepository {
     return this.http.get<ReunionRpta>(`${this.apiUrl}`);
   }
 
+  getAllByIdeEquipoTrabajo(ideEquipoTrabajo): Observable<ReunionRpta> {
+    return this.http.get<ReunionRpta>(`${this.apiUrl}/get-all-reuniones-by-equipo-trabajo/${ideEquipoTrabajo}`);
+  }
+
   getBydId(id: number): Observable<ReunionRpta> {
     return this.http.get<ReunionRpta>(`${this.apiUrl}/${id}`);
   }

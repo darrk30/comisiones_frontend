@@ -4,16 +4,16 @@ import { ToastrService } from 'ngx-toastr';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { Reunion, ReunionRpta } from '../data/reunion.model';
-import { ReunionesRepository } from '../data/reuniones.repository';
+import { Acuerdo, AcuerdoRpta } from '../data/acuerdo.modal';
+import { AcuerdosRepository } from '../data/acuerdos.repository';
 
 @Injectable({ providedIn: 'root' })
-export class ReunionesStateService {
-    items = signal<Reunion[]>([]);
-    item = signal<Reunion | null>(null);
+export class AcuerdosStateService {
+    items = signal<Acuerdo[]>([]);
+    item = signal<Acuerdo | null>(null);
 
     constructor(
-        private reunionesRepository: ReunionesRepository,
+        private reunionesRepository: AcuerdosRepository,
         private spinner: NgxSpinnerService,
         private toastr: ToastrService,
         private paginationService: PaginationService,
@@ -31,7 +31,7 @@ export class ReunionesStateService {
         const subject = new Subject<void>();
         this.spinner.show();
         this.reunionesRepository.getAll().subscribe({
-            next: (data:ReunionRpta) => {
+            next: (data:AcuerdoRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();
                 subject.next();
@@ -46,11 +46,11 @@ export class ReunionesStateService {
         return subject.asObservable();
     }
 
-    loadItemsByEquipoTrabajo(ideEquipoTrabajo: number): Observable<void> {
+    loadItemsByFilter(ideEquipoTrabajo,ideReunion,txtTemaReunion ,ideEstadoTiempo): Observable<void> {
         const subject = new Subject<void>();
         this.spinner.show();
-        this.reunionesRepository.getAllByIdeEquipoTrabajo(ideEquipoTrabajo).subscribe({
-            next: (data:ReunionRpta) => {
+        this.reunionesRepository.getAllByFilter(ideEquipoTrabajo, ideReunion, txtTemaReunion,ideEstadoTiempo).subscribe({
+            next: (data:AcuerdoRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();
                 subject.next();
@@ -80,31 +80,31 @@ export class ReunionesStateService {
         });
     }
 
-    addItem(item: Reunion, onSuccess?: () => void) {
+    addItem(item: Acuerdo, onSuccess?: () => void) {
         this.spinner.show();
         this.reunionesRepository.create(item).subscribe({
-            next: (data:ReunionRpta) => {
+            next: (data:AcuerdoRpta) => {
                 //this.loadItems();
                 console.log(data)
-                this.router.navigate([`negocio/reunion/editar/${data.dato.ideReunion}`]);
-                this.toastr.success('Reunion registrado correctamente');
+                this.router.navigate([`negocio/reunion/editar/${data.dato.ideAcuerdo}`]);
+                this.toastr.success('Acuerdo registrado correctamente');
                 this.spinner.hide();
                 if (onSuccess) onSuccess();
             },
             error: () => {
-                this.toastr.error('Error al registrar el Reunion');
+                this.toastr.error('Error al registrar el Acuerdo');
                 this.spinner.hide();
             }
         });
     }
 
-    updateItem(id: number, item: Reunion, onSuccess?: (updated?: Reunion) => void) {
+    updateItem(id: number, item: Acuerdo, onSuccess?: (updated?: Acuerdo) => void) {
         this.spinner.show();
         this.reunionesRepository.update(id, item).subscribe({
-            next: (updated: ReunionRpta) => {
+            next: (updated: AcuerdoRpta) => {
                 //this.loadItems();
 
-                this.toastr.success('Reunion actualizado correctamente');
+                this.toastr.success('Acuerdo actualizado correctamente');
                 this.spinner.hide();
 
                 this.loadItemById(id);
@@ -112,13 +112,13 @@ export class ReunionesStateService {
                 if (onSuccess) onSuccess(updated.dato);
             },
             error: () => {
-                this.toastr.error('Error al actualizar el Reunion');
+                this.toastr.error('Error al actualizar el Acuerdo');
                 this.spinner.hide();
             }
         });
     }
 
-    postForm(item: Reunion, id?: number, onSuccess?: (updated?: Reunion) => void){
+    postForm(item: Acuerdo, id?: number, onSuccess?: (updated?: Acuerdo) => void){
         if(id){
             this.updateItem(id, item, onSuccess)
         }else{
@@ -132,13 +132,13 @@ export class ReunionesStateService {
         this.reunionesRepository.delete(id).subscribe({
             next: () => {
                 //this.loadItems();
-                this.toastr.success('Reunion eliminado correctamente');
+                this.toastr.success('Acuerdo eliminado correctamente');
                 this.spinner.hide();
                 subject.next();
                 subject.complete();
             },
             error: () => {
-                this.toastr.error('Error al eliminar el Reunion');
+                this.toastr.error('Error al eliminar el Acuerdo');
                 this.spinner.hide();
             }
         });

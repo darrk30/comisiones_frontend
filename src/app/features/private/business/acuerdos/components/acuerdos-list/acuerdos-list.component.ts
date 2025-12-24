@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Acuerdo } from '../../data/acuerdo.modal';
+import { Acuerdo } from '../../data/acuerdo.model';
 import Swal from 'sweetalert2';
 
 @Component({

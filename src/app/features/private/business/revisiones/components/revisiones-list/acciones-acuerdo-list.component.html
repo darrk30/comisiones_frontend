@@ -22,16 +22,14 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="">Acta de Reunion:</label>
-              <ng-select
-               formControlName="ideReunion"
-               [items]="reunionesStateService.items()"
-               bindLabel="txtCodigoActaReunion"
-               bindValue="ideReunion"
-               placeholder="Seleccionar"
-               [searchable]="true"
-               [clearable]="true"
-               [multiple]="false"
-              >
+              <ng-select formControlName="ideReunion" [items]="reunionesStateService.items()" bindValue="ideReunion"
+                placeholder="Seleccionar" [searchable]="true" [clearable]="true" [multiple]="false">
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.txtCodigoActaReunion }} - {{ item.txtAnio }}
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                  {{ item.txtCodigoActaReunion }} - {{ item.txtAnio }}
+                </ng-template>
               </ng-select>
             </div>
           </div>
@@ -84,30 +82,39 @@
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table align-middle table-wrap table-hover dt-responsive wrap w-100">
               <thead>
                 <tr>
+                  <!-- <th scope="col" style="width: 10%;">Id</th> -->
                   <th scope="col" style="width: 10%;">Comite</th>
-                  <th scope="col" style="width: 10%;">Acta</th>
-                  <th scope="col" style="width: 10%;">Asunto</th>
-                  <th scope="col" style="width: 10%;">Acuerdo</th>
+                  <th scope="col" style="width: 5%;">Acta</th>
+                  <th scope="col" style="width: 15%;">Asunto</th>
+                  <th scope="col" style="width: 20%;">Acuerdo</th>
                   <th scope="col" style="width: 10%;">Fecha Limite</th>
                   <th scope="col" style="width: 10%;">Oficina Resp.</th>
                   <th scope="col" style="width: 10%;">Responsable</th>
-                  <th scope="col" style="width: 10%;">Estado</th>
-                  <th scope="col" style="width: 10%;">Acciones</th>
+                  <th scope="col" style="width: 5%;">Estado</th>
+                  <th scope="col" style="width: 5%;">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <!-- @for(acuerdo of acuerdosFiltrados; track $index){ -->
                 <!-- <tr > -->
                 <tr *ngFor="let acuerdo of acuerdosFiltrados; let i = index">
+                  <!-- <td>{{acuerdo.id}}</td> -->
                   <td>{{acuerdo.txtEquipoTrabajo}}</td>
-                  <td>{{acuerdo.txtCodigoActaReunion}}</td>
+                  <td>{{acuerdo.txtCodigoActaReunion}}-{{acuerdo.txtAnio}}</td>
                   <td>{{acuerdo.txtTemaReunion}}</td>
                   <td>{{acuerdo.txtAcuerdo}}</td>
                   <td>{{acuerdo.fecLimitePresentacion | date:'yyyy-MM-dd'}}</td>
                   <td>{{acuerdo.txtOficina}}</td>
                   <td>{{acuerdo.txtNombresApellidos}}</td>
                   <td  >
+
+                    @if(acuerdo.estadoAtencion === 'Pendiente'){
                     <span class="badge badge-pill font-size-12" [ngStyle]="{'background-color':acuerdo.estadoTiempo.txtColorHex}">{{acuerdo.estadoTiempo.txtEstadoTiempo}} </span>
+                    }@else {
+                      <span class="badge badge-pill font-size-12 bg-success" >
+                        {{acuerdo.estadoAtencion}}
+                      </span>
+                    }
 
 
                   </td>
@@ -118,17 +125,18 @@
                         Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                       </button>
                       <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                        <li><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                            (click)="crear(modalEntidad)"><i class="fas fa-file-alt text-info me-1"></i>Registrar</a>
+
+                        <li *ngIf="acuerdo.estadoAtencion === 'Pendiente'"><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                            (click)="crear(modalEntidad,acuerdo)"><i class="fas fa-file-alt text-info me-1"></i>Registrar</a>
                         </li>
-                        <li><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                           (click)="editar()">
+                        <li *ngIf="acuerdo.estadoAtencion === 'Atendido'"><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                           (click)="editar(modalEntidad,acuerdo)">
                           <i class="fas fa-pencil-alt text-success me-1"></i>Editar</a>
                         </li>
-                        <li><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                        <li *ngIf="acuerdo.estadoAtencion === 'Pendiente'"><a href="javascript: void(0);" class="dropdown-item" (click)="notificar(acuerdo)"
                            ><i class="fas fa-envelope text-warning me-1"></i>Notificar</a>
                         </li>
-                        <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar()">
+                        <li *ngIf="acuerdo.estadoAtencion === 'Atendido'"><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(acuerdo)">
                           <i class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a>
                         </li>
                       </ul>
@@ -155,7 +163,7 @@
 	</div>
 	<div class="modal-body">
      <app-acciones-acuerdo-form-modal
-        [modalRef]="modalRef" [flagAction]="flagAction" [acuerdo]="acuerdo" >
+        [modalRef]="modalRef" [flagAction]="flagAction" [acuerdo]="acuerdo" (onSave)="onAccionRegistrada($event)" >
       </app-acciones-acuerdo-form-modal>
 	</div>
 </ng-template>

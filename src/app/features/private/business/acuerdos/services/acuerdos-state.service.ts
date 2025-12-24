@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { Acuerdo, AcuerdoRpta } from '../data/acuerdo.modal';
+import { Acuerdo, AcuerdoRpta, AcuerdosFiltro } from '../data/acuerdo.model';
 import { AcuerdosRepository } from '../data/acuerdos.repository';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,7 @@ export class AcuerdosStateService {
     item = signal<Acuerdo | null>(null);
 
     constructor(
-        private reunionesRepository: AcuerdosRepository,
+        private acuerdosRepository: AcuerdosRepository,
         private spinner: NgxSpinnerService,
         private toastr: ToastrService,
         private paginationService: PaginationService,
@@ -22,15 +22,28 @@ export class AcuerdosStateService {
         this.clearState();
     }
 
+   private filtros!: AcuerdosFiltro;
+
+  setFiltros(filtros: AcuerdosFiltro) {
+    this.filtros = filtros;
+  }
+
+  getFiltros(): AcuerdosFiltro | null {
+    return this.filtros ?? null;
+  }
+
+
     clearState() {
         this.item.set(null);
         this.items.set([]);
     }
 
+
+
     loadItems(): Observable<void> {
         const subject = new Subject<void>();
         this.spinner.show();
-        this.reunionesRepository.getAll().subscribe({
+        this.acuerdosRepository.getAll().subscribe({
             next: (data:AcuerdoRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();
@@ -49,7 +62,7 @@ export class AcuerdosStateService {
     loadItemsByFilter(ideEquipoTrabajo,ideReunion,txtTemaReunion ,ideEstadoTiempo): Observable<void> {
         const subject = new Subject<void>();
         this.spinner.show();
-        this.reunionesRepository.getAllByFilter(ideEquipoTrabajo, ideReunion, txtTemaReunion,ideEstadoTiempo).subscribe({
+        this.acuerdosRepository.getAllByFilter(ideEquipoTrabajo, ideReunion, txtTemaReunion,ideEstadoTiempo).subscribe({
             next: (data:AcuerdoRpta) => {
                 this.items.set(data.datos);
                 this.spinner.hide();
@@ -69,7 +82,7 @@ export class AcuerdosStateService {
       console.log("id:",id);
 
         this.spinner.show();
-        this.reunionesRepository.getBydId(id).subscribe({
+        this.acuerdosRepository.getBydId(id).subscribe({
             next: (data) => {
                 console.log('data:',data);
 
@@ -80,9 +93,30 @@ export class AcuerdosStateService {
         });
     }
 
+    loadItemByIdObs(id: number): Observable<void> {
+      console.log("id:",id);
+
+        this.spinner.show();
+        const subject = new Subject<void>();
+
+        this.acuerdosRepository.getBydId(id).subscribe({
+            next: (data) => {
+                console.log('data:',data);
+
+                this.item.set(data.dato);
+                this.spinner.hide();
+                subject.next();
+                subject.complete();
+            },
+            error: () => this.spinner.hide(),
+        });
+        return subject.asObservable();
+
+    }
+
     addItem(item: Acuerdo, onSuccess?: () => void) {
         this.spinner.show();
-        this.reunionesRepository.create(item).subscribe({
+        this.acuerdosRepository.create(item).subscribe({
             next: (data:AcuerdoRpta) => {
                 //this.loadItems();
                 console.log(data)
@@ -100,7 +134,7 @@ export class AcuerdosStateService {
 
     updateItem(id: number, item: Acuerdo, onSuccess?: (updated?: Acuerdo) => void) {
         this.spinner.show();
-        this.reunionesRepository.update(id, item).subscribe({
+        this.acuerdosRepository.update(id, item).subscribe({
             next: (updated: AcuerdoRpta) => {
                 //this.loadItems();
 
@@ -129,7 +163,7 @@ export class AcuerdosStateService {
     deleteItem(id: number): Observable<void> {
         this.spinner.show();
         const subject = new Subject<void>();
-        this.reunionesRepository.delete(id).subscribe({
+        this.acuerdosRepository.delete(id).subscribe({
             next: () => {
                 //this.loadItems();
                 this.toastr.success('Acuerdo eliminado correctamente');
@@ -139,6 +173,46 @@ export class AcuerdosStateService {
             },
             error: () => {
                 this.toastr.error('Error al eliminar el Acuerdo');
+                this.spinner.hide();
+            }
+        });
+
+        return subject.asObservable();
+    }
+
+    //  deleteAccionItem(id: number): Observable<void> {
+    //     this.spinner.show();
+    //     const subject = new Subject<void>();
+    //     this.acuerdosRepository.delete(id).subscribe({
+    //         next: () => {
+    //             //this.loadItems();
+    //             this.toastr.success('Acuerdo eliminado correctamente');
+    //             this.spinner.hide();
+    //             subject.next();
+    //             subject.complete();
+    //         },
+    //         error: () => {
+    //             this.toastr.error('Error al eliminar el Acuerdo');
+    //             this.spinner.hide();
+    //         }
+    //     });
+
+    //     return subject.asObservable();
+    // }
+
+    notificarItem(id: number): Observable<void> {
+        this.spinner.show();
+        const subject = new Subject<void>();
+        this.acuerdosRepository.notificar(id).subscribe({
+            next: () => {
+                //this.loadItems();
+                this.toastr.success('Acuerdo notificado correctamente');
+                this.spinner.hide();
+                subject.next();
+                subject.complete();
+            },
+            error: () => {
+                this.toastr.error('Error al notificar el Acuerdo');
                 this.spinner.hide();
             }
         });

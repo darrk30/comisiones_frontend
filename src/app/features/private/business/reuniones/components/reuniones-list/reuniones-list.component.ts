@@ -127,15 +127,14 @@ export class ReunionesListComponent {
         // console.log(response);
         const blob = response.body;
         // Capturar header Content-Disposition
-        const contentDisposition = response.headers.get("Content-Disposition");
-        let fileName = `ACTA-${reunion.txtCodigoActaReunion}-${reunion.txtAnio}-ITP/GTP.pdf`;
-        // console.log(contentDisposition);
-        // if (contentDisposition) {
-        //   const match = contentDisposition.match(/filename="?([^"]+)"?/);
-        //   if (match && match.length > 1) {
-        //     fileName = match[1];
-        //   }
-        // }
+
+        let fileName =  this.reunionStore.obtenerNombreArchivo(response.headers);
+
+        fileName = fileName
+        .replace(/^ACTA_N__/, "Acta N° ")
+        .replace(/_-_/g, "-")      // _-_ → -
+        .replace(/_\/_|%2F/gi, "/")// _/_ o %2F → /
+        .replace(/_/g, "");        // limpia _ sobrantes
 
         saveAs(blob, fileName);
       },
@@ -144,6 +143,9 @@ export class ReunionesListComponent {
       },
     });
   }
+
+
+
 
   eliminar(ideReunion: number) {
     Swal.fire({

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { appendFormData } from '@/app/core/helpers/clean-form';
-import { Acuerdo, AcuerdoRpta } from './acuerdo.modal';
+import { Acuerdo, AcuerdoRpta } from './acuerdo.model';
 
 @Injectable({providedIn: 'root'})
 export class AcuerdosRepository {
@@ -72,6 +72,15 @@ export class AcuerdosRepository {
   delete(id: number): Observable<AcuerdoRpta> {
     return this.http.delete<AcuerdoRpta>(`${this.apiUrl}/${id}`);
   }
+
+  notificar(id: number): Observable<AcuerdoRpta> {
+    const body = {ideAcuerdos: [id]}
+    return this.http.post<AcuerdoRpta>(`${this.apiUrl}/notificar`,body);
+  }
+
+  // notificar(id: number): Observable<AcuerdoRpta> {
+  //   return this.http.delete<AcuerdoRpta>(`${this.apiUrl}/notificar/${id}`);
+  // }
 
   descargar(uuid: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/descargar/${uuid}`, { responseType: 'blob' });

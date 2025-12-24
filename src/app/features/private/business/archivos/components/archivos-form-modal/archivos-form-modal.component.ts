@@ -151,4 +151,5 @@ export class ArchivosFormModalComponent {
 		  	this.fileError = true; // Marca error si no hay archivo seleccionado
 		}
 	}
+
 }

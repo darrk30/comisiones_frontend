@@ -3,7 +3,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Acuerdo } from '../../data/acuerdo.modal';
+import { Acuerdo } from '../../data/acuerdo.model';
 import { OficinasStateService } from '@/app/features/private/maintenance/oficinas/services/oficinas-state.service';
 import { PersonasStateService } from '@/app/features/private/maintenance/personas/services/personas-state.service';
 import { fechasValidator } from '../../../comisiones/validator/fechas.validator';

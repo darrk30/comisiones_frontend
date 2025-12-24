@@ -1,23 +1,32 @@
 <form [formGroup]="formData" (ngSubmit)="grabar()">
   <div class="row mb-3">
-    <div class="col-md-6">
+    <div class="col-md-9">
       <div class="form-group">
         <label for="">Comision:</label>
         <input type="text" class="form-control" formControlName="txtEquipoTrabajo" >
       </div>
     </div>
-    <div class="col-md-6">
+      <div class="col-md-3">
+      <div class="form-group">
+        <label for="">Acta:</label>
+        <input type="text" class="form-control" formControlName="txtActaReunion" >
+      </div>
+    </div>
+
+  </div>
+  <!-- <div class="row mb-3">
+    <div class="col-md-3">
       <div class="form-group">
         <label for="">Acta:</label>
         <input type="text" class="form-control" formControlName="txtCodigoActaReunion" >
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Acuerdo:</label>
-        <input type="text" class="form-control" formControlName="txtAcuerdo" >
+        <textarea type="text" class="form-control" formControlName="txtAcuerdo" ></textarea>
       </div>
     </div>
   </div>
@@ -25,7 +34,12 @@
     <div class="col-md-12">
       <div class="form-group">
         <label for="">Accion Realizada:</label>
-        <textarea type="text" class="form-control" formControlName="txtAccionRealizada"></textarea>
+        <textarea type="text" class="form-control" formControlName="txtAccionRealizada"
+        [ngClass]="{'is-invalid': submitted && formData.get('txtAccionRealizada')?.invalid}"
+        ></textarea>
+        <div *ngIf="submitted && formData.get('txtAccionRealizada').errors" class="invalid-feedback">
+          <span *ngIf="formData.get('txtAccionRealizada').errors.required">Accion realizada es requerido.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -38,9 +52,9 @@
         <div class="custom-file-container">
           <input  class="form-control" type="file" id="fileInput"
             (change)="onFileSelected($event)"
-            hidden>
+            [ngClass]="{'is-invalid': submitted && formData.get('archivo').errors}" hidden>
 
-          <button *ngIf="false" type="button" class="btn btn-success"
+          <button *ngIf="this.formData.get('ideArchivo').value!= null" type="button" class="btn btn-success"
             (click)="descargar()"><i class="fas fa-download me-1"></i></button>
 
           <button  type="button" class="btn btn-danger"
@@ -48,12 +62,12 @@
 
           <span  class="file-name ms-2">{{ selectedFileName || 'Ningún archivo seleccionado'}}</span>
 
-          <!-- <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
+          <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
             <span *ngIf="formData.get('archivo').errors.required">El archivo es requerido.</span>
             <span *ngIf="formData.get('archivo').errors.formatoInvalido">El archivo debe ser formato PDF.</span>
             <span *ngIf="formData.get('archivo').errors.tamanoInvalido">El archivo debe tener un tamaño entre 0 y
               {{tamanioArchivo}} MB.</span>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

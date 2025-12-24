@@ -16,13 +16,23 @@
                   </ng-template>
                   <section>
                     <div class="row mb-3">
-                      <div class="col-md-12">
+                      <div class="col-md-8">
                         <div class="form-group">
-                          <label for="" class="control-label">Nombre de Comision</label>
+                          <label for="" class="control-label">Nombre de Comision:</label>
                           <input type="text" class="form-control" placeholder="Ingrese nombre de la comision" autocomplete="off"
                             formControlName="txtEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('txtEquipoTrabajo').errors}" >
                           <div *ngIf="submitted && formData.get('txtEquipoTrabajo').errors" class="invalid-feedback">
                             <span *ngIf="formData.get('txtEquipoTrabajo').errors.required" >Nombre de comision es requerido</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="control-label">Siglas:</label>
+                          <input type="text" class="form-control" placeholder="Ingrese sigla de la comision" autocomplete="off"
+                            formControlName="txtSigla" [ngClass]="{'is-invalid': submitted && formData.get('txtSigla').errors}" >
+                          <div *ngIf="submitted && formData.get('txtSigla').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('txtSigla').errors.required" >Sigla de comision es requerido</span>
                           </div>
                         </div>
                       </div>
@@ -98,6 +108,20 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="control-label">Nro Resolucion:</label>
+                          <input class="form-control" placeholder="Ingrese Resolucion" type="text" autocomplete="off"
+                            formControlName="txtResolucion" [ngClass]="{'is-invalid': submitted && formData.get('txtResolucion').errors}"/>
+                          <div *ngIf="submitted && formData.get('txtResolucion').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('txtResolucion').errors.required">Resolucion es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row mb-3">
                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="control-label">Fecha Inicio:</label>

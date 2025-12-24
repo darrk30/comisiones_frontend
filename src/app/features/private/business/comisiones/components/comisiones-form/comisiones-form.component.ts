@@ -121,6 +121,23 @@ export class ComisionesFormComponent {
     this.listarEstadosComision()
 		this.getEquipoTrabajo();
 
+    this.formData.get('ideMotivoEquipoTrabajo').valueChanges.subscribe((value)=>{
+      console.log(value);
+      const motivo = Number(value);
+      const control = this.formData.get('fecFinalizacion');
+      if (motivo === 2) { // Permanente
+        control?.disable({ emitEvent: false });
+        control.setValue(null)
+        control.clearValidators()
+      } else {
+        control?.enable({ emitEvent: false });
+        control?.setValidators(Validators.required);
+        control.setValue(null)
+      }
+      control.updateValueAndValidity({ emitEvent: false });
+      control.markAsUntouched()
+    })
+
 		if (this.flagAction == 1) { // Modo CREAR
 			this.formData.get('archivo')?.addValidators(Validators.required);
 			this.idePagina = 1;

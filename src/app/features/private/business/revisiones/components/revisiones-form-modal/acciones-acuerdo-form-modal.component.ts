@@ -83,7 +83,7 @@ export class AccionesAcuerdoFormModalComponent {
        this.formData.get("ideAcuerdo").setValue(this.accionAcuerdo.ideAcuerdo);
 
        this.formData.get("txtAccionRealizada").setValue(this.accionAcuerdo.txtAccionRealizada);
-       this.formData.get("archivo").setValue(this.accionAcuerdo.archivo);
+      //  this.formData.get("archivo").setValue(this.accionAcuerdo.archivo);
        this.formData.get("txtArchivo").setValue(this.accionAcuerdo.archivo.txtArchivo);
        this.formData.get("ideArchivo").setValue(this.accionAcuerdo.archivo.ideArchivo);
        this.formData.get("uuid").setValue(this.accionAcuerdo.archivo.uuid);

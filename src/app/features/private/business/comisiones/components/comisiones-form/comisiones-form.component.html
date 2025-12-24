@@ -110,11 +110,11 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="control-label">Nro Resolucion:</label>
+                          <label class="control-label">Tipo y Nro documento de Aprobacion:</label>
                           <input class="form-control" placeholder="Ingrese Resolucion" type="text" autocomplete="off"
                             formControlName="txtResolucion" [ngClass]="{'is-invalid': submitted && formData.get('txtResolucion').errors}"/>
                           <div *ngIf="submitted && formData.get('txtResolucion').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtResolucion').errors.required">Resolucion es requerido.</span>
+                            <span *ngIf="formData.get('txtResolucion').errors.required">Tipo y Nro documento de Aprobacion es requerido.</span>
                           </div>
                         </div>
                       </div>

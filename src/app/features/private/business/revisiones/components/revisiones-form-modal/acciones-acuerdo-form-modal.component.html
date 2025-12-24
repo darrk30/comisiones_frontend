@@ -54,7 +54,7 @@
             (change)="onFileSelected($event)"
             [ngClass]="{'is-invalid': submitted && formData.get('archivo').errors}" hidden>
 
-          <button *ngIf="this.formData.get('ideArchivo').value!= null" type="button" class="btn btn-success"
+          <button *ngIf="formData.get('ideArchivo')?.value!= null" type="button" class="btn btn-success"
             (click)="descargar()"><i class="fas fa-download me-1"></i></button>
 
           <button  type="button" class="btn btn-danger"

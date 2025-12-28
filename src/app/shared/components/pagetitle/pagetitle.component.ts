@@ -31,7 +31,7 @@ export class PagetitleComponent implements OnInit {
 		}else if(this.idePagina == 3){
 			this.router.navigate([`reporte/comision`]);
 		}else if(this.idePagina == 7){
-			this.router.navigate([`reporte/reunion`]);
+			this.router.navigate([`negocio/reunion`]);
 		}else if(this.idePagina == 4){
 			this.router.navigate([`mantenimiento/institucion`]);
 		}else{

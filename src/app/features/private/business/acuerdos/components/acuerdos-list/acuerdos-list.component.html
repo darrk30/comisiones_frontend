@@ -40,9 +40,9 @@
                     Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(item,$index)"><i
+                    <li  *ngIf="flagAction != 3"><a href="javascript: void(0);" class="dropdown-item" (click)="editar(item,$index)"><i
                           class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                    <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar($index)"><i
+                    <li  *ngIf="flagAction != 3"><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar($index)"><i
                           class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
                   </ul>
                 </div>

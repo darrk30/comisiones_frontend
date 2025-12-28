@@ -10,9 +10,9 @@ export class EquipoTrabajoStore {
         return this.equipoTrabajosRepository.descargar(uuid);
     }
 
-    // descargarExcel(filterData: any): Observable<Blob> {
-    //     return this.equipoTrabajosRepository.descargarExcel(filterData);
-    // }
+    descargarExcel(filterData: any): Observable<Blob> {
+        return this.equipoTrabajosRepository.descargarExcel(filterData);
+    }
 
     // descargarExcelResumen(filterData: any): Observable<Blob> {
     //     return this.equipoTrabajosRepository.descargarExcelResumen(filterData);

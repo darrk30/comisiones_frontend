@@ -50,4 +50,19 @@ export class EquiposTrabajoRepository {
 		return this.http.get(`${this.apiUrl}/descargar/${uuid}`, { responseType: 'blob' });
 	}
 
+  descargarExcel(filterData: any): Observable<Blob> {
+		const urlParams = this.convertToURLParams(filterData);
+		return this.http.get(`${this.apiUrl}/exportar-excel?${urlParams}`, { responseType: 'blob' });
+	}
+
+  convertToURLParams(filterData: any){
+		const urlParams = Object.keys(filterData).map((key) => {
+				const value = filterData[key];
+				if (!Array.isArray(value))	return `${key}=${value}`;
+				return value.map((val)=>`${key}=${val}`).join("&");
+			}
+		).join("&");
+		return urlParams;
+	}
+
 }

@@ -10,13 +10,27 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="">Comision:</label>
-              <select  class="form-control form-select"
+              <!-- <select  class="form-control form-select"
                 formControlName="ideEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('ideEquipoTrabajo').errors}">
                 <option value="">Seleccionar</option>
                 @for(equipoTrabajo of equiposTrabajoStateService.items();track $index ){
                   <option value="{{equipoTrabajo.ideEquipoTrabajo}}">{{equipoTrabajo.txtEquipoTrabajo}}</option>
                 }
-              </select>
+              </select> -->
+              <ng-select
+                    formControlName="ideEquipoTrabajo"
+                    [items]="equiposTrabajoStateService.items()"
+                    bindLabel="txtEquipoTrabajo"
+                    bindValue="ideEquipoTrabajo"
+                    placeholder="Seleccionar"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [multiple]="false"
+                    >
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <span class="wrap-columna"> {{item.txtEquipoTrabajo}} </span>
+                    </ng-template>
+                  </ng-select>
             </div>
           </div>
           <div class="col-md-3">
@@ -127,8 +141,6 @@
                         {{acuerdo.estadoAtencion}}
                       </span>
                     }
-
-
                   </td>
                   <td>
                     <div class="dropdown" dropdown placement="bottom-right">
@@ -137,20 +149,37 @@
                         Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                       </button>
                       <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-
+                        <!-- @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE','COMISION_ROL_SECRETARIO'].includes(currentRol)){ -->
+                        @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE'].includes(currentRol)){
                         <li *ngIf="acuerdo.estadoAtencion === 'Pendiente'"><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                             (click)="crear(modalEntidad,acuerdo)"><i class="fas fa-file-alt text-info me-1"></i>Registrar</a>
                         </li>
+                        }
+                        <!-- @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE','COMISION_ROL_SECRETARIO'].includes(currentRol)){ -->
+                        @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE'].includes(currentRol)){
                         <li *ngIf="acuerdo.estadoAtencion === 'Atendido'"><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                            (click)="editar(modalEntidad,acuerdo)">
                           <i class="fas fa-pencil-alt text-success me-1"></i>Editar</a>
                         </li>
+                        }
+                        <!-- @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_GESTOR','COMISION_ROL_ALTA_DIRECCION'].includes(currentRol)){ -->
+                        @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_GESTOR','COMISION_ROL_ALTA_DIRECCION','COMISION_ROL_SECRETARIO',].includes(currentRol)){
+                        <li *ngIf="acuerdo.estadoAtencion === 'Atendido'"><a href="javascript: void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                           (click)="ver(modalEntidad,acuerdo)">
+                          <i class="fas fa-eye text-success me-1"></i>Ver</a>
+                        </li>
+                        }
+                        @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_SECRETARIO'].includes(currentRol)){
                         <li *ngIf="acuerdo.estadoAtencion === 'Pendiente'"><a href="javascript: void(0);" class="dropdown-item" (click)="notificar(acuerdo)"
                            ><i class="fas fa-envelope text-warning me-1"></i>Notificar</a>
                         </li>
+                        }
+                        <!-- @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE','COMISION_ROL_SECRETARIO'].includes(currentRol)){ -->
+                        @if(['COMISION_ROL_ADMINISTRADOR','COMISION_ROL_PARTICIPANTE'].includes(currentRol)){
                         <li *ngIf="acuerdo.estadoAtencion === 'Atendido'"><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(acuerdo)">
                           <i class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a>
                         </li>
+                        }
                       </ul>
                     </div>
                   </td>
@@ -175,7 +204,7 @@
 	</div>
 	<div class="modal-body">
      <app-acciones-acuerdo-form-modal
-        [modalRef]="modalRef" [flagAction]="flagAction" [acuerdo]="acuerdo" (onSave)="onAccionRegistrada($event)" >
+        [modalRef]="modalRef" [flagAction]="flagAction" [acuerdo]="acuerdo" [currentRol]="currentRol" (onSave)="onAccionRegistrada($event)" >
       </app-acciones-acuerdo-form-modal>
 	</div>
 </ng-template>

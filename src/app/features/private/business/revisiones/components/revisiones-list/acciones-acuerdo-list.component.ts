@@ -19,6 +19,7 @@ import { AcuerdosStateService } from '../../../acuerdos/services/acuerdos-state.
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { AccionesAcuerdoStateService } from '../../services/acciones-acuerdo-state.service';
+import { GlobalService } from '@/app/core/services/global.service';
 
 @Component({
   selector: "app-revisiones-list",
@@ -49,6 +50,7 @@ export class AccionesAcuerdoListComponent {
   public estadosTiempoStateService = inject(EstadosTiempoStateService);
   public acuerdosStateService = inject(AcuerdosStateService);
   public accionesAcuerdoStateService = inject(AccionesAcuerdoStateService);
+  public globalService = inject(GlobalService)
 
   modalRef?: BsModalRef;
   @ViewChild(DataTableDirective, { static: false })
@@ -61,7 +63,7 @@ export class AccionesAcuerdoListComponent {
   breadCrumbItems: Array<{}>;
 
   formData: FormGroup = this.formBuilder.group({
-    ideEquipoTrabajo: [""],
+    ideEquipoTrabajo: [null],
     ideReunion: [null],
     txtTemaReunion: [""],
     ideEstadoTiempo: [""],
@@ -76,6 +78,7 @@ export class AccionesAcuerdoListComponent {
   submitted = false;
 
   filtros: AcuerdosFiltro;
+  currentRol: string
 
   constructor() {
     this.formData.get("ideEquipoTrabajo")?.valueChanges.subscribe((v) => {
@@ -91,6 +94,9 @@ export class AccionesAcuerdoListComponent {
   }
 
   ngOnInit(): void {
+    this.currentRol = this.globalService.getCurrentRol()
+    console.log(this.currentRol);
+
     this.breadCrumbItems = [
       { label: "Lista de Acuerdos" },
       { label: "Acuerdos", active: true },
@@ -142,6 +148,18 @@ export class AccionesAcuerdoListComponent {
   editar(modal: any, acuerdo: any) {
     this.tituloModal = "Editar Accion";
     this.flagAction = 2;
+    this.modalRef = this.modalService.show(modal, {
+      class: "md modal-lg",
+      backdrop: "static",
+      keyboard: false,
+    });
+    this.acuerdo = acuerdo;
+    // this.idxCurrent = idx
+  }
+
+  ver(modal: any, acuerdo: any) {
+    this.tituloModal = "Ver Accion";
+    this.flagAction = 3;
     this.modalRef = this.modalService.show(modal, {
       class: "md modal-lg",
       backdrop: "static",

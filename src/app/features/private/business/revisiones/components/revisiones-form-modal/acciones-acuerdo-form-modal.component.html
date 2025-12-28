@@ -48,19 +48,21 @@
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label required-label">Adjuntar archivo </label>
+        <label *ngIf="flagAction!=3" class="control-label required-label">Adjuntar archivo </label>
         <div class="custom-file-container">
           <input  class="form-control" type="file" id="fileInput"
             (change)="onFileSelected($event)"
             [ngClass]="{'is-invalid': submitted && formData.get('archivo').errors}" hidden>
 
-          <button *ngIf="formData.get('ideArchivo')?.value!= null" type="button" class="btn btn-success"
+          @if(['COMISION_ROL_SECRETARIO','COMISION_ROL_PARTICIPANTE','COMISION_ROL_GESTOR','COMISION_ROL_ALTA_DIRECCION'].includes(currentRol)){
+          <button *ngIf="formData.get('ideArchivo').value!= null" type="button" class="btn btn-success"
             (click)="descargar()"><i class="fas fa-download me-1"></i></button>
-
-          <button  type="button" class="btn btn-danger"
+          }
+          @if(['COMISION_ROL_SECRETARIO','COMISION_ROL_PARTICIPANTE'].includes(currentRol)){
+          <button *ngIf="flagAction!=3" type="button" class="btn btn-danger"
             (click)="triggerFileInput()">Seleccionar archivo</button>
-
           <span  class="file-name ms-2">{{ selectedFileName || 'Ningún archivo seleccionado'}}</span>
+          }
 
           <div *ngIf="submitted && formData.get('archivo').errors" class="invalid-feedback">
             <span *ngIf="formData.get('archivo').errors.required">El archivo es requerido.</span>
@@ -77,7 +79,7 @@
   <div class="row"  >
         <div class="modal-footer form-group">
             <div class="">
-                <button type="submit" class="btn btn-success">Aceptar</button>
+                <button *ngIf="flagAction!=3" type="submit" class="btn btn-success">Aceptar</button>
             </div>
         </div>
     </div>

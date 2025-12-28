@@ -10,21 +10,24 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 import { PagetitleComponent } from "@/app/shared/components/pagetitle/pagetitle.component";
-import { EquiposTrabajoStateService } from '../../services/equipos-trabajo-state.service';
-import { EquipoTrabajo } from '../../data/equipo-trabajo.model';
+
 import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenance/tipos-equipo-trabajo/services/tipos-equipo-trabajo-state.service';
 import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
 import { EstadosComisionStateService } from '@/app/features/private/maintenance/estados-comision/services/estados-comision-state.service';
-import { GlobalService } from '@/app/core/services/global.service';
+import { EquiposTrabajoStateService } from '@/app/features/private/business/comisiones/services/equipos-trabajo-state.service';
+import { EquipoTrabajo } from '@/app/features/private/business/comisiones/data/equipo-trabajo.model';
+import { limpiarCamposVacios } from '@/app/core/helpers/clean-form';
+import { saveAs } from "file-saver";
+import { EquipoTrabajoStore } from '@/app/features/private/business/comisiones/services/equipos-trabajo.store';
 
 @Component({
   selector: 'app-comisiones-list',
-  templateUrl: './comisiones-list.component.html',
-  styleUrl: './comisiones-list.component.css',
+  templateUrl: './comisiones-report.component.html',
+  styleUrl: './comisiones-report.component.css',
   standalone:true,
   imports:[DataTablesModule,BsDropdownModule,CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,PagetitleComponent],
 })
-export class ComisionesListComponent  {
+export class ComisionesReportComponent  {
 
   private spinner = inject(NgxSpinnerService);
 	private router = inject(Router);
@@ -35,7 +38,7 @@ export class ComisionesListComponent  {
   public motivosEquipoTrabajoStateService = inject(MotivosEquipoTrabajoStateService)
   // public estadosTrazabilidadStateService = inject(EstadosTrazabilidadStateService)
   public estadosComisionStateService = inject(EstadosComisionStateService)
-  public globalService = inject(GlobalService)
+  public equipoTrabajoStore = inject(EquipoTrabajoStore)
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 	dtTrigger: Subject<void> = new Subject<any>();
@@ -53,12 +56,8 @@ export class ComisionesListComponent  {
 		ideTipoEquipoTrabajo:[null],
 	});
 
-  currentRol: string
 
   ngOnInit():void {
-    this.currentRol = this.globalService.getCurrentRol()
-    console.log(this.currentRol);
-
 		this.breadCrumbItems = [{ label: 'Lista de comisiones' }, { label: 'comisiones', active: true }];
 		this.dtOptions = dtOptionsData;
 		this.equipoTrabajoStateService.clearState();
@@ -154,19 +153,19 @@ export class ComisionesListComponent  {
       const motivosEquipoTrabajoSeleccionado: number[] = this.formData.get('ideMotivoEquipoTrabajo').value
       const estadosComisionSeleccionado: number[] = this.formData.get('ideEstadoComision').value
 
-      const coincideTipoEquipoTrabajo =
-        // tiposEquipoTrabajoSeleccionado.length === 0 ||
-        tiposEquipoTrabajoSeleccionado ==  null ||
+      const coincideTipoEquipoTrabajo = tiposEquipoTrabajoSeleccionado == null ||
+      //tiposEquipoTrabajoSeleccionado.length === 0 ||
 				c.tipoEquipoTrabajo &&
-        // tiposEquipoTrabajoSeleccionado.includes(c.tipoEquipoTrabajo.ideTipoEquipoTrabajo);
         tiposEquipoTrabajoSeleccionado == c.tipoEquipoTrabajo.ideTipoEquipoTrabajo;
+        // tiposEquipoTrabajoSeleccionado.includes(c.tipoEquipoTrabajo.ideTipoEquipoTrabajo);
 
       const coincideMotivoEquipoTrabajo = motivosEquipoTrabajoSeleccionado.length === 0 ||
-				c.motivoEquipoTrabajo && motivosEquipoTrabajoSeleccionado.includes(c.motivoEquipoTrabajo.ideMotivoEquipoTrabajo);
+				c.motivoEquipoTrabajo &&
+        // motivosEquipoTrabajoSeleccionado == c.motivoEquipoTrabajo.ideMotivoEquipoTrabajo;
+        motivosEquipoTrabajoSeleccionado.includes(c.motivoEquipoTrabajo.ideMotivoEquipoTrabajo);
 
       const coincideEstadoComision = estadosComisionSeleccionado.length === 0 ||
 				c.estadoComision && estadosComisionSeleccionado.includes(c.estadoComision.ideEstadoComision);
-
 
         return coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
     })
@@ -174,5 +173,60 @@ export class ComisionesListComponent  {
 		this.rerender();
 
   }
+
+  descargar(){
+		const cleanFormValue = this.obtenerFormValueLimpio();
+    console.log(cleanFormValue);
+
+    this.equipoTrabajoStore.descargarExcel(cleanFormValue).subscribe({
+			next: (response: Blob) => {
+				const contentType = response.type;
+
+				// Determinar la extensión del archivo basada en el tipo MIME
+				let extension = '';
+				switch (contentType) {
+					case 'application/pdf':
+					extension = '.pdf';
+					break;
+					case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+					extension = '.xlsx';
+					break;
+					case 'application/vnd.ms-excel':
+					extension = '.xls';
+					break;
+					case 'text/plain':
+					extension = '.txt';
+					break;
+					case 'application/zip':
+					extension = '.zip';
+					break;
+					default:
+					extension = ''; // Extensión por defecto si no se reconoce el tipo MIME
+				}
+
+				// Crear un archivo Blob a partir de la respuesta
+				const blob = new Blob([response], { type: contentType });
+
+				// Generar un nombre de archivo dinámico
+				const fileName = `Comisiones.${extension}`;
+
+				// Usar file-saver para descargar el archivo
+				saveAs(blob, fileName);
+      },
+			error: (error) => {
+				console.error('Error al descargar el PDF', error);
+			}
+		});
+  }
+
+   obtenerFormValueLimpio(){
+		const raw = this.formData.getRawValue();
+		const limpio = limpiarCamposVacios(raw);
+
+		// if (limpio.hasOwnProperty("ideEstadoConvenio")){
+		// 	limpio["ideEstadoConvenio"] = Number(limpio["ideEstadoConvenio"]);
+		// }
+		return limpio;
+	}
 
 }

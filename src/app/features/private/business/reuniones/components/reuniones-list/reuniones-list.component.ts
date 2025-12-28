@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ReunionStore } from '../../services/reunion-store';
 import { saveAs } from "file-saver";
 import { PagetitleComponent } from '@/app/shared/components/pagetitle/pagetitle.component';
+import { GlobalService } from '@/app/core/services/global.service';
 
 @Component({
   selector: "app-reuniones-list",
@@ -37,6 +38,7 @@ export class ReunionesListComponent {
   public equiposTrabajoStateService = inject(EquiposTrabajoStateService);
   public reunionesStateService = inject(ReunionesStateService);
   public reunionStore = inject(ReunionStore);
+  public globalService = inject(GlobalService)
 
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -48,12 +50,16 @@ export class ReunionesListComponent {
   breadCrumbItems: Array<{}>;
 
   formData: FormGroup = this.formBuilder.group({
-    ideEquipoTrabajo: [""],
+    ideEquipoTrabajo: [null],
   });
 
   ideEquipoTrabajo: number;
+  currentRol: string
 
   ngOnInit(): void {
+    this.currentRol = this.globalService.getCurrentRol()
+    console.log(this.currentRol);
+
     this.breadCrumbItems = [
       { label: "Lista de Reuniones" },
       { label: "Reuniones", active: true },
@@ -120,6 +126,10 @@ export class ReunionesListComponent {
     this.router.navigate([`negocio/reunion/editar/${reunion.ideReunion}`]);
   }
 
+  ver(reunion: Reunion) {
+    this.router.navigate([`negocio/reunion/ver/${reunion.ideReunion}`]);
+  }
+
   descargarActa(reunion: Reunion) {
     const id = reunion.ideReunion;
     this.reunionStore.descargarById(id).subscribe({
@@ -167,17 +177,25 @@ export class ReunionesListComponent {
   }
 
   buscar() {
-    this.reunionesFiltrados = this.originalReuniones.filter((c) => {
-      const equiposTrabajoSeleccionado: number[] =
-        this.formData.get("ideEquipoTrabajo").value;
+    // console.log(this.formData.get("ideEquipoTrabajo").value);
+    const equipostrabajo = this.formData.get("ideEquipoTrabajo").value
 
-      const coincideEquipoTrabajo =
-        equiposTrabajoSeleccionado.length === 0 ||
-        (c.ideEquipoTrabajo &&
-          equiposTrabajoSeleccionado.includes(c.ideEquipoTrabajo));
+    const equiposTrabajoSeleccionado: number[] =
+        Array.isArray(equipostrabajo)?equipostrabajo : [equipostrabajo];
 
-      return coincideEquipoTrabajo;
-    });
+    if (equipostrabajo == null){
+      this.reunionesFiltrados = [...this.originalReuniones];
+    }else{
+      this.reunionesFiltrados = this.originalReuniones.filter((c) => {
+        const coincideEquipoTrabajo =
+          equiposTrabajoSeleccionado.length === 0 ||
+          (c.ideEquipoTrabajo &&
+            equiposTrabajoSeleccionado.includes(c.ideEquipoTrabajo));
+
+        return coincideEquipoTrabajo;
+      });
+
+    }
 
     this.rerender();
   }

@@ -19,19 +19,19 @@ export const MENU: MenuItem[] = [
             },
         ]
     },
-    {
-        id: 4,
-        label: 'Mantenimiento',
-        icon: 'bx-wrench',
-        subItems: [
-            // {
-            //     id: 5,
-            //     label: 'Instituciones',
-            //     link: '/mantenimiento/institucion',
-            //     parentId: 4
-            // }
-        ]
-    },
+    // {
+    //     id: 4,
+    //     label: 'Mantenimiento',
+    //     icon: 'bx-wrench',
+    //     subItems: [
+    //         // {
+    //         //     id: 5,
+    //         //     label: 'Instituciones',
+    //         //     link: '/mantenimiento/institucion',
+    //         //     parentId: 4
+    //         // }
+    //     ]
+    // },
     {
         id: 6,
         label: 'Operaciones',
@@ -62,12 +62,12 @@ export const MENU: MenuItem[] = [
         label: 'Reporte',
         icon: 'bx-wrench',
         subItems: [
-            // {
-            //     id: 5,
-            //     label: 'Convenio',
-            //     link: '/reporte/convenio',
-            //     parentId: 4
-            // }
+            {
+                id: 111,
+                label: 'Comisiones',
+                link: '/reporte/comision',
+                parentId: 11
+            }
         ]
     },
 ];

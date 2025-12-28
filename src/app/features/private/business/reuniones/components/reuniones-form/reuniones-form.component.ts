@@ -87,7 +87,7 @@ export class ReunionesFormComponent {
 
     if (this.flagAction == 1) {
       this.ideEquipoTrabajo = Number(this.route.snapshot.paramMap.get("idet"));
-    } else if (this.flagAction == 2) {
+    } else if (this.flagAction == 2 || this.flagAction == 3) {
       effect(() => {
         const item = this.reunionesStateService.item();
         // console.log("edit-item: ", item);

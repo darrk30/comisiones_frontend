@@ -70,6 +70,7 @@
                   </app-puntos-agenda-list>
 
                   <app-acuerdos-list
+                    [flagAction]="flagAction"
                     [flagTarea]="false"
                     [ideReunion]="ideReunion"
                     [lista]="acuerdos"
@@ -77,6 +78,7 @@
                   </app-acuerdos-list>
 
                   <app-acuerdos-list
+                    [flagAction]="flagAction"
                     [flagTarea]="true"
                     [ideReunion]="ideReunion"
                     [lista]="tareas"
@@ -87,7 +89,7 @@
                       <div class="col-md-12">
                         <div class="float-start">
                           <div class="d-flex gap-3">
-                          <button type="submit" class="btn btn-success">Grabar</button>
+                          <button *ngIf="flagAction!=3" type="submit" class="btn btn-success">Grabar</button>
                           <!-- <button *ngIf="flagAction==2" type="button" class="btn btn-secondary" (click)="descargarActa()">Descargar Acta</button> -->
                           </div>
                         </div>

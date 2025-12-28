@@ -1,3 +1,6 @@
-:host {
-  display: block;
+.wrap-columna {
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 500px; /* ajusta según necesidad */
 }

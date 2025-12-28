@@ -58,17 +58,13 @@
             <div class="row mb-2">
               <div class="col-md-12">
                 <div class="float-start">
-                  @if(['COMISION_ROL_GESTOR','COMISION_ROL_ADMINISTRADOR'].includes(currentRol)){
-                  <!-- @if(currentRol.trim() == 'COMISION_ROL_GESTOR' || currentRol.trim() == 'COMISION_ROL_ADMINISTRADOR'){ -->
-                  <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    (click)="agregar()">Agregar</button>
-                  }
+                  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    (click)="agregar()">Agregar</button> -->
                 </div>
                 <div class="float-end">
                   <button type="submit" class="btn btn-info">Buscar</button> &nbsp;
-                  <!-- <button type="button" class="btn btn-success" (click)="descargarExcelResumen()">Descargar Resumen Excel</button> -->
-                  &nbsp;
-                  <!-- <button type="button" class="btn btn-success" (click)="descargarPdfResumen()">Descargar Resumen Pdf</button> -->
+                  <button type="button" class="btn btn-success" (click)="descargar()">Descargar </button>
+
                 </div>
               </div><!-- end col-->
             </div>
@@ -116,19 +112,12 @@
                           Acciones <i class="mdi mdi-chevron-down font-size-14"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-
-                          @if(currentRol=='COMISION_ROL_GESTOR' || currentRol=='COMISION_ROL_ADMINISTRADOR' ){
-                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
-                                class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
-                           }
-                          @if(currentRol=='COMISION_ROL_GESTOR' || currentRol=='COMISION_ROL_ADMINISTRADOR'){
-                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
-                                class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li>
-                          }
-                          @if(['COMISION_ROL_GESTOR','COMISION_ROL_ALTA_DIRECCION','COMISION_ROL_SECRETARIO','COMISION_ROL_PARTICIPANTE','COMISION_ROL_ADMINISTRADOR'].includes(currentRol)){
                           <li><a href="javascript: void(0);" class="dropdown-item" (click)="ver(equipoTrabajo)"><i
                                 class="fas fa-eye text-info me-1"></i>Ver</a></li>
-                          }
+                          <!-- <li><a href="javascript: void(0);" class="dropdown-item" (click)="editar(equipoTrabajo)"><i
+                                class="fas fa-pencil-alt text-success me-1"></i>Editar</a></li>
+                          <li><a href="javascript: void(0);" class="dropdown-item" (click)="eliminar(equipoTrabajo.ideEquipoTrabajo)"><i
+                                class="fas fa-trash-alt text-danger me-1"></i>Eliminar</a></li> -->
                         </ul>
                       </div>
                     </td>

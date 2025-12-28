@@ -34,10 +34,12 @@ export class AccionesAcuerdoFormModalComponent {
   public archivosStateService = inject(ArchivosStateService);
   public archivoStore = inject(ArchivoStore);
 
+
   archivoBase64: string | null = null;
 
   @Input() flagAction: number;
   @Input() acuerdo: Acuerdo;
+  @Input() currentRol: string
 
   // @Output() onSave = new EventEmitter<void>();
   @Output() onSave = new EventEmitter<any>();
@@ -71,10 +73,11 @@ export class AccionesAcuerdoFormModalComponent {
   tamanioArchivo: number = environment.tamanioArchivoMB;
 
   ngOnInit(): void {
-    console.log(this.acuerdo);
-    console.log(this.flagAction);
+    // console.log(this.acuerdo);
+    console.log(this.flagAction)
+    console.log(this.currentRol);
 
-    if(this.flagAction==2){
+    if(this.flagAction==2 || this.flagAction==3){
 
       this.accionesAcuerdoStateService.loadItemByIdeAcuerdo(this.acuerdo.ideAcuerdo).subscribe(()=>{
         this.accionAcuerdo = this.accionesAcuerdoStateService.item()
@@ -90,13 +93,17 @@ export class AccionesAcuerdoFormModalComponent {
 
        console.log( this.formData.value);
 
+      if(this.flagAction == 3){
+        this.formData.disable();
+      }else{
 
-        // console.log(this.formData.get("txtArchivo").value);
+      }
 
       })
 
-      // accionAcuerdo = this.accionesAcuerdoStateService.item()
     }
+
+
 
     this.formData.get("txtEquipoTrabajo").setValue(this.acuerdo.txtEquipoTrabajo);
     this.formData.get("txtActaReunion").setValue(`${this.acuerdo.txtCodigoActaReunion}-${this.acuerdo.txtAnio}`);

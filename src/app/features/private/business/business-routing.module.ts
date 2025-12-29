@@ -1,4 +1,5 @@
 
+import { FullGuard } from '@/app/core/guards/full-guard';
 import { NegocioGuard } from '@/app/core/guards/negocio-guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,12 +14,12 @@ const routes: Routes = [
   {
 		path: 'reunion',
 		loadChildren: () => import('./reuniones/reuniones.module').then(m => m.ReunionesModule),
-		canActivate: [NegocioGuard]
+		canActivate: [FullGuard]
 	},
   {
 		path: 'revision',
 		loadChildren: () => import('./revisiones/revisiones.module').then(m => m.RevisionesModule),
-		canActivate: [NegocioGuard]
+		canActivate: [FullGuard]
 	},
 ];
 

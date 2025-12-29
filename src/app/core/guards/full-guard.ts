@@ -4,7 +4,7 @@ import { GlobalService } from '../services/global.service';
 import { Rol } from '@/app/features/private/secutiry/perfiles/data/perfil.model';
 
 @Injectable({providedIn: 'root'})
-export class ParticipanteGuard  implements CanActivate{
+export class FullGuard  implements CanActivate{
     constructor(
         private router: Router,
         private globalService: GlobalService,
@@ -12,7 +12,7 @@ export class ParticipanteGuard  implements CanActivate{
 
         canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const rol = this.globalService.getCurrentRol();
-        if ((rol === Rol.Administrador) || (rol === Rol.Gestor)  || (rol === Rol.Secretario)|| (rol === Rol.AltaDireccion)){
+        if ((rol === Rol.Administrador) || (rol === Rol.Gestor)  || (rol === Rol.Secretario)|| (rol === Rol.AltaDireccion)|| (rol === Rol.Participante)){
             return true;
         }
 

@@ -6,7 +6,10 @@ import { ComisionesReportComponent } from './comisiones/components/comisiones-li
 const routes: Routes = [
 	{
 		path: "",
-		component: PrincipalComponent
+		// component: PrincipalComponent
+		// component: ComisionesReportComponent
+    redirectTo: 'comision',
+    pathMatch: 'full'
 	},
   {
 		path: "comision",

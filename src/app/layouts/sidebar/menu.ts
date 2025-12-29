@@ -6,19 +6,19 @@ export const MENU: MenuItem[] = [
         label: 'Menú',
         isTitle: true
     },
-    {
-        id: 2,
-        label: 'Panel de Control',
-        icon: 'bx-home-circle',
-        subItems: [
-            {
-                id: 3,
-                label: 'Principal',
-                link: '/',
-                parentId: 2
-            },
-        ]
-    },
+    // {
+    //     id: 2,
+    //     label: 'Panel de Control',
+    //     icon: 'bx-home-circle',
+    //     subItems: [
+    //         {
+    //             id: 3,
+    //             label: 'Principal',
+    //             link: '/',
+    //             parentId: 2
+    //         },
+    //     ]
+    // },
     // {
     //     id: 4,
     //     label: 'Mantenimiento',

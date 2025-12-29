@@ -42,7 +42,7 @@ export class IntegrantesFormModalComponent {
     ideCargo: [],
     txtCargoComite: [],
     flgSecretarioComite: [false],
-    txtCorreoElecronico: [],
+    txtCorreoElectronico: [],
     flgInvitado: [false]
 	});
 
@@ -54,6 +54,17 @@ export class IntegrantesFormModalComponent {
 			console.log('oficina:',v)
 			this.listarPersonasByOficina(v)
 		});
+
+    this.formData.get('ideColaborador')?.valueChanges.subscribe((v)=>{
+		if(!v || v==null) return;
+			console.log('valor:',v)
+      const persona = this.personasStateService.items().find(p=>p.idePersona == v)
+
+      if(!persona) return
+			console.log('persona:',persona)
+      this.formData.get('txtCorreoElectronico').setValue(persona.txtEmailItp)
+			// this.listarPersonasByOficina(v)
+    })
 	}
 
   ngOnInit(): void {
@@ -72,8 +83,9 @@ export class IntegrantesFormModalComponent {
 		this.personasStateService.loadItemsByOficina(ideOficina);
 	}
 
-
   grabar(){
+    console.log(this.formData.value);
+
 		if (this.formData.valid) {
 			const formDataTransformed = transformFormData(this.formData.getRawValue());
 
@@ -87,7 +99,6 @@ export class IntegrantesFormModalComponent {
 		console.log(this.formData.value)
 		this.submitted = true
 	}
-
 
   get form() {
 		return this.formData.controls;

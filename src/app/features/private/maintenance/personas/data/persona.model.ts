@@ -3,7 +3,8 @@ export interface Persona {
     txtApellidos,
     txtNombres,
     txtCargo,
-    txtOficina
+    txtOficina,
+    txtEmailItp?
 
 }
 

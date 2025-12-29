@@ -8,7 +8,7 @@ export class NegocioGuard implements CanActivate {
   constructor(private router: Router, private globalService: GlobalService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     const rol = this.globalService.getCurrentRol();
     if (
       rol === Rol.Administrador ||

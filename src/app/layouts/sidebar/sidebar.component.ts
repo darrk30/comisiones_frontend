@@ -35,8 +35,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
 	@ViewChild('sideMenu') sideMenu: ElementRef;
 
 	constructor(
-		private router: Router, 
-		public translate: TranslateService, 
+		private router: Router,
+		public translate: TranslateService,
 		private http: HttpClient,
 		private globalService: GlobalService
 	) {
@@ -151,20 +151,20 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
 	 * Initialize
 	 */
 	initialize(): void {
-		this.menuItems = MENU;
+		// this.menuItems = MENU;
 
-		// if (this.currentRol === Rol.Administrador){
-		// 	this.menuItems = MENU;
-		// }
-		// else if (this.currentRol === Rol.Coordinador){
-		// 	this.menuItems = MENU.filter((menuItem) => menuItem.id !== 4);
-		// 	const operacionesMenu =  this.menuItems.find((menuItem) => menuItem.id === 6);
-		// 	operacionesMenu.subItems = operacionesMenu.subItems.filter((menuItem) => menuItem.id !== 7);
-		// }
-		// else{
-		// 	this.menuItems = MENU.filter((menuItem) => menuItem.id !== 4 && menuItem.id !== 6);
-		// }
-		// Esto deberia venir de la API, en lugar de filtrarse aca		
+		if (this.currentRol === Rol.Administrador || this.currentRol === Rol.Gestor
+      || this.currentRol === Rol.AltaDireccion || this.currentRol === Rol.Secretario
+    ){
+			this.menuItems = MENU;
+		}else if (this.currentRol === Rol.Participante){
+			this.menuItems = MENU.filter((menuItem) => menuItem.id !== 4);
+			const operacionesMenu =  this.menuItems.find((menuItem) => menuItem.id === 6);
+			operacionesMenu.subItems = operacionesMenu.subItems.filter((menuItem) => menuItem.id !== 7);
+		}else{
+			this.menuItems = MENU.filter((menuItem) => menuItem.id !== 4 && menuItem.id !== 6);
+		}
+		// Esto deberia venir de la API, en lugar de filtrarse aca
 	}
 
 	/**

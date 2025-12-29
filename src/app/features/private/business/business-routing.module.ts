@@ -8,17 +8,17 @@ const routes: Routes = [
   {
 		path: 'comision',
 		loadChildren: () => import('./comisiones/comisiones.module').then(m => m.ComisionesModule),
-		// canActivate: [NegocioGuard]
+		canActivate: [NegocioGuard]
 	},
   {
 		path: 'reunion',
 		loadChildren: () => import('./reuniones/reuniones.module').then(m => m.ReunionesModule),
-		// canActivate: [NegocioGuard]
+		canActivate: [NegocioGuard]
 	},
   {
 		path: 'revision',
 		loadChildren: () => import('./revisiones/revisiones.module').then(m => m.RevisionesModule),
-		// canActivate: [NegocioGuard]
+		canActivate: [NegocioGuard]
 	},
 ];
 

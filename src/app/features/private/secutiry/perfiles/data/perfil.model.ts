@@ -19,6 +19,4 @@ export enum Rol{
     Secretario = 'COMISION_ROL_SECRETARIO',
     Participante = 'COMISION_ROL_PARTICIPANTE',
     AltaDireccion = 'COMISION_ROL_ALTA_DIRECCION',
-    // Coordinador = 'CONVENIOS_ROL_COORDINADOR',
-    // Supervisor = 'CONVENIOS_ROL_SUPERVISOR'
 }

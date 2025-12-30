@@ -6,8 +6,23 @@
       <div class="card">
         <div class="card-body">
           <form (ngSubmit)="buscar()" [formGroup]="formData">
+            <!-- <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Búsqueda por Texto</label>
+                        <input class="form-control form-input" formControlName="txtBusquedaGeneral">
+                    </div>
+                </div>
+            </div> -->
             <div class="row mb-3">
-              <div class="col-md-4">
+               <div class="col-md-3">
+                    <div class="form-group">
+                        <!-- <label class="control-label">Búsqueda por Texto</label> -->
+                        <label class="control-label">Comision</label>
+                        <input class="form-control form-input" type="text" placeholder="Comision" formControlName="txtBusquedaGeneral">
+                    </div>
+                </div>
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="" class="control-label">Motivo:</label>
                   <select  class="form-control form-select"
@@ -19,7 +34,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="" class="control-label">Tipo de Comision:</label>
                   <!-- <select  class="form-control form-select"
@@ -42,7 +57,7 @@
                   </ng-select>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="" class="control-label">Estado:</label>
                   <select class="form-control form-select"

@@ -16,6 +16,7 @@ import { TiposEquipoTrabajoStateService } from '@/app/features/private/maintenan
 import { MotivosEquipoTrabajoStateService } from '@/app/features/private/maintenance/motivos-equipo-trabajo/services/motivos-equipo-trabajo-state.service';
 import { EstadosComisionStateService } from '@/app/features/private/maintenance/estados-comision/services/estados-comision-state.service';
 import { GlobalService } from '@/app/core/services/global.service';
+import { objectToText } from '@/app/core/helpers/clean-form';
 
 @Component({
   selector: 'app-comisiones-list',
@@ -51,6 +52,8 @@ export class ComisionesListComponent  {
 		ideEstadoComision:[""],
 		ideMotivoEquipoTrabajo:[""],
 		ideTipoEquipoTrabajo:[null],
+		txtBusquedaGeneral:[""]
+
 	});
 
   currentRol: string
@@ -148,6 +151,8 @@ export class ComisionesListComponent  {
 	}
 
   buscar(){
+    const searchKeywords = (this.formData.get('txtBusquedaGeneral')?.value || '').toLowerCase().trim().split(' ').filter((keyword) => keyword !== '');
+
     this.equiposTrabajoFiltrados = this.originalEquiposTrabajo.filter(c=>{
       // const estadoSeleccionado =+ this.formData.get('ideEstadoTrazabilidad').value
       const tiposEquipoTrabajoSeleccionado: number[] = this.formData.get('ideTipoEquipoTrabajo').value
@@ -167,8 +172,12 @@ export class ComisionesListComponent  {
       const coincideEstadoComision = estadosComisionSeleccionado.length === 0 ||
 				c.estadoComision && estadosComisionSeleccionado.includes(c.estadoComision.ideEstadoComision);
 
+      // const textoCompleto = objectToText(c).toLowerCase();
+      const textoCompleto = c.txtEquipoTrabajo.toLowerCase();
+			const coincideBusquedaGeneral = searchKeywords.every((keyword) => textoCompleto.includes(keyword));
 
-        return coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
+
+        return coincideBusquedaGeneral && coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
     })
 
 		this.rerender();

@@ -54,6 +54,8 @@ export class ComisionesReportComponent  {
 		ideEstadoComision:[""],
 		ideMotivoEquipoTrabajo:[""],
 		ideTipoEquipoTrabajo:[null],
+		txtEquipoTrabajo:[""]
+
 	});
 
 
@@ -147,6 +149,9 @@ export class ComisionesReportComponent  {
 	}
 
   buscar(){
+    const searchKeywords = (this.formData.get('txtEquipoTrabajo')?.value || '').toLowerCase().trim().split(' ').filter((keyword) => keyword !== '');
+
+
     this.equiposTrabajoFiltrados = this.originalEquiposTrabajo.filter(c=>{
       // const estadoSeleccionado =+ this.formData.get('ideEstadoTrazabilidad').value
       const tiposEquipoTrabajoSeleccionado: number[] = this.formData.get('ideTipoEquipoTrabajo').value
@@ -167,7 +172,12 @@ export class ComisionesReportComponent  {
       const coincideEstadoComision = estadosComisionSeleccionado.length === 0 ||
 				c.estadoComision && estadosComisionSeleccionado.includes(c.estadoComision.ideEstadoComision);
 
-        return coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
+      // const textoCompleto = objectToText(c).toLowerCase();
+      const textoCompleto = c.txtEquipoTrabajo.toLowerCase();
+			const coincideBusquedaGeneral = searchKeywords.every((keyword) => textoCompleto.includes(keyword));
+
+
+        return coincideBusquedaGeneral &&coincideTipoEquipoTrabajo && coincideMotivoEquipoTrabajo && coincideEstadoComision
     })
 
 		this.rerender();

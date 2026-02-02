@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { transformFormData } from 'src/app/core/helpers/clean-form';
@@ -44,6 +44,17 @@ export class ArchivosFormModalComponent {
 
 	tamanioArchivo:number = environment.tamanioArchivoMB;
 
+	tiposDocumentos = computed(() => this.tiposDocumentosStateService.items().sort((a, b) => {
+	if (a.txtTipoDocumento == "OTRO"){
+		return 1;
+	}
+	
+	if (b.txtTipoDocumento == "OTRO"){
+		return -1;
+	}		
+	return (a.txtTipoDocumento > b.txtTipoDocumento) ? 1 : -1;
+}));
+	
 	constructor(){
 		// this.formData.get('ideTipoDocumento')?.valueChanges.subscribe((v) => {
 

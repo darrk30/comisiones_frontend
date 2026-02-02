@@ -5,7 +5,7 @@
                 <label class="control-label">Tipo de Documento</label>
                 <select class="form-control form-select" formControlName="ideTipoDocumento" [ngClass]="{'is-invalid': submitted && formData.get('ideTipoDocumento').errors}">
                     <option value=null>Seleccionar</option>
-                    @for(tipoDocumento of tiposDocumentosStateService.items();track $index){
+                    @for(tipoDocumento of this.tiposDocumentos();track $index){
                         <option value="{{tipoDocumento.ideTipoDocumento}}">{{tipoDocumento.txtTipoDocumento}}</option>
                     }
                 </select>

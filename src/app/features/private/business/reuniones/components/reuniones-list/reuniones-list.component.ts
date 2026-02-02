@@ -115,7 +115,7 @@ export class ReunionesListComponent {
     console.log("ideEquipoTrabajo: ", this.ideEquipoTrabajo);
 
     if (!this.ideEquipoTrabajo) {
-      this.toastr.error("Seleccione un Equipo de Trabajo");
+      this.toastr.error("Seleccione un Órgano");
       return;
     }
 

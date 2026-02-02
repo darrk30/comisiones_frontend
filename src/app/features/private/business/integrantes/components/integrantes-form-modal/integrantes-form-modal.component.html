@@ -54,11 +54,11 @@
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
-        <label for="" class="control-label">Cargo desempeñado en la comision:</label>
-        <input type="text" class="form-control" placeholder="Cargo desempeñado en la comision" autocomplete="off"
+        <label for="" class="control-label">Cargo desempeñado en el órgano:</label>
+        <input type="text" class="form-control" placeholder="Cargo desempeñado en el órgano" autocomplete="off"
           formControlName="txtCargoComite" [ngClass]="{'is-invalid': submitted && formData.get('txtCargoComite').errors}">
         <div *ngIf="submitted && formData.get('txtCargoComite').errors" class="invalid-feedback">
-          <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en la comision es requerido</span>
+          <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en el órgano es requerido</span>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="flgSecretarioComite">
         <label class="form-check-label" for="flexCheckDefault">
-          Secretario(a) de Comision
+          Secretario(a) del Órgano
         </label>
       </div>
     </div>

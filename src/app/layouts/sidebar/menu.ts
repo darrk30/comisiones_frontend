@@ -39,7 +39,7 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 7,
-                label: 'Comisiones',
+                label: 'Órganos',
                 link: '/negocio/comision',
                 parentId: 6
             },
@@ -64,7 +64,7 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 111,
-                label: 'Comisiones',
+                label: 'Órganos',
                 link: '/reporte/comision',
                 parentId: 11
             }

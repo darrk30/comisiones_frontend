@@ -1,6 +1,6 @@
 <!-- <h1> comisiones-form</h1> -->
 <div class="container-fluid">
-    <app-page-title title="Comision" [flgBotonRegresar]="true" [idePagina]="idePagina" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <app-page-title title="Órgano" [flgBotonRegresar]="true" [idePagina]="idePagina" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
    <div class="row">
     <div class="col-lg-12">
@@ -12,27 +12,27 @@
                 <cdk-step [optional]="false">
                   <ng-template cdkStepLabel>
                     <span class="number bx bxs-file-blank fs-2"></span>
-                    <span>DATOS DE COMISION</span>
+                    <span>DATOS DEL ÓRGANO</span>
                   </ng-template>
                   <section>
                     <div class="row mb-3">
                       <div class="col-md-8">
                         <div class="form-group">
-                          <label for="" class="control-label">Nombre de Comision:</label>
-                          <input type="text" class="form-control" placeholder="Ingrese nombre de la comision" autocomplete="off"
+                          <label for="" class="control-label">Nombre del Órgano:</label>
+                          <input type="text" class="form-control" placeholder="Ingrese nombre del órgano" autocomplete="off"
                             formControlName="txtEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('txtEquipoTrabajo').errors}" >
                           <div *ngIf="submitted && formData.get('txtEquipoTrabajo').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtEquipoTrabajo').errors.required" >Nombre de comision es requerido</span>
+                            <span *ngIf="formData.get('txtEquipoTrabajo').errors.required" >Nombre de órgano es requerido</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="" class="control-label">Siglas:</label>
-                          <input type="text" class="form-control" placeholder="Ingrese sigla de la comision" autocomplete="off"
+                          <input type="text" class="form-control" placeholder="Ingrese sigla del órgano" autocomplete="off"
                             formControlName="txtSigla" [ngClass]="{'is-invalid': submitted && formData.get('txtSigla').errors}" >
                           <div *ngIf="submitted && formData.get('txtSigla').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtSigla').errors.required" >Sigla de comision es requerido</span>
+                            <span *ngIf="formData.get('txtSigla').errors.required" >Sigla de órgano es requerido</span>
                           </div>
                         </div>
                       </div>
@@ -40,7 +40,7 @@
                     <div class="row mb-3">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="" class="control-label">Tipo de Comision</label>
+                          <label for="" class="control-label">Órgano</label>
                           <select class="form-control form-select"
                             formControlName="ideTipoEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('ideTipoEquipoTrabajo').errors}" >
                             <option [ngValue]="null">Seleccionar</option>
@@ -49,13 +49,13 @@
                             }
                           </select>
                           <div *ngIf="submitted && formData.get('ideTipoEquipoTrabajo').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('ideTipoEquipoTrabajo').errors.required">Tipo de comision es requerido</span>
+                            <span *ngIf="formData.get('ideTipoEquipoTrabajo').errors.required">Órgano es requerido</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="" class="control-label">Motivo de la comision</label>
+                          <label for="" class="control-label">Motivo del Órgano</label>
                           <select  class="form-control form-select"
                             formControlName="ideMotivoEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('ideMotivoEquipoTrabajo').errors}" >
                             <option [ngValue]="null">Seleccionar</option>
@@ -65,13 +65,13 @@
                             <!-- <option value="2">Permanente</option> -->
                           </select>
                           <div *ngIf="submitted && formData.get('ideMotivoEquipoTrabajo').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('ideMotivoEquipoTrabajo').errors.required">Motivo de la comision es requerido</span>
+                            <span *ngIf="formData.get('ideMotivoEquipoTrabajo').errors.required">Motivo del órgano es requerido</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="" class="control-label">Estado de la comision</label>
+                          <label for="" class="control-label">Estado del Órgano</label>
                           <select  class="form-control form-select"
                             formControlName="ideEstadoComision" [ngClass]="{'is-invalid': submitted && formData.get('ideEstadoComision').errors}">
                             <option [ngValue]="null">Seleccionar</option>
@@ -80,7 +80,7 @@
                             }
                           </select>
                           <div *ngIf="submitted && formData.get('ideEstadoComision').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('ideEstadoComision').errors.required">Estado de la comision es requerido</span>
+                            <span *ngIf="formData.get('ideEstadoComision').errors.required">Estado del órgano es requerido</span>
                           </div>
                         </div>
                       </div>
@@ -88,11 +88,11 @@
                     <div class="row mb-3">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label for="" class="control-label">Objetivos de la comision:</label>
-                          <textarea class="form-control" placeholder="Ingrese objetivos de la comision" autocomplete="off"
+                          <label for="" class="control-label">Objetivos del órgano:</label>
+                          <textarea class="form-control" placeholder="Ingrese objetivos del órgano" autocomplete="off"
                             formControlName="txtObjetivosEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('txtObjetivosEquipoTrabajo').errors}"></textarea>
                           <div *ngIf="submitted && formData.get('txtObjetivosEquipoTrabajo').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtObjetivosEquipoTrabajo').errors.required">Objetivos de la comision es requerido</span>
+                            <span *ngIf="formData.get('txtObjetivosEquipoTrabajo').errors.required">Objetivos del órgano es requerido</span>
                           </div>
                         </div>
                       </div>
@@ -144,11 +144,11 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label class="control-label">Duración de la comision:</label>
-                          <input class="form-control" placeholder="Ingrese Duración del convenio" type="text" autocomplete="off"
+                          <label class="control-label">Duración del órgano:</label>
+                          <input class="form-control" placeholder="Ingrese duración del órgano" type="text" autocomplete="off"
                             formControlName="txtDuracionComite" [ngClass]="{'is-invalid': submitted && formData.get('txtDuracionComite').errors}"/>
                           <div *ngIf="submitted && formData.get('txtDuracionComite').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('txtDuracionComite').errors.required">Duración del convenio es requerido.</span>
+                            <span *ngIf="formData.get('txtDuracionComite').errors.required">Duración del órgano es requerido.</span>
                           </div>
                         </div>
                       </div>

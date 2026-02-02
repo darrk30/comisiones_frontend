@@ -60,7 +60,7 @@ export class ComisionesReportComponent  {
 
 
   ngOnInit():void {
-		this.breadCrumbItems = [{ label: 'Lista de comisiones' }, { label: 'comisiones', active: true }];
+		this.breadCrumbItems = [{ label: 'Lista de órganos' }, { label: 'órganos', active: true }];
 		this.dtOptions = dtOptionsData;
 		this.equipoTrabajoStateService.clearState();
 	  this.listar();

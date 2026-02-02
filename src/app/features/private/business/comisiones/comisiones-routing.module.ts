@@ -14,7 +14,7 @@ const routes: Routes = [
     {
       path: "crear",
       component: ComisionesFormComponent ,
-      data: { title: 'COMISION - REGISTRAR', flagAction: 1 },
+      data: { title: 'ÓRGANO - REGISTRAR', flagAction: 1 },
       canActivate: [NegocioGuard]
 
 
@@ -22,14 +22,14 @@ const routes: Routes = [
     {
       path: "editar/:id",
       component: ComisionesFormComponent ,
-      data: { title: 'COMISION - EDITAR', flagAction: 2 },
+      data: { title: 'ÓRGANO - EDITAR', flagAction: 2 },
       canActivate: [NegocioGuard]
 
     },
     {
       path: "ver/:id",
       component: ComisionesFormComponent ,
-      data: { title: 'COMISION - VER', flagAction: 3 },
+      data: { title: 'ÓRGANO - VER', flagAction: 3 },
       canActivate: [NegocioGuard]
 
     },

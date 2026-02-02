@@ -64,11 +64,11 @@
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="form-group">
-        <label for="" class="control-label">Cargo desempeñado en la comision:</label>
-        <input type="text" class="form-control" placeholder="Cargo desempeñado en la comision" autocomplete="off"
+        <label for="" class="control-label">Cargo desempeñado en el órgano:</label>
+        <input type="text" class="form-control" placeholder="Cargo desempeñado en el órgano" autocomplete="off"
           formControlName="txtCargoComite" [ngClass]="{'is-invalid': submitted && formData.get('txtCargoComite').errors}">
         <div *ngIf="submitted && formData.get('txtCargoComite').errors" class="invalid-feedback">
-          <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en la comision es requerido</span>
+          <span *ngIf="formData.get('txtCargoComite').errors.required">Cargo desempeñado en el órgano es requerido</span>
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@
               <th scope="col" style="width: 25%;">Oficina / Dependencia</th>
               <th scope="col" style="width: 20%;">Colaborador</th>
               <th scope="col" style="width: 20%;">Cargo Fijo ITP</th>
-              <th scope="col" style="width: 25%;">Cargo en comite</th>
+              <th scope="col" style="width: 25%;">Cargo en órgano</th>
             </tr>
           </thead>
           <tbody>

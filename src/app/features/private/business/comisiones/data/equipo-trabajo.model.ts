@@ -18,7 +18,8 @@ export interface EquipoTrabajo {
     uuid: string;
     tipoEquipoTrabajo:any
     motivoEquipoTrabajo:any
-    estadoComision:any
+    estadoComision:any,
+    txtBaseLegal: string
 }
 
 export interface EquipoTrabajoRpta{

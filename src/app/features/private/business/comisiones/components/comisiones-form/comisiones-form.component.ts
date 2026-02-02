@@ -59,7 +59,8 @@ export class ComisionesFormComponent {
     txtSigla: [,[Validators.required]],
     txtResolucion: [,[Validators.required]],
  		// archivo: [, [this.validateTamanioArchivo.bind(this), this.validateFormatoArchivo]],
-    uuid: []
+    uuid: [],
+		txtBaseLegal: [, [Validators.required]]
 
   },{
 		validators: fechasValidator

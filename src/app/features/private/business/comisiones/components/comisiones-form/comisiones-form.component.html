@@ -118,6 +118,16 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label">Base Legal:</label>
+                          <input class="form-control" placeholder="Ingrese Base Legal" type="text" autocomplete="off"
+                            formControlName="txtBaseLegal" [ngClass]="{'is-invalid': submitted && formData.get('txtBaseLegal').errors}"/>
+                          <div *ngIf="submitted && formData.get('txtBaseLegal').errors" class="invalid-feedback">
+                            <span *ngIf="formData.get('txtBaseLegal').errors.required">Base Legal es requerido.</span>
+                          </div>
+                        </div>
+                      </div>
 
                     </div>
 

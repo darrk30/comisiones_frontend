@@ -55,7 +55,7 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="" class="control-label">Motivo del Órgano</label>
+                          <label for="" class="control-label">Naturaleza del Órgano</label>
                           <select  class="form-control form-select"
                             formControlName="ideMotivoEquipoTrabajo" [ngClass]="{'is-invalid': submitted && formData.get('ideMotivoEquipoTrabajo').errors}" >
                             <option [ngValue]="null">Seleccionar</option>
@@ -65,7 +65,7 @@
                             <!-- <option value="2">Permanente</option> -->
                           </select>
                           <div *ngIf="submitted && formData.get('ideMotivoEquipoTrabajo').errors" class="invalid-feedback">
-                            <span *ngIf="formData.get('ideMotivoEquipoTrabajo').errors.required">Motivo del órgano es requerido</span>
+                            <span *ngIf="formData.get('ideMotivoEquipoTrabajo').errors.required">Naturaleza del órgano es requerido</span>
                           </div>
                         </div>
                       </div>
